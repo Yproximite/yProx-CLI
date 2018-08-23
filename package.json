@@ -6,6 +6,9 @@
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
   "private": true,
+  "bin": {
+    "yprox-cli": "bin/yprox-cli.js"
+  },
   "dependencies": {
     "autoprefixer": "^9.1.2",
     "cssnano": "^4.0.5",
