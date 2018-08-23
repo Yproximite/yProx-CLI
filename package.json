@@ -1,5 +1,5 @@
 {
-  "name": "yprox-cli",
+  "name": "@yprox/cli",
   "version": "0.0.0",
   "description": "CLI tools for yProx CMS",
   "repository": "https://github.com/Yproximite/yProx-cli.git",
