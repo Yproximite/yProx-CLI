@@ -5,7 +5,6 @@
   "repository": "https://github.com/Yproximite/yProx-cli.git",
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
-  "private": true,
   "bin": {
     "yprox-cli": "bin/yprox-cli.js"
   },
