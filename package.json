@@ -30,6 +30,7 @@
     "joi": "^13.6.0",
     "lodash": "^4.17.10",
     "merge-stream": "^1.0.1",
+    "minimist": "^1.2.0",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "vueify": "^9.4.1",
