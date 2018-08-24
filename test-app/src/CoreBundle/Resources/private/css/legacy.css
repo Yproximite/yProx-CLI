@@ -1,0 +1,223 @@
+a:focus {
+    outline: none;
+}
+
+.contentProperties {
+    border: 1px solid #888888 !important;
+    position: absolute !important;
+    float: right !important;
+    background-color: #fafafa !important;
+    border-radius: 5px !important;
+    cursor: pointer !important;
+    opacity: 0.95 !important;
+    box-shadow: 0px 0px 5px #dadada !important;
+}
+
+.contentProperties table {
+    margin: 1px !important;
+}
+
+.contentProperties table th {
+    background-color: #565656 !important;
+    color: white !important;
+    padding: 2px !important;
+    width: 50px !important;
+    text-align: left !important;
+    font-size: 12px !important;
+}
+
+.contentProperties table td {
+    background-color: #dadada !important;
+    color: black !important;
+    width: 100px !important;
+    font-size: 12px !important;
+    padding: 2px !important;
+    font-weight: bold !important;
+}
+
+.contentWrapper {
+    font-size: 12px;
+}
+
+#panel {
+    background: #000;
+    height: 200px;
+    width:50%;
+    margin:auto;
+    display: none;
+    border-bottom: solid 2px green;
+    border-left: solid 2px green;
+    border-right: solid 2px green;
+    padding:20px;
+
+}
+
+#divInfoOnTop_Shown {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 0px solid #555;
+    background-image: url(../images/transparent1.png);
+    width: 100%;
+    padding: 15px;
+    color: white;
+    z-index: 6000000;
+    -moz-box-shadow: 0px 3px 10px #555;
+    -webkit-box-shadow: 0px 3px 10px #555;
+    box-shadow: 0px 3px 10px #555;
+}
+
+#divInfoOnTop_Shown p {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+#divInfoOnTop_Shown h1
+{
+    color: white;
+    font-size: 1.3em;
+    vertical-align: middle;
+}
+
+#divInfoOnTop_Shown a
+{
+    color: white;
+}
+
+#divInfoOnTop_Hidden
+{
+    display: none;
+    border-bottom: 1px solid #555;
+    background-image: url(../images/transparent1.png);
+    cursor: pointer;
+    height: 30px;
+    width: 34px;
+    position: fixed;
+    z-index: 6000000;
+    top: 0;
+    left: 0;
+    -webkit-border-bottom-right-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    border-bottom-right-radius: 8px;
+
+}
+
+.btn-slide {
+    background: url(../images/white-arrow.gif) no-repeat right -50px;
+    text-align: center;
+    width: 144px;
+    height: 31px;
+    padding: 10px 10px 0 0;
+    margin: 0 auto;
+    display: block;
+    font: bold 120%/100% Arial, Helvetica, sans-serif;
+    color: #fff;
+    text-decoration: none;
+}
+.active {
+    background-position: right 12px;
+}
+
+#panel h1 {
+	font-size: 18px;
+	color: white;
+}
+
+#panel p {
+    font-size: 12px;
+    color: white;
+}
+
+.test-site-notification {
+    border-style: solid;
+    border-width: 1px;
+    border-top: 0px solid;
+    padding: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    text-align: center;
+    background-color: #ffaa00;
+    border-color: #cc7700;
+    color: white;
+    position: absolute;
+    right: 10px;
+    box-shadow: 1px 1px 12px #555;
+    -webkit-border-bottom-right-radius: 7px;
+    -webkit-border-bottom-left-radius: 7px;
+    -moz-border-radius-bottomright: 7px;
+    -moz-border-radius-bottomleft: 7px;
+    border-bottom-right-radius: 7px;
+    border-bottom-left-radius: 7px;
+    z-index: 90000;
+}
+
+
+.reset {
+    clear: both;
+    margin: 0;
+    display: block;
+}
+
+.debug
+{
+    /*border: 1px solid red;*/
+    -moz-box-shadow: red 0px 0px 2px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.info, .success, .warning, .error, .validation {
+  border: 1px solid;
+  margin: 10px 0px;
+  padding:15px 10px 15px 50px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+.info {
+  color: #00529B;
+  background-color: #BDE5F8;
+}
+.success {
+  color: #4F8A10;
+  background-color: #DFF2BF;
+}
+.warning {
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
+.error_notice {
+  color: #D8000C;
+  background-color: #FFBABA;
+}
+
+.print {
+	border: 0;
+	cursor: pointer;
+    padding-left: 20px;
+	background: transparent url('/bundles/shared/images/print.png') no-repeat;
+}
+
+.ajaxLoader {
+    background-image: url('/bundles/shared/images/transparent1.png');
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100000;
+    display: none;
+}
+
+.ajaxLoader > img {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    z-index: 99999999;
+}
+
+.article-print h1, .article-print h2 {
+    font-family: sans-serif;
+}

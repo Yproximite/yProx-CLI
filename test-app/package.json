@@ -1,0 +1,41 @@
+{
+  "name": "test-app",
+  "version": "1.0.0",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build:dev": "yprox-cli build --mode development",
+    "build:prod": "yprox-cli build --mode production",
+    "watch:dev": "yprox-cli build --mode development --watch",
+    "watch:prod": "yprox-cli build --mode production --watch",
+    "lint": "yprox-cli lint",
+    "lint:fix": "yprox-cli lint --fix"
+  },
+  "dependencies": {
+    "algoliasearch": "^3.30.0",
+    "algoliasearch-helper": "^2.26.1",
+    "query-string": "^6.1.0",
+    "vue": "^2.5.17"
+  },
+  "devDependencies": {
+    "@yproximite/yprox-cli": "file:..",
+    "babel-eslint": "7.2.3",
+    "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-vue": "^4.7.1"
+  },
+  "browserify-shim": {
+    "app": "global:App",
+    "app-front": "global:AppFront",
+    "lodash": "global:_",
+    "routing": "global:Routing",
+    "translator": "global:Translator",
+    "google": "global:google",
+    "js-marker-clusterer": "global:MarkerClusterer"
+  }
+}
