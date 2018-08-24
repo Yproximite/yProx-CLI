@@ -1,0 +1,59 @@
+sudo: false
+dist: trusty
+
+language: node_js
+node_js: 8
+
+cache:
+  yarn: true
+  directories:
+    - ./node_modules
+    - ./tests/app/node_modules
+
+before_install:
+  - npm i -g yarn
+
+install:
+  - yarn install --frozen-lockfile
+  - (cd test-app; yarn install --frozen-lockfile)
+
+script:
+  - cd test-app
+
+  - yarn lint:fix # will fix test-app/src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/components/LocatorFilter.js:45
+  - yarn lint
+
+  - yarn build:prod
+  - test -f public/css/button.css
+  - test -f public/css/legacy.css
+  - test -f public/img/check.png
+  - test -f public/img/cross.png
+  - test -f public/img/mini_arrow_down.png
+  - test -f public/img/mini_arrow_up.png
+  - test -f public/js/storeLocatorUtils.min.js
+  - test -f public/js/storeLocatorUtils.min.js.map
+  - test -f public/js/vue.min.js
+  - test -f public/js/vue.min.js.map
+  - test -f public/js/yprox-store-locator.min.js
+  - test -f public/js/yprox-store-locator.min.js.map
+  - test -f public/plugins/jQuery-Validation-Engine/css/validationEngine.jquery.css
+  - test -f public/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-fr.js
+  - test -f public/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js
+
+  - rm -fr public/{css,img,js,plugins}
+  - yarn build:dev
+  - test -f public/css/button.css
+  - test -f public/css/legacy.css
+  - test -f public/img/check.png
+  - test -f public/img/cross.png
+  - test -f public/img/mini_arrow_down.png
+  - test -f public/img/mini_arrow_up.png
+  - test -f public/js/storeLocatorUtils.min.js
+  - test ! -f public/js/storeLocatorUtils.min.js.map
+  - test -f public/js/vue.js
+  - test ! -f public/js/vue.js.map
+  - test -f public/js/yprox-store-locator.min.js
+  - test ! -f public/js/yprox-store-locator.min.js.map
+  - test -f public/plugins/jQuery-Validation-Engine/css/validationEngine.jquery.css
+  - test -f public/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-fr.js
+  - test -f public/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js
