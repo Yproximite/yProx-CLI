@@ -12,7 +12,7 @@ module.exports = (cli, config) => ([
     dest: config.path.css,
   },
   {
-    handler: 'file',
+    handler: 'image',
     src: 'src/CoreBundle/Resources/private/img/*',
     dest: config.path.img,
   },
