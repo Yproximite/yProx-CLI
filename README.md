@@ -4,10 +4,11 @@ yProx-cli
 [![Build Status](https://travis-ci.com/Yproximite/yProx-cli.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
 
 > A tools for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
+> See [this PR](https://github.com/Yproximite/yProx/pull/4654) for additional details.
 
 # Requirements
 
-- Be inside an Yprox application :shrug:
+- Be inside an Yprox application :man_shrugging:
 - Node.js > 8
 - Yarn
 
@@ -34,8 +35,8 @@ $ yarn yprox-cli build --mode development --watch
 $ yarn yprox-cli build --mode production --watch
 
 # Lint
-$yarn yprox-cli lint
-$yarn yprox-cli lint --fix
+$ yarn yprox-cli lint
+$ yarn yprox-cli lint --fix
 ```
 
 ## Production mode
