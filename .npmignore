@@ -1,1 +1,4 @@
+*.tgz
+.travis.yml
+.idea/
 test-app/
