@@ -25,16 +25,20 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-```js
-# Build
-$ yarn yprox-cli build --mode development
+### yprox-cli build [--mode=development] [--watch] [--no-babelify]
+
+```bash
+$ yarn yprox-cli build
 $ yarn yprox-cli build --mode production
+$ yarn yprox-cli build --no-babelify # disable Babel
 
 # Build, then watch and build
-$ yarn yprox-cli build --mode development --watch
+$ yarn yprox-cli build --watch
 $ yarn yprox-cli build --mode production --watch
+```
 
-# Lint
+### yprox-cli lint [--fix]
+```bash
 $ yarn yprox-cli lint
 $ yarn yprox-cli lint --fix
 ```
