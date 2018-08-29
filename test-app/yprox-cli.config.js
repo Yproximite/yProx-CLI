@@ -13,5 +13,16 @@ module.exports = {
     autoprefixer: {
       browsers: ['> 0.25%'],
     },
+    rollup: {
+      external: [
+        'app',
+        'app-front',
+        'lodash',
+        'routing',
+        'translator',
+        'google',
+        'js-marker-clusterer',
+      ]
+    }
   },
 };
