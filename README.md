@@ -25,11 +25,12 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-### yprox-cli build [--mode=development] [--watch] [--no-babelify]
+### yprox-cli build [--mode=development] [--watch] [--handler=] [--no-babelify] 
 
 ```bash
 $ yarn yprox-cli build
 $ yarn yprox-cli build --mode production
+$ yarn yprox-cli build --handler rollup # will handle only assets handled by rollup
 $ yarn yprox-cli build --no-babelify # disable Babel
 
 # Build, then watch and build
