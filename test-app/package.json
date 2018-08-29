@@ -20,6 +20,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/plugin-transform-arrow-functions": "^7.0.0",
+    "@babel/plugin-transform-block-scoping": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.0.0",
     "@yproximite/yprox-cli": "file:..",
     "babel-eslint": "9.0.0",

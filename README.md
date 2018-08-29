@@ -25,11 +25,12 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-### yprox-cli build [--mode=development] [--watch] [--no-babelify]
+### yprox-cli build [--mode=development] [--watch] [--handler=] [--no-babelify] 
 
 ```bash
 $ yarn yprox-cli build
 $ yarn yprox-cli build --mode production
+$ yarn yprox-cli build --handler rollup # will handle only assets handled by rollup
 $ yarn yprox-cli build --no-babelify # disable Babel
 
 # Build, then watch and build
@@ -133,18 +134,35 @@ module.exports = (cli, config) => ([
 
 Each entries can be handled by:
 - `browserify`
+- `rollup`
 - `js`
 - `css`
 - `file`
 - `image`
 
-### Handler `browserify`
+### Handler `browserify` (DEPRECATED)
+
+_This handler is deprecated because browserify is old, plugins are not maintened, and it will never support ES6 modules. Use `rollup` handler instead for a modern approach._
 
 Used for building `.vue` components:
 
 ```js
 {
   handler: 'browserify',
+  src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+  concat: 'yprox-store-locator.min.js',
+  dest: config.path.js, // will resolve `public/js`
+}
+```
+
+### Handler `rollup`
+
+Used for building `.vue` components, with support of ES6 modules (no need to Babel):
+
+```js
+{
+  handler: 'rollup',
+  name: 'yprox-store-locator',
   src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
   concat: 'yprox-store-locator.min.js',
   dest: config.path.js, // will resolve `public/js`

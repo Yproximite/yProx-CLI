@@ -22,8 +22,9 @@ module.exports = (cli, config) => ([
     dest: `${config.path.plugins}/jQuery-Validation-Engine`,
   },
   {
-    handler: 'browserify',
-    src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+    handler: 'rollup',
+    name: 'yprox-store-locator',
+    src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/index.js',
     concat: 'yprox-store-locator.min.js',
     dest: config.path.js,
   },

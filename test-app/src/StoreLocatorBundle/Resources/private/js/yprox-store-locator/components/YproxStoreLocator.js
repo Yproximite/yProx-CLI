@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import * as _ from 'lodash';
-import algoliasearch from 'algoliasearch';
-import algoliasearchHelper from 'algoliasearch-helper';
+import algoliasearch from 'algoliasearch/dist/algoliasearch';
+import algoliasearchHelper from 'algoliasearch-helper/dist/algoliasearch.helper';
 
 import { LocatorFilter } from './LocatorFilter';
 import { LocatorList } from './LocatorList';
