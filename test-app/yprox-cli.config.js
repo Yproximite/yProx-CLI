@@ -22,7 +22,16 @@ module.exports = {
         'translator',
         'google',
         'js-marker-clusterer',
-      ]
+      ],
+      globals: {
+        app: 'App',
+        'app-front': 'AppFront',
+        lodash: '_',
+        routing: 'Routing',
+        translator: 'Translator',
+        google: 'google',
+        'js-marker-clusterer': 'MarkerClusterer',
+      }
     }
   },
 };
