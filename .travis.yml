@@ -34,10 +34,8 @@ script:
   - test -f public/js/storeLocatorUtils.min.js.map
   - test -f public/js/vue.min.js
   - test -f public/js/vue.min.js.map
-  - test -f public/js/yprox-store-locator.browserify.min.js
-  - test -f public/js/yprox-store-locator.browserify.min.js.map
-  - test -f public/js/yprox-store-locator.rollup.min.js
-  - test -f public/js/yprox-store-locator.rollup.min.js.map
+  - test -f public/js/yprox-store-locator.min.js
+  - test -f public/js/yprox-store-locator.min.js.map
   - test -f public/plugins/jQuery-Validation-Engine/css/validationEngine.jquery.css
   - test -f public/plugins/jQuery-Validation-Engine/js/languages/jquery.validationEngine-fr.js
   - test -f public/plugins/jQuery-Validation-Engine/js/jquery.validationEngine.js

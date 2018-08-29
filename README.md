@@ -140,7 +140,9 @@ Each entries can be handled by:
 - `file`
 - `image`
 
-### Handler `browserify`
+### Handler `browserify` (DEPRECATED)
+
+_This handler is deprecated because browserify is old, plugins are not maintened, and it will never support ES6 modules. Use `rollup` handler instead for a modern approach._
 
 Used for building `.vue` components:
 
