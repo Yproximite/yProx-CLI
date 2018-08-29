@@ -35,6 +35,9 @@
     "node-sass": "^4.9.3",
     "rollup": "^0.65.0",
     "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-vue": "^4.3.2",
     "vinyl-buffer": "^1.0.1",
@@ -42,10 +45,5 @@
     "vueify": "^9.4.1",
     "vueify-insert-css": "^1.0.0",
     "watchify": "^3.11.0"
-  },
-  "devDependencies": {
-    "rollup-plugin-commonjs": "^9.1.6",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-resolve": "^3.3.0"
   }
 }
