@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "autoprefixer": "^9.1.2",
     "babelify": "^9.0.0",
     "browserify": "^14.1.0",
