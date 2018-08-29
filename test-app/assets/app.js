@@ -24,7 +24,13 @@ module.exports = (cli, config) => ([
   {
     handler: 'browserify',
     src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
-    concat: 'yprox-store-locator.min.js',
+    concat: 'yprox-store-locator.browserify.min.js',
+    dest: config.path.js,
+  },
+  {
+    handler: 'rollup',
+    src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+    concat: 'yprox-store-locator.rollup.min.js',
     dest: config.path.js,
   },
   {
