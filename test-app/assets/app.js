@@ -29,7 +29,8 @@ module.exports = (cli, config) => ([
   },
   {
     handler: 'rollup',
-    src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+    name: 'yprox-store-locator',
+    src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/index.js',
     concat: 'yprox-store-locator.rollup.min.js',
     dest: config.path.js,
   },
