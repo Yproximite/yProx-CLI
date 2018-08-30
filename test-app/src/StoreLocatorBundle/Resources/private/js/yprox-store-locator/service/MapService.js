@@ -1,5 +1,6 @@
 /* global $ */
 
+import Promise from 'core-js-pure/features/promise';
 import * as _ from 'lodash';
 import google from 'google';
 import MarkerClusterer from 'js-marker-clusterer';

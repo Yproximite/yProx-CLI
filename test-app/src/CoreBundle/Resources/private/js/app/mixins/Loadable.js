@@ -1,3 +1,5 @@
+import Promise from 'core-js-pure/features/promise';
+
 export default {
   data() {
     return {

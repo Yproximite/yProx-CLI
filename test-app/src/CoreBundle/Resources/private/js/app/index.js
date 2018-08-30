@@ -5,6 +5,7 @@
  * - raven
  */
 
+import ObjectAssign from 'core-js-pure/features/object/assign';
 import Vue from 'vue';
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
