@@ -15,6 +15,7 @@
     "semi": ["error", "always"],
     "max-len": ["error", 180],
     "no-param-reassign": ["error", { "props": false }],
+    "no-unused-vars": ["error", { "varsIgnorePattern": "ObjectAssign" }],
     "import/no-extraneous-dependencies": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
