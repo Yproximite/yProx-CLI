@@ -1,5 +1,12 @@
 module.exports = (cli, config) => ([
   {
+    handler: 'rollup',
+    name: 'core-app',
+    src: 'src/CoreBundle/Resources/private/js/app/index.js',
+    concat: 'core-app.min.js',
+    dest: config.path.js,
+  },
+  {
     handler: 'css',
     src: 'src/CoreBundle/Resources/private/css/legacy.css',
     concat: 'legacy.css',

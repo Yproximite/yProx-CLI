@@ -15,6 +15,7 @@
     "algoliasearch": "^3.30.0",
     "algoliasearch-helper": "^2.26.1",
     "query-string": "^5.0.0",
+    "raven-js": "^3.26.4",
     "vue": "^2.5.17"
   },
   "devDependencies": {
