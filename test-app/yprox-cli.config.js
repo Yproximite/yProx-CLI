@@ -14,6 +14,9 @@ module.exports = {
       browsers: ['> 0.25%'],
     },
     rollup: {
+      buble: {
+        objectAssign: 'ObjectAssign',
+      },
       external: [
         'app',
         'app-front',
