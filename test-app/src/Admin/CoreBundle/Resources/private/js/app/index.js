@@ -23,7 +23,8 @@ global.App = {
   ...utils,
 };
 
-console.log(foo);
+// eslint-disable-next-line no-console
+console.log(foo); // will log "bar"
 
 global.YproxComponentsBootstrap = function YproxComponentsBootstrap(Vue) {
   if (process.env.NODE_ENV === 'production') {
