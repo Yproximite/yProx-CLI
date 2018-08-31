@@ -5,7 +5,11 @@
  * - raven
  */
 
-import ObjectAssign from 'core-js-pure/features/object/assign';
+import 'core-js/features/array/reduce';
+import 'core-js/features/object/assign';
+import 'core-js/features/promise';
+import 'core-js/features/promise/finally';
+
 import Vue from 'vue';
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';

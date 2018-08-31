@@ -1,0 +1,31 @@
+mutation UpdateMedia($siteId: Int!, $mediaId: Int!, $input: UpdateMediaInput!) {
+  updateMedia(siteId: $siteId, mediaId: $mediaId, input: $input) {
+    id
+    filename
+    originalFilename
+    originalFilenameSlugged
+    fullpathFilename
+    title
+    description
+    createdAt
+    updatedAt
+    mimeType
+    type
+    size
+    extension
+    categories {
+      id
+    }
+    articles {
+      id
+      translations {
+        locale
+        title
+      }
+      site {
+        id
+      }
+    }
+    linkUrl
+  }
+}

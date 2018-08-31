@@ -15,25 +15,40 @@ module.exports = {
     },
     rollup: {
       buble: {
-        objectAssign: 'ObjectAssign',
+        objectAssign: 'Object.assign',
+      },
+      string: {
+        include: '**/*.graphql',
       },
       external: [
         'app',
         'app-front',
+        'constants',
         'lodash',
+        'underscore',
         'routing',
         'translator',
         'google',
         'js-marker-clusterer',
+        'vue-strap',
+        'jquery',
+        'codemirror',
+        'dropzone'
       ],
       globals: {
         app: 'App',
         'app-front': 'AppFront',
+        constants: 'Constants',
         lodash: '_',
+        underscore: '_',
         routing: 'Routing',
         translator: 'Translator',
         google: 'google',
         'js-marker-clusterer': 'MarkerClusterer',
+        'vue-strap': 'VueStrap',
+        jquery: 'jQuery',
+        codemirror: 'CodeMirror',
+        dropzone: 'Dropzone'
       }
     }
   },

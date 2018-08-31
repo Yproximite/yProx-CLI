@@ -1,4 +1,3 @@
-import Promise from 'core-js-pure/features/promise';
 import Vue from 'vue';
 import * as _ from 'lodash';
 import algoliasearch from 'algoliasearch/dist/algoliasearch';

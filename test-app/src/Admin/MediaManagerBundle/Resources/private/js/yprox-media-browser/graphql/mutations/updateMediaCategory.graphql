@@ -1,0 +1,21 @@
+mutation UpdateMediaCategory(
+  $siteId: Int!
+  $mediaCategoryId: Int!
+  $input: UpdateMediaCategoryInput!
+) {
+  updateMediaCategory(
+    siteId: $siteId
+    mediaCategoryId: $mediaCategoryId
+    input: $input
+  ) {
+    id
+    title
+    hidden
+    repository
+    createdAt
+    updatedAt
+    site {
+      id
+    }
+  }
+}

@@ -1,0 +1,15 @@
+query LoadMediaCategories($siteId: Int!) {
+  site(siteId: $siteId) {
+    mediaCategories {
+      id
+      title
+      hidden
+      repository
+      createdAt
+      updatedAt
+      site {
+        id
+      }
+    }
+  }
+}

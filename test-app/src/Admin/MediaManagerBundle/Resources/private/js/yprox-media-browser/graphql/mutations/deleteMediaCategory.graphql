@@ -1,0 +1,3 @@
+mutation DeleteMediaCategory($siteId: Int!, $mediaCategoryId: Int!) {
+  deleteMediaCategory(siteId: $siteId, mediaCategoryId: $mediaCategoryId)
+}
