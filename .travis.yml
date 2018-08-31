@@ -8,10 +8,11 @@ cache:
   yarn: true
   directories:
     - ./node_modules
-    - ./tests/app/node_modules
+    - ./test-app/node_modules
 
 before_install:
   - npm i -g yarn
+  - export NODE_PATH="$PWD/test-app/node_modules:$NODE_PATH" # will prevent ESLint to fails when requiring plugins
 
 install:
   - yarn install --frozen-lockfile
