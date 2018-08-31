@@ -13,6 +13,7 @@ import directives from './directives';
 import filters from './filters';
 import mixins from './mixins';
 import utils from './utils';
+import { foo } from './my-json-file.json';
 
 global.App = {
   ...components,
@@ -21,6 +22,8 @@ global.App = {
   ...filters,
   ...utils,
 };
+
+console.log(foo);
 
 global.YproxComponentsBootstrap = function YproxComponentsBootstrap(Vue) {
   if (process.env.NODE_ENV === 'production') {
