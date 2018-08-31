@@ -8,7 +8,7 @@ cache:
   yarn: true
   directories:
     - ./node_modules
-    - ./tests/app/node_modules
+    - ./test-app/node_modules
 
 before_install:
   - npm i -g yarn
