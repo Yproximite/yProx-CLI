@@ -1,7 +1,9 @@
 /* eslint-disable import/first */
-import { polyfill as promisePolyfill } from 'es6-promise';
 
-promisePolyfill();
+import 'core-js/features/array/reduce';
+import 'core-js/features/object/assign';
+import 'core-js/features/promise';
+import 'core-js/features/promise/finally';
 
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';

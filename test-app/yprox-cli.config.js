@@ -15,7 +15,7 @@ module.exports = {
     },
     rollup: {
       buble: {
-        objectAssign: 'ObjectAssign',
+        objectAssign: 'Object.assign',
       },
       string: {
         include: '**/*.graphql',

@@ -1,4 +1,3 @@
-import Promise from 'core-js-pure/features/promise';
 import { Location } from '../model';
 
 function evalIconCallback(rawCallback) {

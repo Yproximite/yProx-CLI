@@ -14,13 +14,13 @@
   "dependencies": {
     "algoliasearch": "^3.30.0",
     "algoliasearch-helper": "^2.26.1",
+    "core-js": "^3.0.0-beta.3",
     "query-string": "^5.0.0",
     "raven-js": "^3.26.4",
     "vue": "^2.5.17"
   },
   "devDependencies": {
     "babel-eslint": "9.0.0",
-    "core-js-pure": "^3.0.0-beta.3",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-vue": "^4.7.1"
