@@ -1,0 +1,5 @@
+mutation UpdateMedia($siteId: Int!, $input: BulkUpdateMediasInput!) {
+  bulkUpdateMedias(siteId: $siteId, input: $input) {
+    id
+  }
+}

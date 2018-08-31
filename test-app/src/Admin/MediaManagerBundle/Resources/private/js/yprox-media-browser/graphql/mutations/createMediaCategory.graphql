@@ -1,0 +1,13 @@
+mutation CreateMediaCategory($siteId: Int!, $input: CreateMediaCategoryInput!) {
+  createMediaCategory(siteId: $siteId, input: $input) {
+    id
+    title
+    hidden
+    repository
+    createdAt
+    updatedAt
+    site {
+      id
+    }
+  }
+}

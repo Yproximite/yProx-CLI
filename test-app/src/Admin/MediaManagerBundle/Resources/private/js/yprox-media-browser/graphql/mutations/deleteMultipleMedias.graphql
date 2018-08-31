@@ -1,0 +1,3 @@
+mutation deleteMultipleMedias($input: BulkDeleteMediaInput!) {
+  bulkDeleteMedia(input: $input)
+}

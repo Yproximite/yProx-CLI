@@ -17,6 +17,9 @@ module.exports = {
       buble: {
         objectAssign: 'ObjectAssign',
       },
+      string: {
+        include: '**/*.graphql',
+      },
       external: [
         'app',
         'app-front',

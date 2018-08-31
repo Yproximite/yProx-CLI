@@ -1,9 +1,16 @@
 module.exports = (cli, config) => ([
   {
     handler: 'rollup',
-    name: 'core-app',
+    name: 'core-app-front',
     src: 'src/CoreBundle/Resources/private/js/app/index.js',
-    concat: 'core-app.min.js',
+    concat: 'core-app-front.min.js',
+    dest: config.path.js,
+  },
+  {
+    handler: 'rollup',
+    name: 'core-app-admin',
+    src: 'src/Admin/CoreBundle/Resources/private/js/app/index.js',
+    concat: 'core-app-admin.min.js',
     dest: config.path.js,
   },
   {
@@ -27,6 +34,13 @@ module.exports = (cli, config) => ([
     handler: 'file',
     src: 'src/CoreBundle/Resources/private/plugins/jQuery-Validation-Engine/**/*',
     dest: `${config.path.plugins}/jQuery-Validation-Engine`,
+  },
+  {
+    handler: 'rollup',
+    name: 'yprox-media-browser',
+    src: 'src/Admin/MediaManagerBundle/Resources/private/js/yprox-media-browser/index.js',
+    concat: 'yprox-media-browser.min.js',
+    dest: config.path.js,
   },
   {
     handler: 'rollup',
