@@ -114,6 +114,19 @@ Your configuration file will be merged with defaults config:
         },
       ],
     },
+    rollup: {
+      shims: {},
+      // https://github.com/rollup/rollup-plugin-node-resolve
+      nodeResolve: {}, 
+      // https://github.com/rollup/rollup-plugin-commonjs
+      commonjs: {}, 
+      vue: {},
+      buble: {},
+      // https://github.com/TrySound/rollup-plugin-string#usage
+      string: false, // `false` means that we actually disable the plugin
+      // https://github.com/rollup/rollup-plugin-json#usage
+      json: {}, 
+    },
   },
 }
 ```
