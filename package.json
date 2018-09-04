@@ -16,6 +16,7 @@
     "browserify": "^14.1.0",
     "browserify-postcss": "^0.4.0",
     "browserify-shim": "^3.8.14",
+    "chokidar": "^2.0.4",
     "cssnano": "^4.0.5",
     "envify": "^4.1.0",
     "eslint": "^5.4.0",
