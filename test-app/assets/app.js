@@ -26,6 +26,12 @@ module.exports = (cli, config) => ([
     dest: config.path.css,
   },
   {
+    handler: 'sass',
+    src: 'src/CoreBundle/Resources/private/sass/grid.scss',
+    concat: 'my-grid.css',
+    dest: config.path.css,
+  },
+  {
     handler: 'image',
     src: 'src/CoreBundle/Resources/private/img/*',
     dest: config.path.img,
