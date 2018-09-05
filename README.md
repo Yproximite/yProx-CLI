@@ -127,6 +127,8 @@ Your configuration file will be merged with defaults config:
       // https://github.com/rollup/rollup-plugin-json#usage
       json: {}, 
     },
+    https://github.com/sass/node-sass#options
+    sass: {} 
   },
 }
 ```
@@ -208,6 +210,21 @@ In production, it also runs [CSSNano](https://github.com/cssnano/cssnano), uglif
   handler: 'css',
   src: 'src/CoreBundle/Resources/private/css/legacy.css',
   concat: 'legacy.css',
+  dest: config.path.css,
+}
+```
+
+### Handler `sass`
+
+The same behavior for `css` handler.
+
+It supports `.sass` and `.scss` files.
+
+```js
+{
+  handler: 'sass',
+  src: 'src/CoreBundle/Resources/private/sass/grid.scss',
+  concat: 'my-grid.css',
   dest: config.path.css,
 }
 ```
