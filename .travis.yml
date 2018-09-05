@@ -26,7 +26,11 @@ script:
 
   - yarn build:prod
   - test -f public/css/button.css
+  - test -f public/css/button.css.map
   - test -f public/css/legacy.css
+  - test -f public/css/legacy.css.map
+  - test -f public/css/my-grid.css
+  - test -f public/css/my-grid.css.map
   - test -f public/img/check.png
   - test -f public/img/cross.png
   - test -f public/img/mini_arrow_down.png
@@ -50,7 +54,11 @@ script:
   - rm -fr public/{css,img,js,plugins}
   - yarn build:dev
   - test -f public/css/button.css
+  - test ! -f public/css/button.css.map
   - test -f public/css/legacy.css
+  - test ! -f public/css/legacy.css.map
+  - test -f public/css/my-grid.css
+  - test ! -f public/css/my-grid.css.map
   - test -f public/img/check.png
   - test -f public/img/cross.png
   - test -f public/img/mini_arrow_down.png
