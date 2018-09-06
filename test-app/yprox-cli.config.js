@@ -1,6 +1,7 @@
 module.exports = {
   assets: {
     app: './assets/app.js',
+    themes: './assets/themes.js',
     vendor: './assets/vendor.js',
   },
   path: {
