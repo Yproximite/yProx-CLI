@@ -8,6 +8,8 @@ test -f public/css/legacy.css
 test ! -f public/css/legacy.css.map
 test -f public/css/my-grid.css
 test ! -f public/css/my-grid.css.map
+test -f public/css/containers.css
+test ! -f public/css/containers.css.map
 
 test -f public/img/check.png
 test -f public/img/cross.png
