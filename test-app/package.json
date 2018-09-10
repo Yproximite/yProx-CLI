@@ -8,8 +8,7 @@
     "build:prod": "../bin/yprox-cli.js build --mode production",
     "watch:dev": "../bin/yprox-cli.js build --mode development --watch",
     "watch:prod": "../bin/yprox-cli.js build --mode production --watch",
-    "lint": "../bin/yprox-cli.js lint",
-    "lint:fix": "../bin/yprox-cli.js lint --fix"
+    "lint": "../bin/yprox-cli.js lint"
   },
   "dependencies": {
     "algoliasearch": "^3.30.0",
