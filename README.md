@@ -38,10 +38,12 @@ $ yarn yprox-cli build --watch
 $ yarn yprox-cli build --mode production --watch
 ```
 
-### yprox-cli lint [--fix]
+### yprox-cli lint [--fix] [--linter=]
 ```bash
 $ yarn yprox-cli lint
 $ yarn yprox-cli lint --fix
+$ yarn yprox-cli lint --linter sass # will lint only 'sass' entries
+$ yarn yprox-cli lint --linter sass --fix # will lint and fix only 'sass' entries
 ```
 
 ## Production mode
