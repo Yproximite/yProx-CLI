@@ -26,7 +26,7 @@ script:
   - yarn lint --linter rollup
 
   # will fix test-app/themes/_containers/containers.scss
-  - yarn lint:fix --linter sass --fix
+  - yarn lint --linter sass --fix
   - yarn lint --linter sass
 
   - rm -fr public/{css,img,js,plugins}
