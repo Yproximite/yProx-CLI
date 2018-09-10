@@ -47,6 +47,8 @@
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-terser": "^1.0.1",
     "rollup-plugin-vue": "^4.3.2",
+    "stylelint": "^9.5.0",
+    "stylelint-formatter-pretty": "^1.0.3",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "vueify": "^9.4.1",

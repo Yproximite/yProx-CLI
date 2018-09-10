@@ -8,8 +8,7 @@
     "build:prod": "../bin/yprox-cli.js build --mode production",
     "watch:dev": "../bin/yprox-cli.js build --mode development --watch",
     "watch:prod": "../bin/yprox-cli.js build --mode production --watch",
-    "lint": "../bin/yprox-cli.js lint",
-    "lint:fix": "../bin/yprox-cli.js lint --fix"
+    "lint": "../bin/yprox-cli.js lint"
   },
   "dependencies": {
     "algoliasearch": "^3.30.0",
@@ -24,7 +23,11 @@
     "babel-eslint": "9.0.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-vue": "^4.7.1"
+    "eslint-plugin-vue": "^4.7.1",
+    "stylelint-config-primer": "^2.2.10",
+    "stylelint-config-sass-guidelines": "^5.2.0",
+    "stylelint-order": "^1.0.0",
+    "stylelint-scss": "^3.3.0"
   },
   "browserify-shim": {
     "app": "global:App",
