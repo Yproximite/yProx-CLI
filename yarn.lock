@@ -6862,9 +6862,9 @@ rollup-plugin-node-builtins@^2.1.2:
     crypto-browserify "^3.11.0"
     process-es6 "^0.11.2"
 
-rollup-plugin-node-globals@calvinmetcalf/rollup-plugin-node-globals#refs/pull/17/head:
-  version "1.2.1"
-  resolved "https://codeload.github.com/calvinmetcalf/rollup-plugin-node-globals/tar.gz/8133abb092ebb85fe7eb96b63388efa7e206e8fd"
+rollup-plugin-node-globals-ecmaversion-9@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-node-globals-ecmaversion-9/-/rollup-plugin-node-globals-ecmaversion-9-1.3.0.tgz#182d50a8534295bbb9e6e668b17460d4ecefe532"
   dependencies:
     acorn "^5.5.0"
     buffer-es6 "^4.9.3"
