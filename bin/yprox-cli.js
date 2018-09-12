@@ -3,6 +3,7 @@ const Cli = require('../lib/Cli');
 
 const args = require('minimist')(process.argv.slice(2), {
   boolean: [
+    'v',
     // build
     'watch',
     // lint
