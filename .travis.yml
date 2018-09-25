@@ -22,12 +22,12 @@ script:
   - cd test-app
 
   # will fix test-app/src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/components/LocatorFilter.js:45
-  - yarn lint --linter rollup --fix
-  - yarn lint --linter rollup
+  - yarn lint --filter:handler rollup --fix
+  - yarn lint --filter:handler rollup
 
   # will fix test-app/themes/_containers/containers.scss
-  - yarn lint --linter sass --fix
-  - yarn lint --linter sass
+  - yarn lint --filter:handler sass --fix
+  - yarn lint --filter:handler sass
 
   - rm -fr public/{css,img,js,plugins}
   - yarn build:prod
@@ -35,4 +35,8 @@ script:
 
   - rm -fr public/{css,img,js,plugins}
   - yarn build:dev
+  - ../ci/test_build_dev.sh
+
+  - rm -fr public/css
+  - yarn build:dev --filter:handler sass --filter:handler css
   - ../ci/test_build_dev.sh
