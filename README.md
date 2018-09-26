@@ -25,26 +25,31 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-### yprox-cli build [--mode=development] [--watch] [--handler=] [--no-babelify] 
+### yprox-cli build [--mode=development] [--watch] [--filter:...]
 
 ```bash
 $ yarn yprox-cli build
 $ yarn yprox-cli build --mode production
-$ yarn yprox-cli build --handler rollup # will handle only assets handled by rollup
-$ yarn yprox-cli build --no-babelify # disable Babel
+$ yarn yprox-cli build --filter:handler rollup # will handle only assets handled by rollup
 
 # Build, then watch and build
 $ yarn yprox-cli build --watch
 $ yarn yprox-cli build --mode production --watch
 ```
 
-### yprox-cli lint [--fix] [--linter=]
+### yprox-cli lint [--fix] [--filter:...]
 ```bash
 $ yarn yprox-cli lint
 $ yarn yprox-cli lint --fix
-$ yarn yprox-cli lint --linter sass # will lint only 'sass' entries
-$ yarn yprox-cli lint --linter sass --fix # will lint and fix only 'sass' entries
+$ yarn yprox-cli lint --filter:handler sass # will lint only 'sass' entries
+$ yarn yprox-cli lint --filter:handler sass --fix # will lint and fix only 'sass' entries
 ```
+
+### Filtering
+
+For each commands, you can specify multiple arguments `--filter:X Y`, where:
+- `X` is the name of an entry's property (see [Assets entries](#assetsentries))
+- `Y` is one of the possible value of `X`
 
 ## Production mode
 
