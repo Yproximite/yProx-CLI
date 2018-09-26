@@ -56,7 +56,7 @@ module.exports = (cli, config) => ([
     dest: config.path.js,
   },
   {
-    handler: 'js',
+    handler: 'browserify',
     src: 'src/StoreLocatorBundle/Resources/public/storeLocatorUtils.js',
     concat: 'storeLocatorUtils.min.js',
     dest: config.path.js,
