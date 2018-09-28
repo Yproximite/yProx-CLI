@@ -38,6 +38,7 @@ $ yarn yprox-cli build --mode production --watch
 ```
 
 ### yprox-cli lint [--fix] [--filter:...]
+
 ```bash
 $ yarn yprox-cli lint
 $ yarn yprox-cli lint --fix
@@ -139,6 +140,10 @@ Your configuration file will be merged with defaults config:
   },
 }
 ```
+
+## Common arguments
+
+- passing `-v` enable verbose mode
 
 ## Assets/Entries
 
