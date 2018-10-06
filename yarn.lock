@@ -6813,6 +6813,11 @@ rollup-plugin-node-resolve@^3.3.0:
     is-module "^1.0.0"
     resolve "^1.1.6"
 
+rollup-plugin-pnp-resolve@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-pnp-resolve/-/rollup-plugin-pnp-resolve-1.0.1.tgz#5c2af5588b24dac4e906c1492dd43ead3c0348ce"
+  integrity sha512-9tp8UodHVZ9i0/uD2CKCwfZLODlXat3QnFQq1nwN7kVg0eFed7f1dWpWsTK8AbpOTv9hqv16AjngaWQtYGXl2A==
+
 rollup-plugin-replace@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-replace/-/rollup-plugin-replace-2.0.0.tgz#19074089c8ed57184b8cc64e967a03d095119277"
