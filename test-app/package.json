@@ -4,11 +4,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build:dev": "../bin/yprox-cli.js build --mode development",
-    "build:prod": "../bin/yprox-cli.js build --mode production",
-    "watch:dev": "../bin/yprox-cli.js build --mode development --watch",
-    "watch:prod": "../bin/yprox-cli.js build --mode production --watch",
-    "lint": "../bin/yprox-cli.js lint"
+    "build:dev": "node -r ../.pnp.js ../bin/yprox-cli.js build --mode development",
+    "build:prod": "node -r ../.pnp.js ../bin/yprox-cli.js build --mode production",
+    "watch:dev": "node -r ../.pnp.js ../bin/yprox-cli.js build --mode development --watch",
+    "watch:prod": "node -r ../.pnp.js ../bin/yprox-cli.js build --mode production --watch",
+    "lint": "node -r ../.pnp.js ../bin/yprox-cli.js lint"
   },
   "dependencies": {
     "algoliasearch": "^3.30.0",
