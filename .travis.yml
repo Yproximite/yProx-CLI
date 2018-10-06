@@ -11,7 +11,7 @@ cache:
     - ./test-app/node_modules
 
 before_install:
-  - npm i -g yarn
+  - npm i -g yarn@^1.12
   - export NODE_PATH="$PWD/test-app/node_modules:$NODE_PATH" # will prevent ESLint to fails when requiring plugins
 
 install:
