@@ -16,8 +16,6 @@ test -f public/img/cross.png
 test -f public/img/mini_arrow_down.png
 test -f public/img/mini_arrow_up.png
 
-test -f public/js/storeLocatorUtils.min.js
-test -f public/js/storeLocatorUtils.min.js.map
 test -f public/js/core-app-admin.min.js
 test -f public/js/core-app-admin.min.js.map
 test -f public/js/core-app-front.min.js

@@ -55,10 +55,4 @@ module.exports = (cli, config) => ([
     concat: 'yprox-store-locator.min.js',
     dest: config.path.js,
   },
-  {
-    handler: 'browserify',
-    src: 'src/StoreLocatorBundle/Resources/public/storeLocatorUtils.js',
-    concat: 'storeLocatorUtils.min.js',
-    dest: config.path.js,
-  },
 ]);

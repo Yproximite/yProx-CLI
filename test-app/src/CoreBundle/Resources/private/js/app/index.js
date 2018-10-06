@@ -32,7 +32,6 @@ Object.values(filters).forEach((filterProvider) => {
   filterProvider(Vue);
 });
 
-// provide all functionality via browserify-shim (see package.json)
 global.AppFront = {
   ...components,
   ...directives,

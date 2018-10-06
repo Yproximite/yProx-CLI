@@ -160,27 +160,11 @@ module.exports = (cli, config) => ([
 ```
 
 Each entries can be handled by:
-- `browserify`
 - `rollup`
 - `js`
 - `css`
 - `file`
 - `image`
-
-### Handler `browserify` (DEPRECATED)
-
-_This handler is deprecated because browserify is old, plugins are not maintened, and it will never support ES6 modules. Use `rollup` handler instead for a modern approach._
-
-Used for building `.vue` components:
-
-```js
-{
-  handler: 'browserify',
-  src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
-  concat: 'yprox-store-locator.min.js',
-  dest: config.path.js, // will resolve `public/js`
-}
-```
 
 ### Handler `rollup`
 
