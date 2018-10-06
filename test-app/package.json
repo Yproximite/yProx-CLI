@@ -28,14 +28,5 @@
     "stylelint-config-sass-guidelines": "^5.2.0",
     "stylelint-order": "^1.0.0",
     "stylelint-scss": "^3.3.0"
-  },
-  "browserify-shim": {
-    "app": "global:App",
-    "app-front": "global:AppFront",
-    "lodash": "global:_",
-    "routing": "global:Routing",
-    "translator": "global:Translator",
-    "google": "global:google",
-    "js-marker-clusterer": "global:MarkerClusterer"
   }
 }
