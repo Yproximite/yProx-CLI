@@ -54,6 +54,9 @@ typings/
 # Yarn Integrity file
 .yarn-integrity
 
+# Yarn Plug'n'Play
+.pnp*
+
 # dotenv environment variables file
 .env
 
