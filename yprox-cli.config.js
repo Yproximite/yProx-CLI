@@ -1,14 +1,14 @@
 module.exports = {
   assets: {
-    app: './assets/app.js',
-    themes: './assets/themes.js',
-    vendor: './assets/vendor.js',
+    app: './test-app/assets/app.js',
+    themes: './test-app/assets/themes.js',
+    vendor: './test-app/assets/vendor.js',
   },
   path: {
-    js: './public/js',
-    css: './public/css',
-    img: './public/img',
-    plugins: './public/plugins',
+    js: './test-app/public/js',
+    css: './test-app/public/css',
+    img: './test-app/public/img',
+    plugins: './test-app/public/plugins',
   },
   handlers: {
     autoprefixer: {

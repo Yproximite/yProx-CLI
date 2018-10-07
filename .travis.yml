@@ -6,9 +6,6 @@ node_js: 8
 
 cache:
   yarn: true
-  directories:
-    - ./node_modules
-    - ./test-app/node_modules
 
 before_install:
   - npm i -g yarn@^1.12
@@ -16,27 +13,24 @@ before_install:
 
 install:
   - yarn install --frozen-lockfile
-  - (cd test-app; yarn install --frozen-lockfile; yarn add file:..)
 
 script:
-  - cd test-app
-
   # will fix test-app/src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/components/LocatorFilter.js:45
-  - yarn lint --filter:handler rollup --fix
-  - yarn lint --filter:handler rollup
+  - yarn lint-test-app --filter:handler rollup --fix
+  - yarn lint-test-app --filter:handler rollup
 
   # will fix test-app/themes/_containers/containers.scss
-  - yarn lint --filter:handler sass --fix
-  - yarn lint --filter:handler sass
+  - yarn lint-test-app --filter:handler sass --fix
+  - yarn lint-test-app --filter:handler sass
 
   - rm -fr public/{css,img,js,plugins}
-  - yarn build:prod
+  - yarn build-test-app:prod
   - ../ci/test_build_prod.sh
 
   - rm -fr public/{css,img,js,plugins}
-  - yarn build:dev
+  - yarn build-test-app:dev
   - ../ci/test_build_dev.sh
 
   - rm -fr public/css
-  - yarn build:dev --filter:handler sass --filter:handler css
+  - yarn build-test-app:dev --filter:handler sass --filter:handler css
   - ../ci/test_build_dev.sh
