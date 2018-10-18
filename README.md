@@ -25,7 +25,7 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-### yprox-cli build [--mode=development] [--watch] [--filter:...]
+### yprox-cli build [--mode=development] [--lint] [--watch] [--filter:...]
 
 ```bash
 $ yarn yprox-cli build
@@ -35,6 +35,9 @@ $ yarn yprox-cli build --filter:handler rollup # will handle only assets handled
 # Build, then watch and build
 $ yarn yprox-cli build --watch
 $ yarn yprox-cli build --mode production --watch
+
+# Lint before build
+$ yarn yprox-cli build --lint
 ```
 
 ### yprox-cli lint [--fix] [--filter:...]

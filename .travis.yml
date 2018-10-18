@@ -38,5 +38,5 @@ script:
   - ../ci/test_build_dev.sh
 
   - rm -fr public/css
-  - yarn build:dev --filter:handler sass --filter:handler css
+  - yarn build:dev --filter:handler sass --filter:handler css --lint
   - ../ci/test_build_dev.sh
