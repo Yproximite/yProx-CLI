@@ -21,6 +21,12 @@ install:
 script:
   - cd test-app
 
+  - ../bin/yprox-cli.js # should display help
+  - ../bin/yprox-cli.js --version
+  - ../bin/yprox-cli.js --help
+  - ../bin/yprox-cli.js build --help
+  - ../bin/yprox-cli.js lint --help
+
   # will fix test-app/src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/components/LocatorFilter.js:45
   - yarn lint --filter:handler rollup --fix
   - yarn lint --filter:handler rollup
