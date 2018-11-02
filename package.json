@@ -12,6 +12,9 @@
   "bin": {
     "yprox-cli": "bin/yprox-cli.js"
   },
+  "scripts": {
+    "release": "standard-version"
+  },
   "dependencies": {
     "@babel/core": "^7.0.0",
     "@kocal/logger": "^1.1.1",
@@ -49,5 +52,8 @@
     "rollup-plugin-vue": "^4.3.2",
     "stylelint": "^9.5.0",
     "stylelint-formatter-pretty": "^1.0.3"
+  },
+  "devDependencies": {
+    "standard-version": "^4.4.0"
   }
 }
