@@ -6,26 +6,22 @@ yProx-cli
 > A tools for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
 > See [this PR](https://github.com/Yproximite/yProx/pull/4654) for additional details.
 
-# Requirements
+## Requirements
 
-- Be inside an Yprox application :man_shrugging:
 - Node.js > 8
 - Yarn
 
-# Usage
-
-**Note:** You should create a `.npmrc` file at the root of your application with a auth token inside,
-because this package is private.
+## Usage
 
 ```bash
 $ yarn add @yproximite/yprox-cli
 ```
 
-## Available commands
+### Available commands
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-### yprox-cli build [--mode=development] [--lint] [--watch] [--filter:...]
+#### yprox-cli build [--mode=development] [--lint] [--watch] [--filter:...]
 
 ```bash
 $ yarn yprox-cli build
@@ -40,7 +36,7 @@ $ yarn yprox-cli build --mode production --watch
 $ yarn yprox-cli build --lint
 ```
 
-### yprox-cli lint [--fix] [--filter:...]
+#### yprox-cli lint [--fix] [--filter:...]
 
 ```bash
 $ yarn yprox-cli lint
@@ -49,20 +45,20 @@ $ yarn yprox-cli lint --filter:handler sass # will lint only 'sass' entries
 $ yarn yprox-cli lint --filter:handler sass --fix # will lint and fix only 'sass' entries
 ```
 
-### Filtering
+#### Filtering
 
 For each commands, you can specify multiple arguments `--filter:X Y`, where:
 - `X` is the name of an entry's property (see [Assets entries](#assetsentries))
 - `Y` is one of the possible value of `X`
 
-## Production mode
+### Production mode
 
 When passing flag `--mode production` during building:
  - JS and CSS files will be minified
  - Sourcemaps will be generated for JS and CSS files
  - Images will be minimified
 
-## Configuration
+### Configuration
 
 First, you should create a `yprox-cli.config.js` file:
 
@@ -144,11 +140,13 @@ Your configuration file will be merged with defaults config:
 }
 ```
 
-## Common arguments
+### Common arguments
 
 - passing `-v` enable verbose mode
+- passing `--mode` will specify mode
+- passing `--filter:X Y` will filter entries where `X === Y` (or `X includes Y` if `X` is an array) 
 
-## Assets/Entries
+### Assets/Entries
 
 Since you configured two entries `app` and `vendor`, you should create files `assets/app.js` and `assets/vendor.js`.
 
@@ -169,7 +167,7 @@ Each entries can be handled by:
 - `file`
 - `image`
 
-### Handler `rollup`
+#### Handler `rollup`
 
 Used for building `.vue` components, with support of ES6 modules (no need to Babel):
 
@@ -183,7 +181,7 @@ Used for building `.vue` components, with support of ES6 modules (no need to Bab
 }
 ```
 
-### Handler `js`
+#### Handler `js`
 
 Used for handling JS files.
 
@@ -198,7 +196,7 @@ In production, it also uglify and generates sourcemaps.
 }
 ```
 
-### Handler `css`
+#### Handler `css`
 
 Used for handling CSS files, it runs [autoprefixer](https://github.com/postcss/autoprefixer) on them.
 
@@ -213,7 +211,7 @@ In production, it also runs [CSSNano](https://github.com/cssnano/cssnano), uglif
 }
 ```
 
-### Handler `sass`
+#### Handler `sass`
 
 The same behavior for `css` handler.
 
@@ -228,7 +226,7 @@ It supports `.sass` and `.scss` files.
 }
 ```
 
-### Handler `file`
+#### Handler `file`
 
 Used for copying files:
 
@@ -240,7 +238,7 @@ Used for copying files:
 }
 ```
 
-### Handler `image`
+#### Handler `image`
 
 Used for minifying images (png, jpeg, gif and svg) in production mode:
 
@@ -250,4 +248,24 @@ Used for minifying images (png, jpeg, gif and svg) in production mode:
   src: 'src/CoreBundle/Resources/private/img/*',
   dest: config.path.img,
 }
+```
+
+## Development workflow
+
+You need to install some dependencies first:
+```bash
+$ yarn
+```
+
+### Contribution
+
+- Make a pull request, its title should follows [Angular commit message convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit-message-format)
+- You should **Squash and Merge** your pull request
+
+### Publishing a new release
+
+```bash
+$ git checkout master && git fetch && git rebase
+$ yarn release # increase package.json version, update CHANGELOG.md, create a new git tag, create a new git commit
+$ yarn publish && git push --follow-tags
 ```
