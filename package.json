@@ -1,6 +1,6 @@
 {
   "name": "@yproximite/yprox-cli",
-  "version": "1.0.0-beta.30",
+  "version": "1.0.0",
   "description": "CLI tools for yProx CMS",
   "repository": "https://github.com/Yproximite/yProx-cli.git",
   "author": "Hugo Alliaume <kocal@live.fr>",
