@@ -13,7 +13,8 @@
     "yprox-cli": "bin/yprox-cli.js"
   },
   "scripts": {
-    "release": "standard-version"
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once --pro"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -54,6 +55,10 @@
     "stylelint-formatter-pretty": "^1.0.3"
   },
   "devDependencies": {
-    "standard-version": "^4.4.0"
+    "semantic-release": "^15.10.8",
+    "travis-deploy-once": "^5.0.9"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
