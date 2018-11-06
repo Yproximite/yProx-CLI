@@ -264,9 +264,4 @@ $ yarn
 
 ### Publishing a new release
 
-```bash
-$ git checkout master && git fetch && git rebase
-$ yarn release # increase package.json version, update CHANGELOG.md, create a new git tag, create a new git commit
-$ npm publish --access public # specify access, because scoped package are private by default
-$ git push --follow-tags
-```
+This is automatically done by Travis and [semantic-release](https://github.com/semantic-release/semantic-release) when you merge a pull request.

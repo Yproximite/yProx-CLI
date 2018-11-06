@@ -4,6 +4,9 @@ dist: trusty
 language: node_js
 node_js: 8
 
+notifications:
+  email: false
+
 cache:
   yarn: true
   directories:
@@ -46,3 +49,12 @@ script:
   - rm -fr public/css
   - yarn build:dev --filter:handler sass --filter:handler css --lint
   - ../ci/test_build_dev.sh
+
+  - cd ..
+
+after_success:
+  - yarn travis-deploy-once "yarn semantic-release"
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
