@@ -55,7 +55,8 @@
     "rollup-plugin-terser": "^3.0.0",
     "rollup-plugin-vue": "^4.3.2",
     "stylelint": "^9.5.0",
-    "stylelint-formatter-pretty": "^1.0.3"
+    "stylelint-formatter-pretty": "^1.0.3",
+    "webpack": "^4.25.1"
   },
   "devDependencies": {
     "@yproximite/semantic-release-preset": "^1.0.2",
