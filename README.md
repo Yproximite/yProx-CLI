@@ -190,13 +190,16 @@ Equivalent to `rollup` handler, but it uses Webpack under the hood.
 ```js
 {
   handler: 'webpack',
-  entry: {
-    'core-app-front': 'src/CoreBundle/Resources/private/js/app',
-    'core-app-admin': 'src/Admin/CoreBundle/Resources/private/js/app',
-    'yprox-store-locator': 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
-  },
-  output: {
-    path: config.path.js,
+  // The following config is passed to webpack
+  config: {
+    entry: {
+      'core-app-front': './src/CoreBundle/Resources/private/js/app',
+      'core-app-admin': './src/Admin/CoreBundle/Resources/private/js/app',
+      'yprox-store-locator': './src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+    },
+    output: {
+      path: config.path.js,
+    }
   }
 }
 ```

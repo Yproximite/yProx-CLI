@@ -10,6 +10,9 @@ module.exports = {
     img: './public/img',
     plugins: './public/plugins',
   },
+  buble: {
+    objectAssign: 'Object.assign',
+  },
   handlers: {
     autoprefixer: {
       browsers: ['> 0.25%'],
@@ -37,5 +40,22 @@ module.exports = {
         'dropzone': 'Dropzone',
       },
     },
+    webpack: {
+      externals: [
+        'app',
+        'app-front',
+        'constants',
+        'lodash',
+        'underscore',
+        'routing',
+        'translator',
+        'google',
+        'js-marker-clusterer',
+        'vue-strap',
+        'jquery',
+        'codemirror',
+        'dropzone',
+      ]
+    }
   },
 };

@@ -1,6 +1,7 @@
 module.exports = (cli, config) => ([
   {
     handler: 'rollup',
+    t: 'rollup',
     name: 'core-app-front',
     src: 'src/CoreBundle/Resources/private/js/app/index.js',
     concat: 'core-app-front.min.js',
@@ -8,6 +9,7 @@ module.exports = (cli, config) => ([
   },
   {
     handler: 'rollup',
+    t: 'rollup',
     name: 'core-app-admin',
     src: 'src/Admin/CoreBundle/Resources/private/js/app/index.js',
     concat: 'core-app-admin.min.js',
@@ -15,13 +17,16 @@ module.exports = (cli, config) => ([
   },
   {
     handler: 'webpack',
-    entry: {
-      'core-app-front': 'src/CoreBundle/Resources/private/js/app',
-      'core-app-admin': 'src/Admin/CoreBundle/Resources/private/js/app',
+    t: 'webpack',
+    config: {
+      entry: {
+        'core-app-front.webpack': './src/CoreBundle/Resources/private/js/app/index.js',
+        'core-app-admin.webpack': './src/Admin/CoreBundle/Resources/private/js/app/index.js',
+      },
+      output: {
+        path: config.path.js,
+      }
     },
-    output: {
-      path: config.path.js,
-    }
   },
   {
     handler: 'css',
