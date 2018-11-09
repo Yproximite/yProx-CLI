@@ -14,6 +14,16 @@ module.exports = (cli, config) => ([
     dest: config.path.js,
   },
   {
+    handler: 'webpack',
+    entry: {
+      'core-app-front': 'src/CoreBundle/Resources/private/js/app',
+      'core-app-admin': 'src/Admin/CoreBundle/Resources/private/js/app',
+    },
+    output: {
+      path: config.path.js,
+    }
+  },
+  {
     handler: 'css',
     src: 'src/CoreBundle/Resources/private/css/legacy.css',
     concat: 'legacy.css',

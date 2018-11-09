@@ -163,6 +163,7 @@ module.exports = (cli, config) => ([
 
 Each entries can be handled by:
 - `rollup`
+- `webpack`
 - `js`
 - `css`
 - `file`
@@ -179,6 +180,24 @@ Used for building `.vue` components, with support of ES6 modules (no need to Bab
   src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
   concat: 'yprox-store-locator.min.js',
   dest: config.path.js, // will resolve `public/js`
+}
+```
+
+#### Handler `webpack`
+
+Equivalent to `rollup` handler, but it uses Webpack under the hood.
+
+```js
+{
+  handler: 'webpack',
+  entry: {
+    'core-app-front': 'src/CoreBundle/Resources/private/js/app',
+    'core-app-admin': 'src/Admin/CoreBundle/Resources/private/js/app',
+    'yprox-store-locator': 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+  },
+  output: {
+    path: config.path.js,
+  }
 }
 ```
 
