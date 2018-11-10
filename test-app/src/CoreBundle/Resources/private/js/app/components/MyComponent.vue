@@ -12,7 +12,7 @@ export default {
     MyLazyImportedComponent: () => import(/* webpackChunkName: "lazy-imported-component" */'./MyLazyImportedComponent.vue'),
   },
   mounted() {
-    console.log('Hello world! from MyComponent.vue');
+    global.alert('Hello world! from MyComponent.vue');
   },
 };
 </script>
