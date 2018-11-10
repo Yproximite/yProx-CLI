@@ -163,6 +163,7 @@ module.exports = (cli, config) => ([
 
 Each entries can be handled by:
 - `rollup`
+- `webpack`
 - `js`
 - `css`
 - `file`
@@ -181,6 +182,40 @@ Used for building `.vue` components, with support of ES6 modules (no need to Bab
   dest: config.path.js, // will resolve `public/js`
 }
 ```
+
+#### Handler `webpack`
+
+Equivalent to `rollup` handler, but it uses webpack under the hood. 
+The configuration is a bit different. Everything under `config` key is passed to webpack.
+
+It does:
+  - Configure webpack's mode with yprox-cli's mode ([development](https://webpack.js.org/concepts/mode/#mode-development) and [production](https://webpack.js.org/concepts/mode/#mode-production))
+  - Suppor code-splitting with [dynamic `import()`](https://webpack.js.org/guides/code-splitting/#dynamic-imports) and named chunks
+  - Handle `.js` files with [bublé](https://github.com/Rich-Harris/buble)
+  - Handle `.vue` files with [vue-loader](https://github.com/vuejs/vue-loader), and extract CSS with [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) in production
+  - Handle `.css` files [css-loader](https://github.com/webpack-contrib/css-loader) and [postcss-loader](https://github.com/postcss/postcss-loader) (with [Autoprefixer](https://github.com/postcss/autoprefixer) and [cssnano](https://github.com/cssnano/cssnano) enabled)
+  - Handle `.sass` and `.scss` files with [sass-loader](https://github.com/webpack-contrib/sass-loader)
+  
+```js
+{
+  handler: 'webpack',
+  // The following config is passed to webpack
+  config: {
+    entry: {
+      'core-app-front': './src/CoreBundle/Resources/private/js/app',
+      'core-app-admin': './src/Admin/CoreBundle/Resources/private/js/app',
+      'yprox-store-locator': './src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
+    },
+    output: {
+      path: config.path.js,
+    }
+  }
+}
+```
+
+In order to be more performant, it is **highly** recommended to only have one entry handled by `webpack` (with multiple entries inside).
+
+Run `yprox-cli build -v` to print webpack final configuration.
 
 #### Handler `js`
 
