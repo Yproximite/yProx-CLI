@@ -21,8 +21,6 @@ test -f public/img/mini_arrow_down.png
 test -f public/img/mini_arrow_up.png
 
 # Files built with rollup
-test   -f public/js/core-app-front.rollup.js
-test ! -f public/js/core-app-front.rollup.js.map
 test   -f public/js/core-app-admin.rollup.js
 test ! -f public/js/core-app-admin.rollup.js.map
 test   -f public/js/yprox-media-browser.rollup.js

@@ -1,13 +1,6 @@
 module.exports = (cli, config) => ([
   {
     handler: 'rollup',
-    name: 'core-app-front',
-    src: 'src/CoreBundle/Resources/private/js/app/index.js',
-    concat: 'core-app-front.rollup.js',
-    dest: config.path.js,
-  },
-  {
-    handler: 'rollup',
     name: 'core-app-admin',
     src: 'src/Admin/CoreBundle/Resources/private/js/app/index.js',
     concat: 'core-app-admin.rollup.js',
