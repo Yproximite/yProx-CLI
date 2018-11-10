@@ -845,10 +845,10 @@
     postcss-modules-sync "^1.0.0"
     source-map "0.6.*"
 
-"@yproximite/semantic-release-preset@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@yproximite/semantic-release-preset/-/semantic-release-preset-1.0.1.tgz#e7a948d0064bf5b756766297e0e7423218e18e26"
-  integrity sha512-32MKWFFdamZ8Zgp903uebz3vi8m9fuxuw7PC7k5Ool4gvCr9vBChgYeUURjCNouD/VLT3nfJhhY6riyhis1BVw==
+"@yproximite/semantic-release-preset@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@yproximite/semantic-release-preset/-/semantic-release-preset-1.0.2.tgz#3e782c1fb2719e8040d105e9221e88ecedb5355e"
+  integrity sha512-ylf3DDzEn9wLCVkxMNossZtauprWpilUsTeGrNFW4Q5bGe4qfT3dMkzGbjXMLX1APu4YRk9sQNu2b/Ycuy7W+g==
   dependencies:
     "@semantic-release/commit-analyzer" "^6.1.0"
     "@semantic-release/github" "^5.2.1"
