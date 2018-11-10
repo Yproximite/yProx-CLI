@@ -213,6 +213,10 @@ It does:
 }
 ```
 
+In order to be more performant, it is **highly** recommended to only have one entry handled by `webpack` (with multiple entries inside).
+
+Run `yprox-cli build -v` to print webpack final configuration.
+
 #### Handler `js`
 
 Used for handling JS files.
