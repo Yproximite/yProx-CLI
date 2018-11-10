@@ -11,22 +11,24 @@ test ! -f public/css/my-grid.css.map
 test -f public/css/containers.css
 test ! -f public/css/containers.css.map
 
+test -f public/js/vue.js
+test ! -f public/js/vue.min.js
+test ! -f public/js/vue.min.js.map
+
 test -f public/img/check.png
 test -f public/img/cross.png
 test -f public/img/mini_arrow_down.png
 test -f public/img/mini_arrow_up.png
 
-test -f public/js/core-app-admin.min.js
-test ! -f public/js/core-app-admin.min.js.map
-test -f public/js/core-app-front.min.js
-test ! -f public/js/core-app-front.min.js.map
-test -f public/js/vue.js
-test ! -f public/js/vue.min.js
-test ! -f public/js/vue.min.js.map
-test -f public/js/yprox-store-locator.min.js
-test ! -f public/js/yprox-store-locator.min.js.map
-test -f public/js/yprox-media-browser.min.js
-test ! -f public/js/yprox-media-browser.min.js.map
+# Files built with rollup
+test   -f public/js/core-app-front.rollup.js
+test ! -f public/js/core-app-front.rollup.js.map
+test   -f public/js/core-app-admin.rollup.js
+test ! -f public/js/core-app-admin.rollup.js.map
+test   -f public/js/yprox-media-browser.rollup.js
+test ! -f public/js/yprox-media-browser.rollup.js.map
+test   -f public/js/yprox-store-locator.rollup.js
+test ! -f public/js/yprox-store-locator.rollup.js.map
 
 # Files built with webpack
 test   -f public/js/core-app-front.webpack.js

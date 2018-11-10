@@ -1,4 +1,4 @@
-import MyComponent from './MyComponent';
+import MyComponent from './MyComponent.vue';
 
 export {
   MyComponent,
