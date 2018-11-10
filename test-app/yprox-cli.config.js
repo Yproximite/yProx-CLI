@@ -40,8 +40,8 @@ module.exports = {
         'dropzone': 'Dropzone',
       },
     },
-    webpack: {
-      externals: [
+    webpack(config) {
+      config.externals([
         'app',
         'app-front',
         'constants',
@@ -55,7 +55,7 @@ module.exports = {
         'jquery',
         'codemirror',
         'dropzone',
-      ]
+      ])
     }
   },
 };

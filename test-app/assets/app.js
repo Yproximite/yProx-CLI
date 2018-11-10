@@ -18,14 +18,10 @@ module.exports = (cli, config) => ([
   {
     handler: 'webpack',
     t: 'webpack',
-    config: {
-      entry: {
-        'core-app-front.webpack': './src/CoreBundle/Resources/private/js/app/index.js',
-        'core-app-admin.webpack': './src/Admin/CoreBundle/Resources/private/js/app/index.js',
-      },
-      output: {
-        path: config.path.js,
-      }
+    config (webpack) {
+      webpack.entry('core-app-front.webpack').add('./src/CoreBundle/Resources/private/js/app/index.js');
+      webpack.entry('core-app-admin.webpack').add('./src/Admin/CoreBundle/Resources/private/js/app/index.js');
+      webpack.output.path(config.path.js);
     },
   },
   {
