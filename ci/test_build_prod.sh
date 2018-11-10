@@ -32,13 +32,9 @@ test -f public/js/yprox-store-locator.rollup.js.map
 
 # Files built with webpack
 test -f public/js/core-app-front.webpack.js
-test -f public/js/core-app-front.webpack.js.map
 test -f public/js/core-app-admin.webpack.js
-test -f public/js/core-app-admin.webpack.js.map
 test -f public/js/yprox-media-browser.webpack.js
-test -f public/js/yprox-media-browser.webpack.js.map
 test -f public/js/yprox-store-locator.webpack.js
-test -f public/js/yprox-store-locator.webpack.js.map
 test -f public/js/lazy-imported-component.js
 
 test -f public/plugins/jQuery-Validation-Engine/css/validationEngine.jquery.css
