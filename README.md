@@ -77,6 +77,12 @@ API_KEY=my-api-key
 
 **Note:** Environment variables are available in `process.env` object.
  
+**Note:** `.env` files should be ignored in git like this:
+```ignore
+!.env*
+.env*.local
+```
+
 #### Example
 
 Given the following files:
