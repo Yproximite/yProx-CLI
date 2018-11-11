@@ -77,6 +77,8 @@ API_KEY=my-api-key
 
 **Note:** Environment variables are available in `process.env` object.
  
+**Note:** Due to security reasons, only environment variables `NODE_ENV` and `APP_*` will be injected during build. 
+ 
 **Note:** `.env` files should be ignored in git like this:
 ```ignore
 !.env*
