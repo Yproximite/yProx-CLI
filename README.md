@@ -22,7 +22,7 @@ $ yarn add @yproximite/yprox-cli
 
 After some [configuration](#configuration), you should be able to run those commands:
 
-#### yprox-cli build [--mode=development] [--lint] [--watch] [--filter:...]
+#### yprox-cli build [--lint] [--watch]
 
 ```bash
 $ yarn yprox-cli build
@@ -37,7 +37,7 @@ $ yarn yprox-cli build --mode production --watch
 $ yarn yprox-cli build --lint
 ```
 
-#### yprox-cli lint [--fix] [--filter:...]
+#### yprox-cli lint [--fix]
 
 ```bash
 $ yarn yprox-cli lint
@@ -46,26 +46,134 @@ $ yarn yprox-cli lint --filter:handler sass # will lint only 'sass' entries
 $ yarn yprox-cli lint --filter:handler sass --fix # will lint and fix only 'sass' entries
 ```
 
-#### Filtering
+### Common arguments
 
-For each commands, you can specify multiple arguments `--filter:X Y`, where:
-- `X` is the name of an entry's property (see [Assets entries](#assetsentries))
-- `Y` is one of the possible value of `X`
+- passing `-v` enable verbose mode
+- passing `--mode` will specify mode
+- passing `--filter:X Y` will filter entries where `X === Y` (or `X includes Y` if `X` is an array) 
 
-### Production mode
+### Environment variables and modes
 
-When passing flag `--mode production` during building:
- - JS and CSS files will be minified
- - Sourcemaps will be generated for JS and CSS files
- - Images will be minimified
+Environment variables is a clean way to store your application's configuration in the environment, separated of your code.
+
+You can specify environment variables by placing the following files in your project root:
+
+```
+.env              # loaded if exists,
+.env.local        # loaded if exists, should be ignored by git
+.env.[mode]       # only loaded in specified mode
+.env.[mode].local # only loaded in specified mode, should be ignored by git
+```
+
+An environment file contains `KEY=value` pairs of environment variables:
+
+```dotenv
+APP_NAME=my app
+API_URL=https://api.example.com
+API_KEY=my-api-key
+```
+
+**Note:** `NODE_ENV` environment variable is automatically defined to `<mode>` if `NODE_ENV` is not already set.
+
+**Note:** Environment variables are available in `process.env` object.
+ 
+#### Example
+
+Given the following files:
+
+```dotenv
+# .env
+APP_NAME=my app
+API_KEY=api-key
+```
+
+```dotenv
+# .env.production
+APP_ENV=production
+API_URL=https://api.example.com
+```
+
+```dotenv
+# .env.staging
+NODE_ENV=production
+APP_ENV=staging
+API_URL=https://staging.example.com
+```
+
+```dotenv
+# .env.development
+APP_ENV=development
+API_URL=http://api.my-project.vm
+```
+
+- `yprox-cli build`, `yprox-cli build --mode dev` and `yprox-cli build --mode development` will produce:
+```dotenv
+# .env
+APP_NAME=my app
+API_KEY=api-key
+# .env.development
+APP_ENV=development
+API_URL=http://api.my-project.vm
+# automatically added
+NODE_ENV=development
+```
+
+- `yprox-cli build --mode prod` and `yprox-cli build --mode production` will produce:
+```dotenv
+# .env
+APP_NAME=my app
+API_KEY=api-key
+# .env.production
+APP_ENV=production
+API_URL=https://api.example.com
+# automatically added
+NODE_ENV=production
+```
+
+- `yprox-cli build --mode staging` will produce:
+```dotenv
+# .env
+APP_NAME=my app
+API_KEY=api-key
+# .env.staging
+NODE_ENV=production
+APP_ENV=staging
+API_URL=https://staging.example.com
+```
+
+#### Special cases
+
+When mode is `production` or `prod`, it will load:
+
+- `.env` if exists
+- `.env.local` if exists
+- `.env.prod` if exists
+- `.env.prod.local` if exists
+- `.env.production` if exists
+- `.env.production.local` if exists
+
+When mode is `development` or `dev`, it will load:
+
+- `.env` if exists
+- `.env.local` if exists
+- `.env.dev` if exists
+- `.env.dev.local` if exists
+- `.env.development` if exists
+- `.env.development.local` if exists
+
+### Production environment
+
+When `NODE_ENV` is equals to `production`, then:
+
+- JS and CSS files are minified
+- JS and CSS files generate sourcemaps
+- Images are minimified
 
 ### Configuration
 
-First, you should create a `yprox-cli.config.js` file:
+Create a `yprox-cli.config.js` file:
 
 ```js
-// your-app/yprox-cli.config.js
-
 module.exports = {
   // Entries that will be build/linted, see next section
   assets: {
@@ -141,12 +249,6 @@ Your configuration file will be merged with defaults config:
 }
 ```
 
-### Common arguments
-
-- passing `-v` enable verbose mode
-- passing `--mode` will specify mode
-- passing `--filter:X Y` will filter entries where `X === Y` (or `X includes Y` if `X` is an array) 
-
 ### Assets/Entries
 
 Since you configured two entries `app` and `vendor`, you should create files `assets/app.js` and `assets/vendor.js`.
@@ -189,7 +291,7 @@ Equivalent to `rollup` handler, but it uses webpack under the hood.
 The configuration is a bit different. Everything under `config` key is passed to webpack.
 
 It does:
-  - Configure webpack's mode with yprox-cli's mode ([development](https://webpack.js.org/concepts/mode/#mode-development) and [production](https://webpack.js.org/concepts/mode/#mode-production))
+  - Configure webpack's mode with `NODE_ENV` value ([development](https://webpack.js.org/concepts/mode/#mode-development) and [production](https://webpack.js.org/concepts/mode/#mode-production))
   - Suppor code-splitting with [dynamic `import()`](https://webpack.js.org/guides/code-splitting/#dynamic-imports) and named chunks
   - Handle `.js` files with [bublé](https://github.com/Rich-Harris/buble)
   - Handle `.vue` files with [vue-loader](https://github.com/vuejs/vue-loader), and extract CSS with [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) in production
