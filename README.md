@@ -62,7 +62,7 @@ You can specify environment variables by placing the following files in your pro
 .env.[mode].local # only loaded in specified mode, should be ignored by git
 .env.[mode]       # only loaded in specified mode
 .env.local        # loaded if exists, should be ignored by git
-.env              # loaded if exists,
+.env              # loaded if exists
 ```
 
 An environment file contains `KEY=value` pairs of environment variables:
