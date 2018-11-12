@@ -59,10 +59,10 @@ Environment variables is a clean way to store your application's configuration i
 You can specify environment variables by placing the following files in your project root:
 
 ```
-.env              # loaded if exists,
-.env.local        # loaded if exists, should be ignored by git
-.env.[mode]       # only loaded in specified mode
 .env.[mode].local # only loaded in specified mode, should be ignored by git
+.env.[mode]       # only loaded in specified mode
+.env.local        # loaded if exists, should be ignored by git
+.env              # loaded if exists,
 ```
 
 An environment file contains `KEY=value` pairs of environment variables:
@@ -72,6 +72,8 @@ APP_NAME=my app
 API_URL=https://api.example.com
 API_KEY=my-api-key
 ```
+
+**Note:** Environment variables defined in `.env` files will not override already existing environment variables.
 
 **Note:** `NODE_ENV` environment variable is automatically defined to `<mode>` if `NODE_ENV` is not already set.
 
@@ -116,58 +118,63 @@ API_URL=http://api.my-project.vm
 
 - `yprox-cli build`, `yprox-cli build --mode dev` and `yprox-cli build --mode development` will produce:
 ```dotenv
-# .env
-APP_NAME=my app
-API_KEY=api-key
 # .env.development
 APP_ENV=development
 API_URL=http://api.my-project.vm
+
+# .env
+APP_NAME=my app
+API_KEY=api-key
+
 # automatically added
 NODE_ENV=development
 ```
 
 - `yprox-cli build --mode prod` and `yprox-cli build --mode production` will produce:
 ```dotenv
-# .env
-APP_NAME=my app
-API_KEY=api-key
 # .env.production
 APP_ENV=production
 API_URL=https://api.example.com
+
+# .env
+APP_NAME=my app
+API_KEY=api-key
+
 # automatically added
 NODE_ENV=production
 ```
 
 - `yprox-cli build --mode staging` will produce:
 ```dotenv
-# .env
-APP_NAME=my app
-API_KEY=api-key
 # .env.staging
 NODE_ENV=production
 APP_ENV=staging
 API_URL=https://staging.example.com
+
+# .env
+APP_NAME=my app
+API_KEY=api-key
 ```
 
 #### Special cases
 
 When mode is `production` or `prod`, it will load:
 
-- `.env` if exists
-- `.env.local` if exists
-- `.env.prod` if exists
-- `.env.prod.local` if exists
-- `.env.production` if exists
 - `.env.production.local` if exists
+- `.env.production` if exists
+- `.env.prod.local` if exists
+- `.env.prod` if exists
+- `.env.local` if exists
+- `.env` if exists
 
 When mode is `development` or `dev`, it will load:
 
-- `.env` if exists
-- `.env.local` if exists
-- `.env.dev` if exists
-- `.env.dev.local` if exists
-- `.env.development` if exists
 - `.env.development.local` if exists
+- `.env.development` if exists
+- `.env.dev.local` if exists
+- `.env.dev` if exists
+- `.env.local` if exists
+- `.env` if exists
 
 ### Production environment
 
