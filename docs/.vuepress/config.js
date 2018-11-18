@@ -15,6 +15,7 @@ module.exports = {
       'configuration',
       'assets',
       'handlers',
+      'cli-usage-and-commands',
       'env-vars-and-modes'
     ],
   },
