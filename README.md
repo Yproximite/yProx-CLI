@@ -4,7 +4,7 @@ yProx-cli
 [![npm (scoped)](https://img.shields.io/npm/v/@yproximite/yprox-cli.svg)](https://www.npmjs.com/package/@yproximite/yprox-cli)
 [![Build Status](https://travis-ci.com/Yproximite/yProx-cli.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
 
-> A tools for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
+> A tool for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
 > See [this PR](https://github.com/Yproximite/yProx/pull/4654) for additional details.
 
 ## Requirements
