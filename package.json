@@ -14,7 +14,9 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once --pro"
+    "travis-deploy-once": "travis-deploy-once --pro",
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
   },
   "publishConfig": {
     "access": "public"
@@ -73,6 +75,7 @@
   "devDependencies": {
     "@yproximite/semantic-release-preset": "^1.0.2",
     "semantic-release": "^15.10.8",
-    "travis-deploy-once": "^5.0.9"
+    "travis-deploy-once": "^5.0.9",
+    "vuepress": "^0.14.5"
   }
 }
