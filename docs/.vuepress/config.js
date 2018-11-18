@@ -11,18 +11,10 @@ module.exports = {
       updatePopup: true,
     },
     sidebar: [
-      {
-        collapsable: false,
-        children: [
-          'getting-started',
-        ],
-      },
-      {
-        collapsable: false,
-        children: [
-          'configuration',
-        ],
-      },
+      'getting-started',
+      'configuration',
+      'assets',
+      'handlers',
     ],
   },
 };
