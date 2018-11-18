@@ -10,22 +10,7 @@ module.exports = {
 };
 ```
 
-There is no limitation on `assets` key, you can define assets as much you want.
-
-For now you should create `./assets/app.js` file that will export a function:
-
-```js
-// `api` is an instance of `API` class
-// `config` is your configuration (`yprox-cli.config.js`)
-module.exports = (api, config) => {
-  return [ // array of entries
-    { ... },
-    { ... }
-  ]; 
-}
-```
-
-See [Assets and Entries](./assets.md) for more information.
+Read more at [Assets and Entries](./assets.md).
 
 ## Configuring destination paths
 
