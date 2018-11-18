@@ -10,5 +10,13 @@ module.exports = {
     serviceWorker: {
       updatePopup: true,
     },
+    sidebar: [
+      {
+        collapsable: false,
+        children: [
+          'getting-started',
+        ],
+      },
+    ],
   },
 };

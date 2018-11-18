@@ -7,16 +7,6 @@ yProx-cli
 > A tool for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
 > See [this PR](https://github.com/Yproximite/yProx/pull/4654) for additional details.
 
-## Requirements
-
-- Node.js > 8
-- Yarn
-
-## Usage
-
-```bash
-$ yarn add @yproximite/yprox-cli
-```
 
 ### Available commands
 
