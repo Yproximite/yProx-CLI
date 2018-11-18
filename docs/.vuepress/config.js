@@ -10,6 +10,10 @@ module.exports = {
     serviceWorker: {
       updatePopup: true,
     },
+    nav: [
+      { text: 'npm', link: 'https://www.npmjs.com/package/@yproximite/yprox-cli' },
+      { text: 'Travis', link: 'https://travis-ci.com/Yproximite/yProx-cli' },
+    ],
     sidebar: [
       'getting-started',
       'configuration',
