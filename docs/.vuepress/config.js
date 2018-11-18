@@ -17,6 +17,12 @@ module.exports = {
           'getting-started',
         ],
       },
+      {
+        collapsable: false,
+        children: [
+          'configuration',
+        ],
+      },
     ],
   },
 };
