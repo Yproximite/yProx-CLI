@@ -86,3 +86,14 @@ $ yarn yprox-cli lint
 # Lint and automatically fix lint errors if possible
 $ yarn yprox-cli lint --fix
 ```
+
+::: tip
+For any reason if you don't want an entry to be linted, you can use `skip_lint` tag:
+
+```js
+{
+  // ...
+  skip_lint: true
+}
+```
+:::
