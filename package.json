@@ -73,7 +73,7 @@
     "webpack-chain": "^5.0.1"
   },
   "devDependencies": {
-    "@yproximite/semantic-release-preset": "^1.0.2",
+    "@yproximite/semantic-release-preset": "^99.99.99",
     "semantic-release": "^15.10.8",
     "travis-deploy-once": "^5.0.9",
     "vuepress": "^0.14.5"
