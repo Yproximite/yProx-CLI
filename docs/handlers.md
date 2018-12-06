@@ -17,11 +17,12 @@ Used for building `.vue` components with the support of ES6 modules.
 ## Webpack
 
 Equivalent to [handler Rollup](#rollup), but it uses webpack under the hood. 
-The configuration is a bit different. Everything under `config` key is passed to webpack.
+The configuration is a bit different. You can modify the default webpack config with the help of [webpack-chain](https://github.com/neutrinojs/webpack-chain).
 
 It does:
   - Configure webpack's mode with `NODE_ENV` value ([development](https://webpack.js.org/concepts/mode/#mode-development) and [production](https://webpack.js.org/concepts/mode/#mode-production))
-  - Suppor code-splitting with [dynamic `import()`](https://webpack.js.org/guides/code-splitting/#dynamic-imports) and named chunks
+  - Support vendors chunk splitting, every dependencies from `node_modules/` will be bundled into `chunk-vendors.chunk.js`
+  - Support code-splitting with [dynamic `import()`](https://webpack.js.org/guides/code-splitting/#dynamic-imports) and named chunks
   - Handle `.js` files with [bublé](https://github.com/Rich-Harris/buble)
   - Handle `.vue` files with [vue-loader](https://github.com/vuejs/vue-loader), and extract CSS with [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) in production
   - Handle `.css` files [css-loader](https://github.com/webpack-contrib/css-loader) and [postcss-loader](https://github.com/postcss/postcss-loader) (with [Autoprefixer](https://github.com/postcss/autoprefixer) and [cssnano](https://github.com/cssnano/cssnano) enabled)
@@ -30,23 +31,41 @@ It does:
 ```js
 {
   handler: 'webpack',
-  // The following config is passed to webpack
-  config: {
-    entry: {
-      'core-app-front': './src/CoreBundle/Resources/private/js/app',
-      'core-app-admin': './src/Admin/CoreBundle/Resources/private/js/app',
-      'yprox-store-locator': './src/StoreLocatorBundle/Resources/private/js/yprox-store-locator',
-    },
-    output: {
-      path: './public/js',
-    }
+  // `webpack` is a webpack `Config` object from webpack-chain
+  config (webpack) {
+    webpack.output.path('public/js'); // mandatory
+
+    webpack
+      .entry('core-app-front')
+      .add('./src/CoreBundle/Resources/private/js/app');
+
+    webpack
+      .entry('core-app-admin')
+      .add('./src/Admin/CoreBundle/Resources/private/js/app');
+
+    webpack
+      .entry('yprox-store-locator')
+      .add('./src/StoreLocatorBundle/Resources/private/js/yprox-store-locator');
   }
 }
 ```
 
-In order to be more performant, it is **highly** recommended to only have one entry handled by `webpack` (with multiple webpack entries inside).
+Then you can use bundled files like this (at the end of your `<body>`):
 
+```html
+<script src="public/js/chunk-vendors.chunk.js"></script>
+<script src="public/js/core-app-front.js"></script>
+<script src="public/js/core-app-admin.js"></script>
+<script src="public/js/yprox-store-locator.js"></script>
+```
+
+::: warning
+In order to be more performant, it is **highly** recommended to only have one entry handled by `webpack` (with multiple webpack entries inside).
+:::
+
+::: tip
 Run `yprox-cli build --filter:handler webpack -v` to print webpack final configuration.
+:::
 
 ## Plain Javascript files
 
