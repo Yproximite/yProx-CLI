@@ -21,7 +21,8 @@ The configuration is a bit different. You can modify the default webpack config 
 
 It does:
   - Configure webpack's mode with `NODE_ENV` value ([development](https://webpack.js.org/concepts/mode/#mode-development) and [production](https://webpack.js.org/concepts/mode/#mode-production))
-  - Support vendors chunk splitting, every dependencies from `node_modules/` will be bundled into `chunk-vendors.chunk.js`
+  - Configure manifest chunk splitting, [webpack's manifest](https://webpack.js.org/concepts/manifest/) is bundled into `manifest.js` file
+  - Configure vendors chunk splitting, every dependencies from `node_modules/` are bundled into `vendor.js` file
   - Support code-splitting with [dynamic `import()`](https://webpack.js.org/guides/code-splitting/#dynamic-imports) and named chunks
   - Handle `.js` files with [bublé](https://github.com/Rich-Harris/buble)
   - Handle `.vue` files with [vue-loader](https://github.com/vuejs/vue-loader), and extract CSS with [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) in production
@@ -53,7 +54,11 @@ It does:
 Then you can use bundled files like this (at the end of your `<body>`):
 
 ```html
-<script src="public/js/chunk-vendors.chunk.js"></script>
+<!-- webpack manifest and vendor entries -->
+<script src="public/js/manifest.js"></script>
+<script src="public/js/vendor.js"></script>
+
+<!-- your entries -->
 <script src="public/js/core-app-front.js"></script>
 <script src="public/js/core-app-admin.js"></script>
 <script src="public/js/yprox-store-locator.js"></script>
