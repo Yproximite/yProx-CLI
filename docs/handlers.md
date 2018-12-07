@@ -51,17 +51,28 @@ It does:
 }
 ```
 
-Then you can use bundled files like this (at the end of your `<body>`):
+Then you can use bundled files like this:
 
 ```html
-<!-- webpack manifest and vendor entries -->
-<script src="public/js/manifest.js"></script>
-<script src="public/js/vendor.js"></script>
-
-<!-- your entries -->
-<script src="public/js/core-app-front.js"></script>
-<script src="public/js/core-app-admin.js"></script>
-<script src="public/js/yprox-store-locator.js"></script>
+<head>
+  <!-- if you have imported some CSS from `node_modules/` -->
+  <link rel="stylesheet" href="public/js/vendor.css"/>
+  
+  <!-- extracted from the `core-app-front` entry -->
+  <link rel="stylesheet" href="public/js/core-app-front.css"/>
+</head>
+<body>
+  <!-- ... -->
+  
+  <!-- webpack manifest and vendor entries -->
+  <script src="public/js/manifest.js"></script>
+  <script src="public/js/vendor.js"></script>
+  
+  <!-- your entries -->
+  <script src="public/js/core-app-front.js"></script>
+  <script src="public/js/core-app-admin.js"></script>
+  <script src="public/js/yprox-store-locator.js"></script>
+</body>
 ```
 
 ::: warning

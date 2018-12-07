@@ -10,6 +10,7 @@ import 'core-js/features/object/assign';
 import 'core-js/features/promise';
 import 'core-js/features/promise/finally';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Vue from 'vue';
 import Raven from 'raven-js';
 import RavenVue from 'raven-js/plugins/vue';
