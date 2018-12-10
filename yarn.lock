@@ -2847,7 +2847,7 @@ buble-loader@^0.5.1:
   dependencies:
     loader-utils "^1.1.0"
 
-buble@^0.19.4, buble@^0.19.6:
+buble@^0.19.6:
   version "0.19.6"
   resolved "https://registry.yarnpkg.com/buble/-/buble-0.19.6.tgz#915909b6bd5b11ee03b1c885ec914a8b974d34d3"
   integrity sha512-9kViM6nJA1Q548Jrd06x0geh+BG2ru2+RMDkIHHgJY/8AcyCs34lTHwra9BX7YdPrZXd5aarkpr/SY8bmPgPdg==
@@ -12069,11 +12069,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     inherits "^2.0.1"
 
 rollup-plugin-buble@^0.19.2:
-  version "0.19.4"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-buble/-/rollup-plugin-buble-0.19.4.tgz#b0dde11ad2736b68e94ba2aa34de7822c6e28d24"
-  integrity sha512-mahvTRn9mUVKEUyA5QbrfdybOH7tipHRe4zkKZjEGMB3YSaLW95kHFSB4Vdt7BofyG9r7zMCCmAsEqZKkRaN6A==
+  version "0.19.6"
+  resolved "https://registry.yarnpkg.com/rollup-plugin-buble/-/rollup-plugin-buble-0.19.6.tgz#55ee0995d8870d536f01f4277c3eef4276e8747e"
+  integrity sha512-El5Fut4/wEO17ZN/n9BZvqd7DXXB2WbJr/DKvr89LXChC/cHllE0XwiUDeAalrTkgr0WrnyLDTCQvEv+cGywWQ==
   dependencies:
-    buble "^0.19.4"
+    buble "^0.19.6"
     rollup-pluginutils "^2.3.3"
 
 rollup-plugin-commonjs@^9.1.6:
