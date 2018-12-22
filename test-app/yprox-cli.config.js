@@ -1,8 +1,22 @@
 module.exports = {
   assets: {
     app: './assets/app.js',
-    themes: './assets/themes.js',
     vendor: './assets/vendor.js',
+    themes: (cli, config) => ([
+      {
+        handler: 'sass',
+        src: './themes/_containers/containers.scss',
+        dest: config.path.css,
+      },
+    ]),
+    themesSimplyArrayEntries: [
+      {
+        handler: 'sass',
+        src: './themes/_containers/containers.scss',
+        dest: './public/css',
+        concat: 'containers.simple-array-entries.css',
+      },
+    ],
   },
   path: {
     js: './public/js',
@@ -52,7 +66,7 @@ module.exports = {
         'vue-strap',
         'codemirror',
         'dropzone',
-      ])
-    }
+      ]);
+    },
   },
 };

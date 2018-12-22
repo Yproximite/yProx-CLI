@@ -32,6 +32,33 @@ module.exports = (api, config) => {
 }
 ```
 
+::: tip
+If you have few entries to define, you can directly use a function or even an array:
+```js
+// yprox-cli.config.js
+
+module.exports = {
+  assets: {
+    // the file will be included
+    app: './assets/app.js',
+   
+    // with a function 
+    app: (cli, config) => ([
+      { ... },
+      { ... },
+    ]),
+    
+    // with an array
+    app: [
+      { ... },
+      { ... }
+    ]
+  },
+  // ...
+}
+```
+:::
+
 ## Entries
 
 An entry defines:
