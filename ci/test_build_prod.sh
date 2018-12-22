@@ -10,6 +10,8 @@ test -f public/css/my-grid.css
 test -f public/css/my-grid.css.map
 test -f public/css/containers.css
 test -f public/css/containers.css.map
+test -f public/css/container.simple-array-entries.css
+test -f public/css/container.simple-array-entries.css.map
 
 test ! -f public/js/vue.js
 test   -f public/js/vue.min.js
