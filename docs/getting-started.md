@@ -8,7 +8,7 @@
 ## Installation
 
 ```bash
-$ yarn add --dev @yproximite/yprox-cli
+$ yarn add --dev @yproximite/yprox-cli eslint stylelint
 ```
 
 
