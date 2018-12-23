@@ -74,6 +74,6 @@
   "devDependencies": {
     "@kocal/semantic-release-preset": "^1.1.0",
     "semantic-release": "^15.10.8",
-    "vuepress": "^0.14.5"
+    "vuepress": "^0.14.8"
   }
 }
