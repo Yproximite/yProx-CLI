@@ -14,7 +14,6 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once --pro",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
@@ -75,7 +74,6 @@
   "devDependencies": {
     "@kocal/semantic-release-preset": "^1.1.0",
     "semantic-release": "^15.10.8",
-    "travis-deploy-once": "^5.0.9",
     "vuepress": "^0.14.5"
   }
 }
