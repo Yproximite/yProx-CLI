@@ -1,7 +1,13 @@
 dist: trusty
 
 language: node_js
-node_js: 8
+node_js:
+  - 8
+  - node
+
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
 
 notifications:
   email: false
@@ -51,9 +57,9 @@ script:
 
   - cd ..
 
-after_success:
-  - yarn travis-deploy-once "yarn semantic-release"
-
-branches:
-  except:
-    - /^v\d+\.\d+\.\d+$/
+jobs:
+  include:
+    - stage: Release
+      if: branch = master AND type = push
+      node_js: node
+      script: yarn semantic-release
