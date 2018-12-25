@@ -54,19 +54,5 @@ module.exports = {
         'dropzone': 'Dropzone',
       },
     },
-    webpack(config) {
-      config.externals([
-        'app',
-        'app-front',
-        'constants',
-        'routing',
-        'translator',
-        'google',
-        'js-marker-clusterer',
-        'vue-strap',
-        'codemirror',
-        'dropzone',
-      ]);
-    },
   },
 };

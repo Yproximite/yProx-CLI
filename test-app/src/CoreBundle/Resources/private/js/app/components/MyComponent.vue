@@ -1,16 +1,12 @@
 <template>
   <div>
     <p>Hello world!</p>
-    <my-lazy-imported-component/>
   </div>
 </template>
 
 <script>
 export default {
   name: 'MyComponent',
-  components: {
-    MyLazyImportedComponent: () => import(/* webpackChunkName: "lazy-imported-component" */'./MyLazyImportedComponent.vue'),
-  },
   mounted() {
     global.alert('Hello world! from MyComponent.vue');
   },
