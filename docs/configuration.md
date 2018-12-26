@@ -10,6 +10,22 @@ module.exports = {
 };
 ```
 
+::: tip
+If you prefer, you can configure the tool with your `package.json`:
+
+```json
+{
+  "yproxCli": {
+    "assets": {
+      "app": "./assets/app.js"
+    }
+  }
+}
+```
+
+But keep in mind that you **can not** use both config from `yprox-cli.config.js` and config from `package.json` at the same time.
+:::
+
 Read more at [Assets and Entries](./assets.md).
 
 ## Configuring destination paths
