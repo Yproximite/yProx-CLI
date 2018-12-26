@@ -12,6 +12,10 @@ branches:
 notifications:
   email: false
 
+env:
+  global:
+    - YPROX_CLI_IGNORE_PACKAGE_JSON_FILE=true
+
 cache:
   yarn: true
   directories:
@@ -54,6 +58,13 @@ script:
   - rm -fr public/css
   - yarn build:dev --filter:handler sass --filter:handler css --lint
   - ../ci/test_build_dev.sh
+
+  # Use config from `package.json`
+  - rm -fr public
+  - unset YPROX_CLI_IGNORE_PACKAGE_JSON_FILE
+  - YPROX_CLI_IGNORE_CONFIG_FILE=true yarn build:dev # it will build `vendor` asset only
+  - test -f public/js/vue.js
+  - test ! -f public/img/check.png
 
   - cd ..
 
