@@ -48,7 +48,7 @@ module.exports = {
       { ... },
     ]),
     
-    // with an array
+    // with an array, useful if you put your config inside your `package.json`
     app: [
       { ... },
       { ... }
