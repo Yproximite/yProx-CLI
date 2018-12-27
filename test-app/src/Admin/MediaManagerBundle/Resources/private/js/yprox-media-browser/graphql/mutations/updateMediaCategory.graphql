@@ -1,3 +1,5 @@
+#import "../fragments/mediaCategory.graphql"
+
 mutation UpdateMediaCategory(
   $siteId: Int!
   $mediaCategoryId: Int!
@@ -8,14 +10,6 @@ mutation UpdateMediaCategory(
     mediaCategoryId: $mediaCategoryId
     input: $input
   ) {
-    id
-    title
-    hidden
-    repository
-    createdAt
-    updatedAt
-    site {
-      id
-    }
+      ...MediaCategoryFragment
   }
 }
