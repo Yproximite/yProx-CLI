@@ -13,7 +13,8 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-
+    "build": "tsc",
+    "watch": "tsc --watch",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
