@@ -107,7 +107,7 @@ export default function install(Vue) {
         };
 
         const formData = new FormData();
-        formData.append('query', (query.king === 'Document' ? printQuery(query): query).trim());
+        formData.append('query', (query.kind === 'Document' ? printQuery(query): query).trim());
         formData.append('variables', JSON.stringify(variables));
         hydrateFormData(formData);
 
