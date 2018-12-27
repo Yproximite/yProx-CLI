@@ -35,6 +35,11 @@
     "stylelint-scss": "^3.3.0",
     "vue-template-compiler": "^2.5.17"
   },
+  "browserslist": [
+    "last 1 version",
+    "> 1%",
+    "not dead"
+  ],
   "yproxCli": {
     "assets": {
       "vendor": "./assets/vendor.js"
