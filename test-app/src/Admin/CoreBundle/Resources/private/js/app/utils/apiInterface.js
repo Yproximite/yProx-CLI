@@ -1,3 +1,4 @@
+import { print as printQuery } from 'graphql/language/printer'
 import Routing from './routing';
 
 export const API_TOKEN = 'api_token';
@@ -106,7 +107,7 @@ export default function install(Vue) {
         };
 
         const formData = new FormData();
-        formData.append('query', query.trim());
+        formData.append('query', (query.kind === 'Document' ? printQuery(query): query).trim());
         formData.append('variables', JSON.stringify(variables));
         hydrateFormData(formData);
 
