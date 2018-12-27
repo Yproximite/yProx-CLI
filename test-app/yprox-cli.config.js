@@ -28,13 +28,7 @@ module.exports = {
     objectAssign: 'Object.assign',
   },
   handlers: {
-    autoprefixer: {
-      browsers: ['> 0.25%'],
-    },
     rollup: {
-      buble: {
-        objectAssign: 'Object.assign',
-      },
       shims: {
         'app': 'App',
         'app-front': 'AppFront',
