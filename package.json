@@ -6,14 +6,14 @@
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
   "files": [
-    "bin",
-    "lib"
+    "dist"
   ],
   "bin": {
-    "yprox-cli": "bin/yprox-cli.js"
+    "yprox-cli": "dist/bin/yprox-cli.js"
   },
   "scripts": {
     "semantic-release": "semantic-release",
+
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
@@ -67,6 +67,7 @@
     "eslint": "^5.11.0",
     "semantic-release": "^15.10.8",
     "stylelint": "^9.9.0",
+    "typescript": "^3.2.2",
     "vuepress": "^0.14.8"
   }
 }
