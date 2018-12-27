@@ -1,3 +1,5 @@
+#import "../fragments/media.graphql"
+
 query PaginateMedias(
   $siteId: Int!
   $repository: SiteType!
@@ -17,35 +19,7 @@ query PaginateMedias(
       total
       currentPage
       perPage
-      items {
-        id
-        filename
-        originalFilename
-        originalFilenameSlugged
-        fullpathFilename
-        title
-        description
-        createdAt
-        updatedAt
-        mimeType
-        type
-        size
-        extension
-        categories {
-          id
-        }
-        articles {
-          id
-          translations {
-            locale
-            title
-          }
-          site {
-            id
-          }
-        }
-        linkUrl
-      }
+      items { ...MediaFragment }
     }
   }
 }
