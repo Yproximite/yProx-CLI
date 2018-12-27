@@ -1,0 +1,11 @@
+fragment MediaCategoryFragment on MediaCategory {
+  id
+  title
+  hidden
+  repository
+  createdAt
+  updatedAt
+  site {
+    id
+  }
+}
