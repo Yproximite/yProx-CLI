@@ -1,17 +1,17 @@
-const rollup = require('rollup');
-const builtins = require('rollup-plugin-node-builtins');
-const nodeResolve = require('rollup-plugin-node-resolve');
-const commonjs = require('rollup-plugin-commonjs');
-const graphql = require('rollup-plugin-graphql/dist/rollup-plugin-graphql.cjs');
-const json = require('rollup-plugin-json');
-const globals = require('rollup-plugin-node-globals');
-const replace = require('rollup-plugin-replace');
-const vue = require('rollup-plugin-vue').default;
-const buble = require('rollup-plugin-buble');
-const { terser } = require('rollup-plugin-terser');
-const { getEntryName } = require('../../../utils/entry');
+import rollup from 'rollup';
+import builtins from 'rollup-plugin-node-builtins';
+import nodeResolve from 'rollup-plugin-node-resolve';
+import commonjs from 'rollup-plugin-commonjs';
+import graphql from 'rollup-plugin-graphql/dist/rollup-plugin-graphql.cjs';
+import json from 'rollup-plugin-json';
+import globals from 'rollup-plugin-node-globals';
+import replace from 'rollup-plugin-replace';
+import vue from 'rollup-plugin-vue';
+import buble from 'rollup-plugin-buble';
+import { terser } from 'rollup-plugin-terser';
+import { getEntryName } from '../../../utils/entry';
 
-module.exports = (api, entry, args) => {
+export default (api, entry, args) => {
   const rollupOptions = api.projectOptions.handlers.rollup;
 
   const getInputOptions = () => {
@@ -104,4 +104,4 @@ module.exports = (api, entry, args) => {
   };
 
   return args.watch ? watch() : build();
-};
+}

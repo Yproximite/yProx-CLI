@@ -1,7 +1,7 @@
-const path = require('path');
-const watch = require('gulp-watch');
+import path from 'path';
+import watch from 'gulp-watch';
 
-module.exports = (api, entry, args) => {
+export default (api, entry, args) => {
   return (build) => {
     const doBuild = () => build(api, entry, args);
 
@@ -25,4 +25,4 @@ module.exports = (api, entry, args) => {
       return doBuild();
     });
   };
-};
+}

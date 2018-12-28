@@ -1,7 +1,7 @@
-const fs = require('fs');
-const dotenv = require('dotenv');
+import dotenv from 'dotenv';
+import fs from 'fs';
 
-module.exports = path => {
+export default path => {
   const config = dotenv.parse(fs.readFileSync(path));
 
   Object.entries(config).forEach(([key, value]) => {
@@ -9,4 +9,4 @@ module.exports = path => {
       process.env[key] = value;
     }
   });
-};
+}

@@ -1,9 +1,9 @@
-const { dirname } = require('path');
-const { readAssets } = require('../../utils/assets');
-const { groupBy, flatten } = require('../../utils/array');
-const linters = require('./linters');
+import { dirname } from 'path';
+import { readAssets } from '../../utils/assets';
+import { flatten, groupBy } from '../../utils/array';
+import linters from './linters';
 
-module.exports = api => {
+export default api => {
   api.registerCommand('lint', {
     description: 'lint source files',
     usage: 'yprox-cli lint [options]',
@@ -43,9 +43,9 @@ module.exports = api => {
 
     return Promise.all(promises);
   });
-};
+}
 
-module.exports.lintEntry = async (api, entry, args) => {
+export async function lintEntry(api, entry, args) {
   const linter = entry.handler;
   const normalizedEntry = normalizeEntrySrc(entry);
   const filesToLint = normalizedEntry.src;
@@ -63,7 +63,7 @@ module.exports.lintEntry = async (api, entry, args) => {
   }
 
   return linters[linter]()(api, args, filesToLint);
-};
+}
 
 function normalizeEntrySrc(entry) {
   entry = { ...entry };

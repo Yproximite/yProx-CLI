@@ -1,7 +1,7 @@
-const API = require('./API');
-const { displayHelp, displayCommandHelp } = require('./utils/cli');
+import API from './API';
+import { displayCommandHelp, displayHelp } from './utils/cli';
 
-class Cli {
+export default class CLI {
   constructor(context) {
     this.context = context;
     this.initialized = false;
@@ -50,5 +50,3 @@ class Cli {
     }
   }
 }
-
-module.exports = Cli;

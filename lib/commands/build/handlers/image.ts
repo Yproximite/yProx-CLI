@@ -1,8 +1,8 @@
-const gulp = require('gulp');
-const gulpIf = require('gulp-if');
-const imagemin = require('gulp-imagemin');
+import gulp from 'gulp';
+import gulpIf from 'gulp-if';
+import imagemin from 'gulp-imagemin';
 
-module.exports = (api, entry, args) => {
+export default (api, entry, args) => {
   const imageminPlugins = [
     imagemin.gifsicle(api.projectOptions.gifsicle),
     imagemin.jpegtran(api.projectOptions.jpegtran),
@@ -13,4 +13,4 @@ module.exports = (api, entry, args) => {
   return gulp.src(entry.src)
     .pipe(gulpIf(api.isProduction(), imagemin(imageminPlugins)))
     .pipe(gulp.dest(entry.dest));
-};
+}

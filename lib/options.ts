@@ -23,39 +23,41 @@ const schema = joi.object().keys({
   svgo: joi.object(),
 });
 
-module.exports.validate = (options, cb) => {
+export function validate(options, cb) {
   joi.validate(options, schema, cb);
-};
+}
 
-module.exports.defaults = () => ({
-  path: {},
-  handlers: {
-    sass: {},
-    rollup: {
-      nodeResolve: {}, // https://github.com/rollup/rollup-plugin-node-resolve
-      commonjs: {}, // https://github.com/rollup/rollup-plugin-commonjs
-      json: {}, // https://github.com/rollup/rollup-plugin-json#usage
-      vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
-      shims: {},
+export function defaults() {
+  return {
+    path: {},
+    handlers: {
+      sass: {},
+      rollup: {
+        nodeResolve: {}, // https://github.com/rollup/rollup-plugin-node-resolve
+        commonjs: {}, // https://github.com/rollup/rollup-plugin-commonjs
+        json: {}, // https://github.com/rollup/rollup-plugin-json#usage
+        vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
+        shims: {},
+      },
     },
-  },
-  buble: {},
-  autoprefixer: {},
-  cssnano: {
-    safe: true,
-    autoprefixer: false,
-  },
-  terser: {},
-  gifsicle: {
-    interlaced: true,
-  },
-  jpegtran: {
-    progressive: true,
-  },
-  optipng: {
-    optimizationLevel: 5,
-  },
-  svgo: {
-    plugins: [{ removeViewBox: true }],
-  },
-});
+    buble: {},
+    autoprefixer: {},
+    cssnano: {
+      safe: true,
+      autoprefixer: false,
+    },
+    terser: {},
+    gifsicle: {
+      interlaced: true,
+    },
+    jpegtran: {
+      progressive: true,
+    },
+    optipng: {
+      optimizationLevel: 5,
+    },
+    svgo: {
+      plugins: [{ removeViewBox: true }],
+    },
+  };
+}

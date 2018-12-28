@@ -1,21 +1,4 @@
-const readEntryFile = (api, entryName, entries) => {
-  if (typeof entries === 'string') {
-    entries = require(api.resolve(entries));
-  }
-  if (typeof entries === 'function') {
-    entries = entries(api, api.projectOptions);
-  }
-
-  return entries.map(entry => {
-      entry._name = entryName;
-      entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
-      entry.dest = api.resolve(entry.dest);
-
-      return entry;
-    });
-};
-
-module.exports.readAssets = (api, args) => {
+export function readAssets(api, args) {
   let assets = [];
 
   Object
@@ -31,7 +14,7 @@ module.exports.readAssets = (api, args) => {
       const attrToFilter = argKey.split(':')[1];
 
       if (Array.isArray(argValue)) {
-        api.logger.log(`Filtering assets where \`['${argValue.join("', '")}'].includes(asset.${attrToFilter})\``);
+        api.logger.log(`Filtering assets where \`['${argValue.join('\', \'')}'].includes(asset.${attrToFilter})\``);
       } else {
         api.logger.log(`Filtering assets where \`asset.${attrToFilter} === '${argValue}'\``);
       }
@@ -48,4 +31,21 @@ module.exports.readAssets = (api, args) => {
     });
 
   return assets;
+}
+
+function readEntryFile(api, entryName, entries) {
+  if (typeof entries === 'string') {
+    entries = require(api.resolve(entries));
+  }
+  if (typeof entries === 'function') {
+    entries = entries(api, api.projectOptions);
+  }
+
+  return entries.map(entry => {
+    entry._name = entryName;
+    entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
+    entry.dest = api.resolve(entry.dest);
+
+    return entry;
+  });
 };

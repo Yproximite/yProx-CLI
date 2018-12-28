@@ -1,8 +1,8 @@
-const { readAssets } = require('../../utils/assets');
-const handle = require('./handle');
-const watch = require('./watch');
+import { readAssets } from '../../utils/assets';
+import handle from './handle';
+import watch from './watch';
 
-module.exports = api => {
+export default api => {
   api.registerCommand('build', {
     description: 'build files',
     usage: 'yprox-cli build [options]',
@@ -24,4 +24,4 @@ module.exports = api => {
       });
     });
   });
-};
+}

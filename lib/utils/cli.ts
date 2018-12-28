@@ -1,7 +1,8 @@
-const chalk = require('chalk');
+import chalk from 'chalk';
+
 const CLI_BIN = 'yprox-cli';
 
-module.exports.displayHelp = (commands) => {
+export function displayHelp(commands) {
   console.log(chalk`\n  Usage: {green ${CLI_BIN} [command] [options]}\n`);
 
   displayOptions({
@@ -12,12 +13,12 @@ module.exports.displayHelp = (commands) => {
   displayCommands(commands);
 
   console.log(chalk`  run {green ${CLI_BIN} [command] --help} for usage of a specific command\n`);
-};
+}
 
-module.exports.displayCommandHelp = (commandName, command) => {
+export function displayCommandHelp(commandName, command) {
   console.log(chalk`\n  Usage: {green ${CLI_BIN} ${commandName} [options]}\n`);
   displayOptions(command.opts.options);
-};
+}
 
 function displayCommands(commands) {
   displaySectionTable('Commands', commands, (entry) => [entry[0], entry[1].opts.description]);

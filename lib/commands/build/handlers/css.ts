@@ -1,12 +1,12 @@
-const gulp = require('gulp');
-const gulpIf = require('gulp-if');
-const concat = require('gulp-concat');
-const postcss = require('gulp-postcss');
-const sourcemaps = require('gulp-sourcemaps');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import gulpIf from 'gulp-if';
+import postcss from 'gulp-postcss';
+import sourcemaps from 'gulp-sourcemaps';
 
-module.exports = (api, entry, args) => {
+export default (api, entry, args) => {
   let stream = gulp.src(entry.src);
 
   if (entry.concat) {
@@ -29,4 +29,4 @@ module.exports = (api, entry, args) => {
   ;
 
   return stream;
-}
+};

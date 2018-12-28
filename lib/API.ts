@@ -1,12 +1,19 @@
-const fs = require('fs');
-const { resolve } = require('path');
-const { defaults: defaultsOptions, validate: validateOptions } = require('./options');
-const loadEnv = require('./utils/loadEnv');
-const Logger = require('@kocal/logger');
-const defaultsDeep = require('defaults-deep');
+import Logger from '@kocal/logger';
+import defaultsDeep from 'defaults-deep';
+import fs from 'fs';
+import { resolve } from 'path';
+import { defaults as defaultsOptions, validate as validateOptions } from './options';
+import loadEnv from './utils/loadEnv';
 
-class API {
-  constructor(context, mode = 'development', verbose = false) {
+export default class API {
+  private readonly plugins: any[];
+  private readonly commands: any[];
+  private readonly context: string;
+  private readonly mode: string;
+  private readonly verbose: boolean;
+  private readonly logger: any;
+
+  constructor(context: string, mode = 'development', verbose = false) {
     this.plugins = [];
     this.commands = [];
     this.context = context;
@@ -83,7 +90,7 @@ class API {
     }
 
     if (pkgConfig !== null && fileConfig !== null) {
-      cb(new Error("You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time."));
+      cb(new Error('You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time.'));
       return;
     }
 
@@ -151,8 +158,6 @@ class API {
     });
   }
 }
-
-module.exports = API;
 
 function initLogger(verbose = false) {
   return Logger.getLogger('yprox-cli', {

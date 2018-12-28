@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   js: () => require('./js'),
   css: () => require('./css'),
   sass: () => require('./sass'),

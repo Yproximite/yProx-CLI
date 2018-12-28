@@ -1,15 +1,15 @@
-const handlers = require('./handlers');
-const { lintEntry } = require('../lint');
+import { lintEntry } from '../lint';
+import handlers from './handlers';
 
-module.exports = async (api, entry, args) => {
+export default async (api, entry, args) => {
   if (!(entry.handler in handlers)) {
-    throw new Error(`Handler "${entry.handler}" do not exists.`);
+    throw new Error(`Handler "${ entry.handler }" do not exists.`);
   }
 
   if (args.lint) {
     try {
       await lintEntry(api, entry, args);
-    } catch(err) {
+    } catch (err) {
       api.logger.error(err.message);
       return process.exit(1);
     }
@@ -25,5 +25,5 @@ module.exports = async (api, entry, args) => {
     }
   }
 
-  return handlers[entry.handler]()(api, entry, args)
-};
+  return handlers[entry.handler]()(api, entry, args);
+}

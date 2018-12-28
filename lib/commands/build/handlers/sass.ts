@@ -1,15 +1,16 @@
-const gulp = require('gulp');
-const sass = require('gulp-sass');
-const gulpIf = require('gulp-if');
-const concat = require('gulp-concat');
-const postcss = require('gulp-postcss');
-const sourcemaps = require('gulp-sourcemaps');
-const autoprefixer = require('autoprefixer');
-const cssnano = require('cssnano');
-const tildeImporter = require('node-sass-tilde-importer');
-const { getEntryName } = require('../../../utils/entry');
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import gulpIf from 'gulp-if';
+import postcss from 'gulp-postcss';
+import sass from 'gulp-sass';
+import sourcemaps from 'gulp-sourcemaps';
+import tildeImporter from 'node-sass-tilde-importer';
 
-module.exports = (api, entry, args) => {
+import { getEntryName } from '../../../utils/entry';
+
+export default (api, entry, args) => {
   const sassOptions = Object.assign({
     importer: tildeImporter,
   }, api.projectOptions.handlers.sass);
@@ -37,4 +38,4 @@ module.exports = (api, entry, args) => {
     .pipe(postcss(postcssPlugins))
     .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
     .pipe(gulp.dest(entry.dest));
-};
+}

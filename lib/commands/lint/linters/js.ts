@@ -1,6 +1,6 @@
-const { CLIEngine } = require('eslint');
+import { CLIEngine } from 'eslint';
 
-module.exports = (api, args, files) => {
+export default (api, args, files) => {
   const config = {
     cwd: api.context,
     fix: !!args.fix || false,
@@ -26,4 +26,4 @@ module.exports = (api, args, files) => {
       resolve();
     }
   });
-};
+}

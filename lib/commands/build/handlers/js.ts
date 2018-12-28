@@ -1,15 +1,15 @@
-const gulp = require('gulp');
-const gulpIf = require('gulp-if');
-const concat = require('gulp-concat');
-const terser = require('gulp-terser');
-const sourcemaps = require('gulp-sourcemaps');
-const { getEntryName } = require('../../../utils/entry');
+import gulp from 'gulp';
+import concat from 'gulp-concat';
+import gulpIf from 'gulp-if';
+import sourcemaps from 'gulp-sourcemaps';
+import terser from 'gulp-terser';
+import { getEntryName } from '../../../utils/entry';
 
-module.exports = (api, entry, args) => {
+export default (api, entry, args) => {
   let stream = gulp.src(entry.src)
-    .on('end', () => api.logger.info(`js :: finished bundle "${getEntryName(entry)}"`));
+    .on('end', () => api.logger.info(`js :: finished bundle "${ getEntryName(entry) }"`));
 
-  api.logger.info(`js :: start bundling "${getEntryName(entry)}"`);
+  api.logger.info(`js :: start bundling "${ getEntryName(entry) }"`);
 
   if (entry.concat) {
     stream = stream.pipe(concat(entry.concat));
@@ -23,4 +23,4 @@ module.exports = (api, entry, args) => {
   ;
 
   return stream;
-};
+}

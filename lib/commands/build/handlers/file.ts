@@ -1,6 +1,6 @@
-const gulp = require('gulp');
+import gulp from 'gulp';
 
-module.exports = (api, entry, args) => {
+export default (api: API, entry: Entry, args: Args) => {
   return gulp.src(entry.src)
     .pipe(gulp.dest(entry.dest));
-};
+}
