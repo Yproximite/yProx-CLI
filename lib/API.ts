@@ -1,4 +1,4 @@
-import Logger from '@kocal/logger';
+import Logger, { Context, Variables } from '@kocal/logger';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
 import { resolve } from 'path';
@@ -11,7 +11,8 @@ export default class API {
   private readonly context: string;
   private readonly mode: string;
   private readonly verbose: boolean;
-  private readonly logger: any;
+  private readonly logger: Logger;
+  public readonly projectOptions: {};
 
   constructor(context: string, mode = 'development', verbose = false) {
     this.plugins = [];
@@ -20,7 +21,9 @@ export default class API {
     this.mode = mode;
     this.verbose = verbose;
     this.logger = initLogger(this.verbose);
-    this.loadUserOptions(err => {
+    this.loadUserOptions((err, config) => {
+      this.projectOptions = config;
+
       if (err) {
         this.logger.error('Your configuration is invalid.');
         if (err.message) {
@@ -95,9 +98,8 @@ export default class API {
     }
 
     const config = defaultsDeep(defaultsOptions(), pkgConfig || fileConfig || {});
-    validateOptions(config, cb);
 
-    this.projectOptions = config;
+    validateOptions(config, err => cb(err, config));
   }
 
   /**
@@ -159,9 +161,9 @@ export default class API {
   }
 }
 
-function initLogger(verbose = false) {
+function initLogger(verbose = false): Logger {
   return Logger.getLogger('yprox-cli', {
     level: verbose ? 'log' : 'info',
-    format: (ctx, variables) => `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`,
+    format: (ctx: Context, variables: Variables) => `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`,
   });
 }

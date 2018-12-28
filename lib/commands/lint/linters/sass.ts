@@ -1,5 +1,5 @@
 import { dirname } from 'path';
-import stylelint from 'stylelint';
+import stylelint, { FormatterType } from 'stylelint';
 import stylelintFormatter from 'stylelint-formatter-pretty';
 
 export default (api, args, files) => {

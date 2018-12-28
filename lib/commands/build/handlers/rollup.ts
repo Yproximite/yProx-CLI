@@ -2,7 +2,7 @@ import rollup from 'rollup';
 import builtins from 'rollup-plugin-node-builtins';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import graphql from 'rollup-plugin-graphql/dist/rollup-plugin-graphql.cjs';
+import graphql from 'rollup-plugin-graphql';
 import json from 'rollup-plugin-json';
 import globals from 'rollup-plugin-node-globals';
 import replace from 'rollup-plugin-replace';
