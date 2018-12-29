@@ -5,8 +5,9 @@ import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import postcss from 'gulp-postcss';
 import sourcemaps from 'gulp-sourcemaps';
+import API from '../../../API';
 
-export default (api, entry, args) => {
+export default (api: API, entry: EntryCSS, args: CLIArgs) => {
   let stream = gulp.src(entry.src);
 
   if (entry.concat) {

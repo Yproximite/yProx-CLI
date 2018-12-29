@@ -1,9 +1,10 @@
 import { dirname } from 'path';
-import { readAssets } from '../../utils/assets';
+import API from '../../API';
 import { flatten, groupBy } from '../../utils/array';
+import { readEntries } from '../../utils/entry';
 import linters from './linters';
 
-export default api => {
+export default (api: API) => {
   api.registerCommand('lint', {
     description: 'lint source files',
     usage: 'yprox-cli lint [options]',
@@ -12,12 +13,12 @@ export default api => {
       ...require('../commonOptions'),
     },
   }, args => {
-    const entriesByHandler = readAssets(api, args)
+    const entriesByHandler = readEntries(api, args)
       .filter(({ handler }) => Object.keys(linters).includes(handler))
       .map(normalizeEntrySrc)
       .reduce(groupBy('handler'), {});
 
-    const promises = [];
+    const promises: Promise<any>[] = [];
 
     Object.entries(entriesByHandler).forEach(([handler, entries]) => {
       if (!(handler in linters)) {

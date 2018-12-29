@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const CLI = require('../lib/CLI');
+import CLI from '../lib/CLI';
 
 const args = require('minimist')(process.argv.slice(2), {
   boolean: [
@@ -14,7 +14,7 @@ const command = args._[0];
 
 const cli = new CLI(process.cwd());
 
-cli.run(command, args).catch(err => {
+cli.run(command, args).catch((err: Error) => {
   console.error(err);
   process.exit(1);
 });

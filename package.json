@@ -13,7 +13,7 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "build": "tsc",
+    "build": "tsc; chmod +x ./dist/bin/yprox-cli.js",
     "watch": "tsc --watch",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"

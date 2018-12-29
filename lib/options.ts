@@ -1,4 +1,5 @@
-const joi = require('joi');
+import joi, { ValidationError } from 'joi';
+import { ProjectOptions } from '../types';
 
 const schema = joi.object().keys({
   assets: joi.object(),
@@ -23,11 +24,11 @@ const schema = joi.object().keys({
   svgo: joi.object(),
 });
 
-export function validate(options, cb) {
+export function validate(options: ProjectOptions, cb: (err: ValidationError) => void) {
   joi.validate(options, schema, cb);
 }
 
-export function defaults() {
+export function defaults(): ProjectOptions {
   return {
     path: {},
     handlers: {

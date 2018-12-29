@@ -1,8 +1,8 @@
 export default {
-  js: () => require('./js'),
-  css: () => require('./css'),
-  sass: () => require('./sass'),
-  file: () => require('./file'),
-  image: () => require('./image'),
-  rollup: () => require('./rollup'),
+  js: () => require('./js').default,
+  css: () => require('./css').default,
+  sass: () => require('./sass').default,
+  file: () => require('./file').default,
+  image: () => require('./image').default,
+  rollup: () => require('./rollup').default,
 };

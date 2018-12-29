@@ -1,10 +1,8 @@
 /**
  * Should be used in Array#reduce().
- * @param {String} key
- * @return {Function}
  */
-export function groupBy(key) {
-  return (acc, item) => {
+export function groupBy(key: string): (acc: { [k: string]: any }, item: any) => { [k: string]: any } {
+  return (acc: { [k: string]: any }, item: any) => {
     const value = item[key];
 
     if (!acc[value]) {
@@ -19,10 +17,10 @@ export function groupBy(key) {
 
 /**
  * Should be used in Array#reduce().
- * @return {Function}
  */
 export function flatten() {
-  return (acc, values) => {
+  return (acc: [], values: []) => {
+    // @ts-ignore
     acc = acc.concat(values);
     return acc;
   };

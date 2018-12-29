@@ -1,8 +1,9 @@
 import { dirname } from 'path';
-import stylelint, { FormatterType } from 'stylelint';
+import stylelint from 'stylelint';
 import stylelintFormatter from 'stylelint-formatter-pretty';
+import API from '../../../API';
 
-export default (api, args, files) => {
+export default (api: API, args: CLIArgs, files: string[]) => {
   const config = {
     files: files.map(file => `${dirname(file)}/**/*.{scss,sass}`),
     formatter: stylelintFormatter,

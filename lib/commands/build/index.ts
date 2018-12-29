@@ -1,8 +1,9 @@
-import { readAssets } from '../../utils/assets';
+import API from '../../API';
+import { readEntries } from '../../utils/entry';
 import handle from './handle';
 import watch from './watch';
 
-export default api => {
+export default (api: API) => {
   api.registerCommand('build', {
     description: 'build files',
     usage: 'yprox-cli build [options]',
@@ -13,7 +14,7 @@ export default api => {
     },
   }, args => {
     return new Promise(() => {
-      const assets = readAssets(api, args);
+      const assets = readEntries(api, args);
 
       assets.forEach(entry => {
         if (args.watch && !['rollup'].includes(entry.handler)) { // we gonna use their own watcher

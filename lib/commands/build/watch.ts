@@ -1,7 +1,8 @@
 import path from 'path';
 import watch from 'gulp-watch';
+import API from '../../API';
 
-export default (api, entry, args) => {
+export default (api: API, entry: EntryJS, args: CLIArgs) => {
   return (build) => {
     const doBuild = () => build(api, entry, args);
 
@@ -17,7 +18,12 @@ export default (api, entry, args) => {
     // Build at least one time... :)
     doBuild();
 
-    return watch(filesToWatch, { usePolling: true, ignored: ['**/node_modules/**'] }, (file) => {
+    const chokidarOpts = {
+      usePolling: true,
+      ignored: ['**/node_modules/**']
+    };
+
+    return watch(filesToWatch, chokidarOpts, (file) => {
       const normalizedFilePath = file.path.replace(process.cwd(), '').replace(/^[\\/]+/, '');
       api.logger.info(`watch :: file "${normalizedFilePath}" has been modified`);
       api.logger.info(`watch :: handling ""${filesToWatch}"`);

@@ -1,29 +1,29 @@
 import Logger, { Context, Variables } from '@kocal/logger';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
+import { ValidationError } from 'joi';
 import { resolve } from 'path';
+import { ProjectOptions } from '../types';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
 import loadEnv from './utils/loadEnv';
 
 export default class API {
-  private readonly plugins: any[];
-  private readonly commands: any[];
-  private readonly context: string;
-  private readonly mode: string;
-  private readonly verbose: boolean;
-  private readonly logger: Logger;
-  public readonly projectOptions: {};
+  public readonly context: string;
+  public readonly mode: string;
+  public readonly verbose: boolean;
+  public readonly commands: { [commandName: string]: CLICommand };
+  public readonly logger: Logger;
+  public projectOptions!: ProjectOptions;
+  private plugins: any[];
 
   constructor(context: string, mode = 'development', verbose = false) {
     this.plugins = [];
-    this.commands = [];
+    this.commands = {};
     this.context = context;
     this.mode = mode;
     this.verbose = verbose;
     this.logger = initLogger(this.verbose);
-    this.loadUserOptions((err, config) => {
-      this.projectOptions = config;
-
+    this.loadUserOptions((err: ValidationError, config?: ProjectOptions) => {
       if (err) {
         this.logger.error('Your configuration is invalid.');
         if (err.message) {
@@ -35,24 +35,30 @@ export default class API {
 
         process.exit(1);
       }
+
+      if (!config) {
+        throw new Error('This should not happens.');
+      }
+
+      this.projectOptions = config;
     });
     this.loadEnv();
     this.resolvePlugins();
   }
 
-  isProduction() {
+  public isProduction(): boolean {
     return process.env.NODE_ENV === 'production';
   }
 
-  resolve(path) {
+  public resolve(path: string): string {
     return resolve(this.context, path);
   }
 
-  registerCommand(commandName, opts, fn) {
-    this.commands[commandName] = { opts, fn };
+  public registerCommand(commandName: string, opts: CLICommandOpts, fn: CLICommandFunction) {
+    this.commands[commandName] = { opts, fn, name: commandName };
   }
 
-  executeCommand(commandName, params) {
+  public executeCommand(commandName: string, args: CLIArgs) {
     if (!commandName) {
       throw new Error('You must specify a command to run.');
     }
@@ -62,13 +68,10 @@ export default class API {
       throw new Error(`Command "${commandName}" does not exist.`);
     }
 
-    return command.fn(params);
+    return command.fn(args);
   }
 
-  /**
-   * @private
-   */
-  loadUserOptions(cb) {
+  private loadUserOptions(cb: (err: ValidationError, config?: ProjectOptions) => void): void {
     let pkgConfig = null;
     let fileConfig = null;
 
@@ -93,20 +96,17 @@ export default class API {
     }
 
     if (pkgConfig !== null && fileConfig !== null) {
-      cb(new Error('You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time.'));
+      cb(new Error('You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time.') as ValidationError);
       return;
     }
 
-    const config = defaultsDeep(defaultsOptions(), pkgConfig || fileConfig || {});
+    const config = defaultsDeep(defaultsOptions(), pkgConfig || fileConfig || {}) as ProjectOptions;
 
     validateOptions(config, err => cb(err, config));
   }
 
-  /**
-   * @private
-   */
-  loadEnv() {
-    const load = filename => {
+  private loadEnv(): void {
+    const load = (filename: string) => {
       const path = this.resolve(filename);
 
       if (fs.existsSync(path)) {
@@ -138,25 +138,22 @@ export default class API {
     }
   }
 
-  getSafeEnvVars() {
+  getSafeEnvVars(): { [k: string]: any } {
     const validKeys = Object.keys(process.env).filter(key => key === 'NODE_ENV' || key.startsWith('APP_'));
-    return validKeys.reduce((acc, key) => {
+    return validKeys.reduce((acc: { [k: string]: any }, key) => {
       acc[key] = process.env[key];
       return acc;
     }, {});
   }
 
-  /**
-   * @private
-   */
-  resolvePlugins() {
+  private resolvePlugins(): void {
     this.plugins = [
       './commands/build',
       './commands/lint',
     ];
 
     this.plugins.forEach(plugin => {
-      require(plugin)(this);
+      require(plugin).default(this);
     });
   }
 }

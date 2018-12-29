@@ -3,13 +3,14 @@ import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import sourcemaps from 'gulp-sourcemaps';
 import terser from 'gulp-terser';
+import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
-export default (api, entry, args) => {
+export default (api: API, entry: EntryJS, args: CLIArgs) => {
   let stream = gulp.src(entry.src)
-    .on('end', () => api.logger.info(`js :: finished bundle "${ getEntryName(entry) }"`));
+    .on('end', () => api.logger.info(`js :: finished bundle "${getEntryName(entry)}"`));
 
-  api.logger.info(`js :: start bundling "${ getEntryName(entry) }"`);
+  api.logger.info(`js :: start bundling "${getEntryName(entry)}"`);
 
   if (entry.concat) {
     stream = stream.pipe(concat(entry.concat));

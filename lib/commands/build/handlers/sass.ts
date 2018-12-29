@@ -7,10 +7,11 @@ import postcss from 'gulp-postcss';
 import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import tildeImporter from 'node-sass-tilde-importer';
+import API from '../../../API';
 
 import { getEntryName } from '../../../utils/entry';
 
-export default (api, entry, args) => {
+export default (api: API, entry: EntrySass, args: CLIArgs) => {
   const sassOptions = Object.assign({
     importer: tildeImporter,
   }, api.projectOptions.handlers.sass);

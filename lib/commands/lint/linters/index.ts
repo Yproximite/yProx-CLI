@@ -1,5 +1,5 @@
 export default {
-  js: () => require('./js'),
-  rollup: () => require('./js'),
-  sass: () => require('./sass'),
+  js: () => require('./js').default,
+  rollup: () => require('./js').default,
+  sass: () => require('./sass').default,
 };
