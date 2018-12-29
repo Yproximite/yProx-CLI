@@ -1,9 +1,10 @@
-import path from 'path';
 import watch from 'gulp-watch';
+import path from 'path';
 import API from '../../API';
+import File from 'vinyl';
 
 export default (api: API, entry: EntryJS, args: CLIArgs) => {
-  return (build) => {
+  return (build: (api: API, entry: EntryJS, args: CLIArgs) => void) => {
     const doBuild = () => build(api, entry, args);
 
     let filesToWatch = entry.src;
@@ -20,10 +21,11 @@ export default (api: API, entry: EntryJS, args: CLIArgs) => {
 
     const chokidarOpts = {
       usePolling: true,
-      ignored: ['**/node_modules/**']
+      ignored: ['**/node_modules/**'],
     };
 
-    return watch(filesToWatch, chokidarOpts, (file) => {
+    // @ts-ignore
+    return watch(filesToWatch, chokidarOpts, (file: File) => {
       const normalizedFilePath = file.path.replace(process.cwd(), '').replace(/^[\\/]+/, '');
       api.logger.info(`watch :: file "${normalizedFilePath}" has been modified`);
       api.logger.info(`watch :: handling ""${filesToWatch}"`);
@@ -31,4 +33,4 @@ export default (api: API, entry: EntryJS, args: CLIArgs) => {
       return doBuild();
     });
   };
-}
+};

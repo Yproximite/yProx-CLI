@@ -1,16 +1,18 @@
+import { Asset } from '../../types';
 import API from '../API';
 
-export function readAssetDef(api: API, assetName: string, assetDef: Asset) {
-  if (typeof assetDef === 'string') {
-    assetDef = require(api.resolve(assetDef));
-  }
-  if (typeof assetDef === 'function') {
-    assetDef = assetDef(api, api.projectOptions);
-  }
+export function readAssetDef(api: API, assetName: string, asset: Asset) {
+  let entries = asset;
 
-  const entries = assetDef as Entry[];
+  if (typeof entries === 'string') {
+    entries = require(api.resolve(entries));
+  }
+  if (typeof entries === 'function') {
+    entries = entries(api, api.projectOptions);
+  }
+  entries = entries as Entry[];
 
-  return entries.map(entry => {
+  return entries.map((entry) => {
     entry._name = assetName;
     entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
     entry.dest = api.resolve(entry.dest);

@@ -24,4 +24,4 @@ export default (api: API, entry: EntryJS, args: CLIArgs) => {
   ;
 
   return stream;
-}
+};

@@ -1,4 +1,4 @@
-import { rollup, RollupSingleFileBuild } from 'rollup';
+import * as rollup from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
 import graphql from 'rollup-plugin-graphql';
@@ -52,19 +52,20 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
     globals: rollupOptions.shims,
   });
 
-  const writeBundle = (bundle: RollupSingleFileBuild) => bundle.write(getOutputOptions());
+  const writeBundle = (bundle: rollup.RollupSingleFileBuild) => bundle.write(getOutputOptions());
 
   const build = () => {
     api.logger.info(`rollup :: start bundling "${getEntryName(entry)}"`);
 
-    return rollup(getInputOptions())
+    return rollup.rollup(getInputOptions())
       .then(bundle => writeBundle(bundle))
       .then(() => {
         api.logger.info(`rollup :: finished bundle "${getEntryName(entry)}"`);
       })
-      .catch(err => {
+      .catch((err: rollup.RollupError) => {
         api.logger.error(err.message);
         if (err.loc) api.logger.error(err.loc);
+        // @ts-ignore
         if (err.snippet) api.logger.error(err.snippet);
 
         console.log(err);
@@ -87,6 +88,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
       },
     });
 
+    // @ts-ignore
     const watcher = rollup.watch(watchOptions);
 
     watcher.on('event', (e) => {
@@ -97,11 +99,11 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
       } else if (code === 'BUNDLE_END') {
         api.logger.info(`rollup (watch) :: finished bundle "${getEntryName(entry)}"`);
       } else if (['ERROR', 'FATAL'].includes(code)) {
-        api.logger.error(`rollup (watch) :: something wrong happens`);
+        api.logger.error('rollup (watch) :: something wrong happens');
         api.logger.error(e);
       }
     });
   };
 
   return args.watch ? watch() : build();
-}
+};

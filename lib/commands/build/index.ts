@@ -12,11 +12,11 @@ export default (api: API) => {
       '--lint': 'lint before build, if lint fails, files will not be build',
       ...require('../commonOptions'),
     },
-  }, args => {
+  }, (args: CLIArgs) => {
     return new Promise(() => {
-      const assets = readEntries(api, args);
+      const entries = readEntries(api, args);
 
-      assets.forEach(entry => {
+      entries.forEach((entry) => {
         if (args.watch && !['rollup'].includes(entry.handler)) { // we gonna use their own watcher
           watch(api, entry, args)(handle);
         } else {
@@ -25,4 +25,4 @@ export default (api: API) => {
       });
     });
   });
-}
+};

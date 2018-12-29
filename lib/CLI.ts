@@ -35,8 +35,8 @@ export default class CLI {
       }
 
       return this.api.executeCommand(commandName, args)
-        .then(() => resolve())
-        .catch(err => reject(err));
+        .then(resolve)
+        .catch(reject);
     });
   }
 

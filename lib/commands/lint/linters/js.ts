@@ -1,6 +1,7 @@
 import { CLIEngine } from 'eslint';
+import API from '../../../API';
 
-export default (api, args, files) => {
+export default (api: API, args: CLIArgs, files: string[]) => {
   const config = {
     cwd: api.context,
     fix: !!args.fix || false,
@@ -12,7 +13,7 @@ export default (api, args, files) => {
   return new Promise((resolve, reject) => {
     const engine = new CLIEngine(config);
     const report = engine.executeOnFiles(files);
-    const formatter = engine.getFormatter(args.format || 'codeframe');
+    const formatter = engine.getFormatter('codeframe');
 
     if (config.fix) {
       CLIEngine.outputFixes(report);
@@ -26,4 +27,4 @@ export default (api, args, files) => {
       resolve();
     }
   });
-}
+};

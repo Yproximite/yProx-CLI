@@ -4,7 +4,7 @@ import handlers from './handlers';
 
 export default async (api: API, entry: EntryJS, args: CLIArgs) => {
   if (!(entry.handler in handlers)) {
-    throw new Error(`Handler "${ entry.handler }" do not exists.`);
+    throw new Error(`Handler "${entry.handler}" do not exists.`);
   }
 
   if (args.lint) {
@@ -16,5 +16,5 @@ export default async (api: API, entry: EntryJS, args: CLIArgs) => {
     }
   }
 
-  return handlers[entry.handler]()(api, entry, args);
-}
+  return (handlers as any)[entry.handler]()(api, entry, args);
+};

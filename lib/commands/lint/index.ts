@@ -12,20 +12,16 @@ export default (api: API) => {
       '--fix': 'automatically fix lint errors',
       ...require('../commonOptions'),
     },
-  }, args => {
-    const entriesByHandler = readEntries(api, args)
-      .filter(({ handler }) => Object.keys(linters).includes(handler))
-      .map(normalizeEntrySrc)
+  }, (args) => {
+    const entriesByHandler: { [k: string]: Entry[] } = readEntries(api, args)
+      .filter(({ handler }) => handler in linters)
+      .map(normalizeEntry)
       .reduce(groupBy('handler'), {});
 
     const promises: Promise<any>[] = [];
 
     Object.entries(entriesByHandler).forEach(([handler, entries]) => {
-      if (!(handler in linters)) {
-        return;
-      }
       const linter = handler;
-
       const files = entries
         .filter(entry => !entry.skip_lint)
         .map(entry => entry.src)
@@ -35,8 +31,8 @@ export default (api: API) => {
         return;
       }
 
-      promises.push(linters[linter]()(api, args, files)
-        .catch(err => {
+      promises.push((linters as any)[linter]()(api, args, files)
+        .catch((err: Error) => {
           api.logger.error(`lint (${linter}) :: ${err.message}`);
           throw err;
         }));
@@ -44,11 +40,11 @@ export default (api: API) => {
 
     return Promise.all(promises);
   });
-}
+};
 
-export async function lintEntry(api, entry, args) {
+export async function lintEntry(api: API, entry: Entry, args: CLIArgs) {
   const linter = entry.handler;
-  const normalizedEntry = normalizeEntrySrc(entry);
+  const normalizedEntry = normalizeEntry(entry);
   const filesToLint = normalizedEntry.src;
 
   if (!(linter in linters)) {
@@ -63,14 +59,20 @@ export async function lintEntry(api, entry, args) {
     return;
   }
 
-  return linters[linter]()(api, args, filesToLint);
+  return (linters as any)[linter]()(api, args, filesToLint);
 }
 
-function normalizeEntrySrc(entry) {
-  entry = { ...entry };
+function normalizeEntry(e: Entry) {
+  const entry = { ...e };
 
   if (entry.handler === 'rollup') {
-    entry.src = entry.src.map(src => !src.endsWith('index.js') ? src : `${dirname(src)}/**/*.{js,vue}`);
+    entry.src = entry.src.map((src) => {
+      if (src.endsWith('index.js')) {
+        return `${dirname(src)}/**/*.{js,vue}`;
+      }
+
+      return src;
+    });
   }
 
   entry.src = entry.src.filter(src => !/node_modules/.test(src));

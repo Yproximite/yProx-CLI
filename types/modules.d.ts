@@ -1,5 +1,5 @@
 interface Options {
-  [k: string]: any
+  [k: string]: any;
 }
 
 declare module 'gulp-postcss' {
@@ -81,7 +81,7 @@ declare module '@kocal/logger' {
     luxon: any;
   }
 
-  export type Variables = { [k: string]: any } | (() => { [k: string]: any })
+  export type Variables = { [k: string]: any } | (() => { [k: string]: any });
 
   class Logger {
     static getLogger(name: string, options: {}): Logger;
@@ -92,15 +92,15 @@ declare module '@kocal/logger' {
 
     setVariables(variables: Variables): void;
 
-    debug(message: string, additionalVariables?: Variables): void;
+    debug(message: any, additionalVariables?: Variables): void;
 
-    log(message: string, additionalVariables?: Variables): void;
+    log(message: any, additionalVariables?: Variables): void;
 
-    info(message: string, additionalVariables?: Variables): void;
+    info(message: any, additionalVariables?: Variables): void;
 
-    warn(message: string, additionalVariables?: Variables): void;
+    warn(message: any, additionalVariables?: Variables): void;
 
-    error(message: string, additionalVariables?: Variables): void;
+    error(message: any, additionalVariables?: Variables): void;
   }
 
   export default Logger;

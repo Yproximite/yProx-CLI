@@ -12,14 +12,17 @@ type ProjectOptions = {
   assets?: { [k: string]: Asset }
   path: { [k: string]: string }
   handlers: {
-    sass: { [k: string]: any }
+    sass: {
+      importer?: any;
+      [k: string]: any;
+    }
     rollup: {
       nodeResolve: { [k: string]: any } | boolean;
       commonjs: { [k: string]: any } | boolean;
       json: { [k: string]: any } | boolean;
       vue: { [k: string]: any } | boolean;
       shims: { [k: string]: any };
-    }
+    },
   }
   buble: { [k: string]: any }
   autoprefixer: { [k: string]: any }
@@ -29,4 +32,4 @@ type ProjectOptions = {
   jpegtran: JpegtranOptions;
   optipng: OptipngOptions;
   svgo: SvgoOptions;
-}
+};

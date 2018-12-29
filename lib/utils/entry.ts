@@ -1,3 +1,4 @@
+import { Asset } from '../../types';
 import API from '../API';
 import { readAssetDef } from './asset';
 
@@ -9,7 +10,7 @@ export function readEntries(api: API, args: CLIArgs) {
   let entries: Entry[] = [];
 
   Object
-    .entries(api.projectOptions.assets)
+    .entries(api.projectOptions.assets as { [k: string]: Asset })
     .forEach(([assetName, assetDef]) => {
       entries = entries.concat(readAssetDef(api, assetName, assetDef));
     });
@@ -26,7 +27,7 @@ export function readEntries(api: API, args: CLIArgs) {
         api.logger.log(`Filtering assets where \`asset.${attrToFilter} === '${argValue}'\``);
       }
 
-      entries = entries.filter(entry => {
+      entries = entries.filter((entry) => {
         const valueToFilter: any = entry[attrToFilter];
 
         if (Array.isArray(argValue)) {

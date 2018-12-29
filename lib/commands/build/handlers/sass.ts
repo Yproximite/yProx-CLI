@@ -35,8 +35,9 @@ export default (api: API, entry: EntrySass, args: CLIArgs) => {
   }
 
   return stream.pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+    // @ts-ignore
     .pipe(sass(sassOptions).on('error', sass.logError))
     .pipe(postcss(postcssPlugins))
     .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
     .pipe(gulp.dest(entry.dest));
-}
+};

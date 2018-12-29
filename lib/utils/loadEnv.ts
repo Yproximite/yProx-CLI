@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs';
 
-export default path => {
+export default (path: string) => {
   const config = dotenv.parse(fs.readFileSync(path));
 
   Object.entries(config).forEach(([key, value]) => {
@@ -9,4 +9,4 @@ export default path => {
       process.env[key] = value;
     }
   });
-}
+};

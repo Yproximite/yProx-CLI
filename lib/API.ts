@@ -1,7 +1,7 @@
 import Logger, { Context, Variables } from '@kocal/logger';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
-import { ValidationError } from 'joi';
+import { ValidationError, ValidationErrorItem } from 'joi';
 import { resolve } from 'path';
 import { ProjectOptions } from '../types';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
@@ -11,7 +11,7 @@ export default class API {
   public readonly context: string;
   public readonly mode: string;
   public readonly verbose: boolean;
-  public readonly commands: { [commandName: string]: CLICommand };
+  public readonly commands: CLICommands;
   public readonly logger: Logger;
   public projectOptions!: ProjectOptions;
   private plugins: any[];
@@ -29,7 +29,7 @@ export default class API {
         if (err.message) {
           this.logger.error(err.message);
         }
-        (err.details || []).forEach(detail => {
+        (err.details || []).forEach((detail: ValidationErrorItem) => {
           this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
         });
 
@@ -96,7 +96,10 @@ export default class API {
     }
 
     if (pkgConfig !== null && fileConfig !== null) {
-      cb(new Error('You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time.') as ValidationError);
+      cb(new Error(
+        'You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m' +
+        ' and \x1b[1;32mpackage.json\x1b[0m at the same time.',
+      ) as ValidationError);
       return;
     }
 
@@ -139,7 +142,10 @@ export default class API {
   }
 
   getSafeEnvVars(): { [k: string]: any } {
-    const validKeys = Object.keys(process.env).filter(key => key === 'NODE_ENV' || key.startsWith('APP_'));
+    const validKeys = Object.keys(process.env).filter((key) => {
+      return key === 'NODE_ENV' || key.startsWith('APP_');
+    });
+
     return validKeys.reduce((acc: { [k: string]: any }, key) => {
       acc[key] = process.env[key];
       return acc;
@@ -147,12 +153,12 @@ export default class API {
   }
 
   private resolvePlugins(): void {
-    this.plugins = [
+    const plugins = [
       './commands/build',
       './commands/lint',
     ];
 
-    this.plugins.forEach(plugin => {
+    plugins.forEach((plugin) => {
       require(plugin).default(this);
     });
   }
@@ -161,6 +167,9 @@ export default class API {
 function initLogger(verbose = false): Logger {
   return Logger.getLogger('yprox-cli', {
     level: verbose ? 'log' : 'info',
-    format: (ctx: Context, variables: Variables) => `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`,
+    format: (ctx: Context, variables: Variables) => {
+      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}]`
+        + ` ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
+    },
   });
 }

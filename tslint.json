@@ -1,0 +1,14 @@
+{
+  "extends": "tslint-config-airbnb",
+  "rules": {
+    "import-name": false,
+    "align": false,
+    "max-line-length": [true, 120]
+  },
+  "linterOptions": {
+    "exclude": [
+      "dist",
+      "test-app"
+    ]
+  }
+}
