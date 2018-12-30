@@ -9,9 +9,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs) => {
 
     let filesToWatch = entry.src;
     if (entry.handler === 'sass' && /\.s[ac]ss$/.test(entry.src[0])) {
-      filesToWatch = filesToWatch.concat([
-        path.join(path.dirname(entry.src[0]), '**', '**'),
-      ]);
+      filesToWatch = filesToWatch.concat([path.join(path.dirname(entry.src[0]), '**', '**')]);
     }
 
     api.logger.info(`watch :: watching "${filesToWatch}"`);

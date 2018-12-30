@@ -37,7 +37,7 @@ function displaySectionTable(title: string, dataObject: { [k: string]: any }, ha
 
   console.log(`  ${title}:\n`);
 
-  Object.entries(dataObject).forEach((option) => {
+  Object.entries(dataObject).forEach(option => {
     const [name, value] = handleOption(option);
     console.log(chalk`    {blue ${name.padEnd(maxLen)}} ${value}`);
   });

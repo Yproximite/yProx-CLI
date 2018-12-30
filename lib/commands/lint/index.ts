@@ -5,41 +5,48 @@ import { readEntries } from '../../utils/entry';
 import linters from './linters';
 
 export default (api: API) => {
-  api.registerCommand('lint', {
-    description: 'lint source files',
-    usage: 'yprox-cli lint [options]',
-    options: {
-      '--fix': 'automatically fix lint errors',
-      ...require('../commonOptions'),
+  api.registerCommand(
+    'lint',
+    {
+      description: 'lint source files',
+      usage: 'yprox-cli lint [options]',
+      options: {
+        '--fix': 'automatically fix lint errors',
+        ...require('../commonOptions'),
+      },
     },
-  }, (args) => {
-    const entriesByHandler: { [k: string]: Entry[] } = readEntries(api, args)
-      .filter(({ handler }) => handler in linters)
-      .map(normalizeEntry)
-      .reduce(groupBy('handler'), {});
+    args => {
+      const entriesByHandler: { [k: string]: Entry[] } = readEntries(api, args)
+        .filter(({ handler }) => handler in linters)
+        .map(normalizeEntry)
+        .reduce(groupBy('handler'), {});
 
-    const promises: Promise<any>[] = [];
+      const promises: Promise<any>[] = [];
 
-    Object.entries(entriesByHandler).forEach(([handler, entries]) => {
-      const linter = handler;
-      const files = entries
-        .filter(entry => !entry.skip_lint)
-        .map(entry => entry.src)
-        .reduce(flatten(), []);
+      Object.entries(entriesByHandler).forEach(([handler, entries]) => {
+        const linter = handler;
+        const files = entries
+          .filter(entry => !entry.skip_lint)
+          .map(entry => entry.src)
+          .reduce(flatten(), []);
 
-      if (files.length === 0) {
-        return;
-      }
+        if (files.length === 0) {
+          return;
+        }
 
-      promises.push((linters as any)[linter]()(api, args, files)
-        .catch((err: Error) => {
-          api.logger.error(`lint (${linter}) :: ${err.message}`);
-          throw err;
-        }));
-    });
+        promises.push(
+          (linters as any)
+            [linter]()(api, args, files)
+            .catch((err: Error) => {
+              api.logger.error(`lint (${linter}) :: ${err.message}`);
+              throw err;
+            })
+        );
+      });
 
-    return Promise.all(promises);
-  });
+      return Promise.all(promises);
+    }
+  );
 };
 
 export async function lintEntry(api: API, entry: Entry, args: CLIArgs) {
@@ -66,7 +73,7 @@ function normalizeEntry(e: Entry) {
   const entry = { ...e };
 
   if (entry.handler === 'rollup') {
-    entry.src = entry.src.map((src) => {
+    entry.src = entry.src.map(src => {
       if (src.endsWith('index.js')) {
         return `${dirname(src)}/**/*.{js,vue}`;
       }

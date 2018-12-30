@@ -26,12 +26,14 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
     if (typeof rollupOptions.vue === 'object') plugins.push(vue(rollupOptions.vue));
     if (typeof api.projectOptions.buble === 'object') plugins.push(buble(api.projectOptions.buble));
 
-    plugins.push(replace({
-      ...Object.entries(api.getSafeEnvVars()).reduce((acc: { [k: string]: string }, [key, value]) => {
-        acc[`process.env.${key}`] = JSON.stringify(value);
-        return acc;
-      }, {}),
-    }));
+    plugins.push(
+      replace({
+        ...Object.entries(api.getSafeEnvVars()).reduce((acc: { [k: string]: string }, [key, value]) => {
+          acc[`process.env.${key}`] = JSON.stringify(value);
+          return acc;
+        }, {}),
+      })
+    );
 
     if (api.isProduction()) {
       plugins.push(terser(api.projectOptions.terser));
@@ -57,7 +59,8 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
   const build = () => {
     api.logger.info(`rollup :: start bundling "${getEntryName(entry)}"`);
 
-    return rollup.rollup(getInputOptions())
+    return rollup
+      .rollup(getInputOptions())
       .then(bundle => writeBundle(bundle))
       .then(() => {
         api.logger.info(`rollup :: finished bundle "${getEntryName(entry)}"`);
@@ -91,7 +94,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
     // @ts-ignore
     const watcher = rollup.watch(watchOptions);
 
-    watcher.on('event', (e) => {
+    watcher.on('event', e => {
       const { code } = e;
 
       if (code === 'BUNDLE_START') {

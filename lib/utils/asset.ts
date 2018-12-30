@@ -12,7 +12,7 @@ export function readAssetDef(api: API, assetName: string, asset: Asset) {
   }
   entries = entries as Entry[];
 
-  return entries.map((entry) => {
+  return entries.map(entry => {
     entry._name = assetName;
     entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
     entry.dest = api.resolve(entry.dest);

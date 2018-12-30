@@ -83,8 +83,7 @@ export default class API {
         const pkg = require(this.resolve('package.json'));
         pkgConfig = pkg.yproxCli || {};
       }
-    } catch (e) {
-    }
+    } catch (e) {}
 
     try {
       if (process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true') {
@@ -92,13 +91,11 @@ export default class API {
       } else {
         fileConfig = require(this.resolve('yprox-cli.config.js')) || {};
       }
-    } catch (e) {
-    }
+    } catch (e) {}
 
     if (pkgConfig !== null && fileConfig !== null) {
       cb(new Error(
-        'You can\'t configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m' +
-        ' and \x1b[1;32mpackage.json\x1b[0m at the same time.',
+        "You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m" + ' and \x1b[1;32mpackage.json\x1b[0m at the same time.'
       ) as ValidationError);
       return;
     }
@@ -142,7 +139,7 @@ export default class API {
   }
 
   getSafeEnvVars(): { [k: string]: any } {
-    const validKeys = Object.keys(process.env).filter((key) => {
+    const validKeys = Object.keys(process.env).filter(key => {
       return key === 'NODE_ENV' || key.startsWith('APP_');
     });
 
@@ -153,12 +150,9 @@ export default class API {
   }
 
   private resolvePlugins(): void {
-    const plugins = [
-      './commands/build',
-      './commands/lint',
-    ];
+    const plugins = ['./commands/build', './commands/lint'];
 
-    plugins.forEach((plugin) => {
+    plugins.forEach(plugin => {
       require(plugin).default(this);
     });
   }
@@ -168,8 +162,7 @@ function initLogger(verbose = false): Logger {
   return Logger.getLogger('yprox-cli', {
     level: verbose ? 'log' : 'info',
     format: (ctx: Context, variables: Variables) => {
-      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}]`
-        + ` ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
+      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}]` + ` ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
     },
   });
 }

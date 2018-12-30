@@ -11,7 +11,7 @@ type EntryRollup = Entry & {
   destFile: string;
   name: string;
   concat?: string; // deprecated, use `destFile`
-  format?: 'umd' | 'amd' | 'cjs' | 'esm' | 'iife';
+  format?: 'umd' | 'amd' | 'cjs' | 'esm' | 'iife';
 };
 type EntryFile = Entry & {};
 type EntryImage = Entry & {};

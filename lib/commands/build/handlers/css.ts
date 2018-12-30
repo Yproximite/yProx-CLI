@@ -14,9 +14,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs) => {
     stream = stream.pipe(concat(entry.concat));
   }
 
-  const postcssPlugins = [
-    autoprefixer(api.projectOptions.autoprefixer),
-  ];
+  const postcssPlugins = [autoprefixer(api.projectOptions.autoprefixer)];
 
   if (api.isProduction()) {
     postcssPlugins.push(cssnano(api.projectOptions.cssnano));
@@ -26,8 +24,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs) => {
     .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
     .pipe(postcss(postcssPlugins))
     .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
-    .pipe(gulp.dest(entry.dest))
-  ;
+    .pipe(gulp.dest(entry.dest));
 
   return stream;
 };

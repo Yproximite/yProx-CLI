@@ -11,7 +11,8 @@ export default (api: API, entry: EntryImage, args: CLIArgs) => {
     imagemin.svgo(api.projectOptions.svgo),
   ];
 
-  return gulp.src(entry.src)
+  return gulp
+    .src(entry.src)
     .pipe(gulpIf(api.isProduction(), imagemin(imageminPlugins)))
     .pipe(gulp.dest(entry.dest));
 };
