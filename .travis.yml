@@ -33,6 +33,7 @@ install:
 script:
   - yarn build
   - yarn lint
+  - yarn test
 
   - cd test-app
 
