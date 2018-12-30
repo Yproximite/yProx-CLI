@@ -1,9 +1,16 @@
 {
-  "extends": "tslint-config-airbnb",
+  "extends": [
+    "tslint-config-airbnb",
+    "tslint-plugin-prettier"
+  ],
   "rules": {
+    "prettier": true,
+    // Disable Airbnb formatting rules, prettier will take care of formatting
     "import-name": false,
+    "max-line-length": false,
+    "trailing-comma": false,
     "align": false,
-    "max-line-length": [true, 120]
+    "ter-arrow-parens": false
   },
   "linterOptions": {
     "exclude": [
