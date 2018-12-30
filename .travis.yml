@@ -32,6 +32,8 @@ install:
 
 script:
   - yarn build
+  - yarn lint
+
   - cd test-app
 
   - ../dist/bin/yprox-cli.js # should display help
