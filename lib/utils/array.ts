@@ -18,7 +18,7 @@ export function groupBy(key: string): (acc: { [k: string]: any }, item: any) => 
 /**
  * Should be used in Array#reduce().
  */
-export function flatten(): (acc: any[], values: any[]) => any[] {
+export function flatten(): (acc: any[], values: any | any[]) => any[] {
   return (acc, values) => {
     return acc.concat(values);
   };

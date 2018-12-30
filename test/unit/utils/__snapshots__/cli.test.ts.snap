@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`utils: cli show a specific command help should show help for \`build\` command 1`] = `
+"
+  Usage: [32myprox-cli build [options][39m
+
+  Options:
+
+    [34m--lint[39m Lint before build
+
+"
+`;
+
+exports[`utils: cli show a specific command help should show help for \`lint\` command 1`] = `
+"
+  Usage: [32myprox-cli lint [options][39m
+
+  Options:
+
+    [34m--fix[39m Fix some errors
+
+"
+`;
+
+exports[`utils: cli show global help should show global help 1`] = `
+"
+  Usage: [32myprox-cli [command] [options][39m
+
+  Options:
+
+    [34m--help   [39m display this help
+    [34m--version[39m display version
+
+  Commands:
+
+    [34mbuild[39m Build files
+    [34mlint [39m Lint files
+
+  run [32myprox-cli [command] --help[39m for usage of a specific command
+
+"
+`;
