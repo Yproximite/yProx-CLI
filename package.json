@@ -6,19 +6,33 @@
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
   "files": [
-    "bin",
-    "lib"
+    "dist"
   ],
   "bin": {
-    "yprox-cli": "bin/yprox-cli.js"
+    "yprox-cli": "dist/bin/yprox-cli.js"
   },
   "scripts": {
     "semantic-release": "semantic-release",
+    "build": "tsc; chmod +x ./dist/bin/yprox-cli.js",
+    "watch": "tsc --watch",
+    "lint": "tslint {bin,lib,types}/**/*.ts",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
   "publishConfig": {
     "access": "public"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,json,md}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
@@ -64,9 +78,30 @@
   },
   "devDependencies": {
     "@kocal/semantic-release-preset": "^1.1.0",
+    "@types/autoprefixer": "^9.1.1",
+    "@types/cssnano": "^4.0.0",
+    "@types/dotenv": "^6.1.0",
+    "@types/eslint": "^4.16.5",
+    "@types/gulp": "^4.0.5",
+    "@types/gulp-concat": "^0.0.32",
+    "@types/gulp-if": "^0.0.33",
+    "@types/gulp-imagemin": "^4.1.1",
+    "@types/gulp-sass": "^0.0.31",
+    "@types/gulp-sourcemaps": "^0.0.32",
+    "@types/gulp-watch": "^4.1.34",
+    "@types/joi": "^14.0.1",
+    "@types/rollup-plugin-json": "^3.0.1",
+    "@types/stylelint": "^9.4.1",
     "eslint": "^5.11.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.0",
+    "prettier": "^1.15.3",
     "semantic-release": "^15.10.8",
     "stylelint": "^9.9.0",
+    "tslint": "^5.12.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-plugin-prettier": "^2.0.1",
+    "typescript": "^3.2.2",
     "vuepress": "^0.14.8"
   }
 }

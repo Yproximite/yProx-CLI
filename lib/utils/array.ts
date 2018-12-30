@@ -1,9 +1,7 @@
 /**
  * Should be used in Array#reduce().
- * @param {String} key
- * @return {Function}
  */
-module.exports.groupBy = (key) => {
+export function groupBy(key: string): (acc: { [k: string]: any }, item: any) => { [k: string]: any } {
   return (acc, item) => {
     const value = item[key];
 
@@ -15,15 +13,13 @@ module.exports.groupBy = (key) => {
 
     return acc;
   };
-};
+}
 
 /**
  * Should be used in Array#reduce().
- * @return {Function}
  */
-module.exports.flatten = () => {
+export function flatten(): (acc: any[], values: any[]) => any[] {
   return (acc, values) => {
-    acc = acc.concat(values);
-    return acc;
+    return acc.concat(values);
   };
-};
+}

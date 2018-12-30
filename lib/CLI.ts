@@ -1,13 +1,17 @@
-const API = require('./API');
-const { displayHelp, displayCommandHelp } = require('./utils/cli');
+import API from './API';
+import { displayCommandHelp, displayHelp } from './utils/cli';
 
-class Cli {
-  constructor(context) {
+export default class CLI {
+  private readonly context: string;
+  private initialized: boolean;
+  private api!: API;
+
+  constructor(context: string) {
     this.context = context;
     this.initialized = false;
   }
 
-  init(mode, verbose) {
+  init(mode?: string, verbose: boolean = false) {
     if (this.initialized) {
       return;
     }
@@ -16,12 +20,12 @@ class Cli {
     this.api = new API(this.context, mode, verbose);
   }
 
-  run(commandName, args = []) {
+  public run(commandName: string, args: CLIArgs = {}) {
     this.init(args.mode, args.v);
 
     return new Promise((resolve, reject) => {
       if (!commandName && args.version) {
-        console.log(require('../package').version);
+        console.log(require('../../package').version);
         return resolve();
       }
 
@@ -30,16 +34,14 @@ class Cli {
         return resolve();
       }
 
-      return this.api.executeCommand(commandName, args)
-        .then(() => resolve())
-        .catch(err => reject(err));
+      return this.api
+        .executeCommand(commandName, args)
+        .then(resolve)
+        .catch(reject);
     });
   }
 
-  /**
-   * @private
-   */
-  showHelp(commandName) {
+  private showHelp(commandName: string) {
     const commands = this.api.commands;
     const command = commands[commandName];
 
@@ -50,5 +52,3 @@ class Cli {
     }
   }
 }
-
-module.exports = Cli;

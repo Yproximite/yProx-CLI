@@ -9,8 +9,8 @@ Used for building `.vue` components with the support of ES6 modules.
   handler: 'rollup',
   name: 'yprox-store-locator',
   src: 'src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/index.js',
-  concat: 'yprox-store-locator.min.js',
   dest: './public/js',
+  destFile: 'yprox-store-locator.min.js',
 }
 ```
 
