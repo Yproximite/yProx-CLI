@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import fs from 'fs';
 
-export default (path: string) => {
+export const loadEnv = (path: string) => {
   const config = dotenv.parse(fs.readFileSync(path));
 
   Object.entries(config).forEach(([key, value]) => {

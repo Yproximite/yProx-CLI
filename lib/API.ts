@@ -5,7 +5,7 @@ import { ValidationError, ValidationErrorItem } from 'joi';
 import { resolve } from 'path';
 import { ProjectOptions } from '../types';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
-import loadEnv from './utils/loadEnv';
+import { loadEnv } from './utils/loadEnv';
 
 export default class API {
   public readonly context: string;
