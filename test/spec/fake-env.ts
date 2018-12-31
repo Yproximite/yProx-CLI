@@ -3,7 +3,7 @@ import API from '../../lib/API';
 
 let env = -1;
 
-export const createFakeEnv = (files: { [k: string]: string }, mode = 'development', verbose = false): Promise<{ api: API; cleanup: () => void }> => {
+export const createFakeEnv = (files: { [k: string]: string } = {}, mode = 'development', verbose = false): Promise<{ api: API; cleanup: () => void }> => {
   return new Promise(async resolve => {
     // Create new env
     env += 1;

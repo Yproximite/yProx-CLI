@@ -37,6 +37,7 @@ export default class API {
         return process.exit(1);
       }
 
+      /* istanbul ignore next */
       if (!config) {
         throw new Error('This should not happens.');
       }
@@ -168,6 +169,7 @@ function initLogger(verbose = false): Logger {
         return `[${ctx.luxon.toFormat('HH:mm:ss')}] ${ctx.level} :: ${stripAnsi(ctx.message)}`;
       }
 
+      /* istanbul ignore next */
       return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
     },
   });
