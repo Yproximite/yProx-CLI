@@ -1,4 +1,4 @@
-import { createFakeEnv } from '../fake-env';
+import { createFakeEnv } from '../../fake-env';
 
 describe('api: commands', () => {
   it('should have registered commands', async () => {

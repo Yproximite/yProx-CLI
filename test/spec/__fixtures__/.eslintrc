@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "airbnb-standard",
+    "plugin:vue/recommended"
+  ],
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

@@ -1,8 +1,8 @@
 import { readFileSync } from 'fs';
 import { createFakeEnv } from '../fake-env';
 
-const packageJson = readFileSync(`${__dirname}/__fixtures__/package.json`, 'utf8');
-const yproxCliConfigJs = readFileSync(`${__dirname}/__fixtures__/yprox-cli.config.js`, 'utf8');
+const packageJson = readFileSync(`${__dirname}/../__fixtures__/package.json`, 'utf8');
+const yproxCliConfigJs = readFileSync(`${__dirname}/../__fixtures__/yprox-cli.config.js`, 'utf8');
 
 describe('api: configuration', () => {
   beforeEach(() => {

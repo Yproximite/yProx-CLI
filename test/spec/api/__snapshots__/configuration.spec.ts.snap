@@ -5,8 +5,34 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
+        "dest": "dist",
+        "destFile": "button.js",
         "handler": "rollup",
-        "src": "i-dont-exists/from-package-json/index.js",
+        "src": "src/components/button/index.js",
+      },
+      Object {
+        "concat": "scripts.js",
+        "dest": "dist/js",
+        "handler": "js",
+        "src": Array [
+          "src/js/foo.js",
+          "src/js/bar.js",
+        ],
+      },
+      Object {
+        "concat": "legacy-styles.css",
+        "dest": "dist/css",
+        "handler": "css",
+        "src": Array [
+          "src/css/foo.css",
+          "src/css/bar.css",
+        ],
+      },
+      Object {
+        "dest": "dist/css",
+        "destFile": "styles.scss",
+        "handler": "sass",
+        "src": "src/sass/style.sass",
       },
     ],
   },
@@ -99,8 +125,34 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
+        "dest": "dist",
+        "destFile": "button.js",
         "handler": "rollup",
-        "src": "i-dont-exists/from-package-json/index.js",
+        "src": "src/components/button/index.js",
+      },
+      Object {
+        "concat": "scripts.js",
+        "dest": "dist/js",
+        "handler": "js",
+        "src": Array [
+          "src/js/foo.js",
+          "src/js/bar.js",
+        ],
+      },
+      Object {
+        "concat": "legacy-styles.css",
+        "dest": "dist/css",
+        "handler": "css",
+        "src": Array [
+          "src/css/foo.css",
+          "src/css/bar.css",
+        ],
+      },
+      Object {
+        "dest": "dist/css",
+        "destFile": "styles.scss",
+        "handler": "sass",
+        "src": "src/sass/style.sass",
       },
     ],
   },
