@@ -60,7 +60,7 @@ export default class API {
     this.commands[commandName] = { opts, fn, name: commandName };
   }
 
-  public executeCommand(commandName: string, args: CLIArgs) {
+  public executeCommand(commandName: string, args: CLIArgs = {}) {
     if (!commandName) {
       throw new Error('You must specify a command to run.');
     }

@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api: commands should have registered commands 1`] = `
+Object {
+  "build": Object {
+    "fn": [Function],
+    "name": "build",
+    "opts": Object {
+      "description": "build files",
+      "options": Object {
+        "--lint": "lint before build, if lint fails, files will not be build",
+        "--watch": "enable watch mode",
+        "default": Object {
+          "--filter:<filterName> <value>": "apply a filter on file entries",
+          "--help": "display help",
+          "--mode": "specify env mode (default: development)",
+        },
+      },
+      "usage": "yprox-cli build [options]",
+    },
+  },
+  "lint": Object {
+    "fn": [Function],
+    "name": "lint",
+    "opts": Object {
+      "description": "lint source files",
+      "options": Object {
+        "--fix": "automatically fix lint errors",
+        "default": Object {
+          "--filter:<filterName> <value>": "apply a filter on file entries",
+          "--help": "display help",
+          "--mode": "specify env mode (default: development)",
+        },
+      },
+      "usage": "yprox-cli lint [options]",
+    },
+  },
+}
+`;
