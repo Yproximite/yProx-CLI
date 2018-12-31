@@ -14,7 +14,6 @@ notifications:
 
 env:
   global:
-    - YPROX_CLI_IGNORE_PACKAGE_JSON_FILE=true
     - FORCE_COLOR=1
 
 cache:
@@ -36,6 +35,7 @@ script:
   - yarn lint
   - yarn test
 
+  - export YPROX_CLI_IGNORE_PACKAGE_JSON_FILE=true
   - cd test-app
 
   - ../dist/bin/yprox-cli.js # should display help
