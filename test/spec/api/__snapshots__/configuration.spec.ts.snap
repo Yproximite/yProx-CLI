@@ -1,0 +1,189 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api: configuration should load conf from \`package.json\` 1`] = `
+Object {
+  "assets": Object {
+    "app": Array [
+      Object {
+        "handler": "rollup",
+        "src": "i-dont-exists/from-package-json/index.js",
+      },
+    ],
+  },
+  "autoprefixer": Object {},
+  "buble": Object {},
+  "cssnano": Object {
+    "autoprefixer": false,
+    "safe": true,
+  },
+  "gifsicle": Object {
+    "interlaced": true,
+  },
+  "handlers": Object {
+    "rollup": Object {
+      "commonjs": Object {},
+      "json": Object {},
+      "nodeResolve": Object {},
+      "shims": Object {},
+      "vue": Object {},
+    },
+    "sass": Object {},
+  },
+  "jpegtran": Object {
+    "progressive": true,
+  },
+  "optipng": Object {
+    "optimizationLevel": 5,
+  },
+  "path": Object {},
+  "svgo": Object {
+    "plugins": Array [
+      Object {
+        "removeViewBox": true,
+      },
+    ],
+  },
+  "terser": Object {},
+}
+`;
+
+exports[`api: configuration should load conf from \`yprox-cli.config.js\` 1`] = `
+Object {
+  "assets": Object {
+    "app": Array [
+      Object {
+        "handler": "rollup",
+        "src": "i-dont-exists/from-yprox-cli-config.js/index.js",
+      },
+    ],
+  },
+  "autoprefixer": Object {},
+  "buble": Object {},
+  "cssnano": Object {
+    "autoprefixer": false,
+    "safe": true,
+  },
+  "gifsicle": Object {
+    "interlaced": true,
+  },
+  "handlers": Object {
+    "rollup": Object {
+      "commonjs": Object {},
+      "json": Object {},
+      "nodeResolve": Object {},
+      "shims": Object {},
+      "vue": Object {},
+    },
+    "sass": Object {},
+  },
+  "jpegtran": Object {
+    "progressive": true,
+  },
+  "optipng": Object {
+    "optimizationLevel": 5,
+  },
+  "path": Object {},
+  "svgo": Object {
+    "plugins": Array [
+      Object {
+        "removeViewBox": true,
+      },
+    ],
+  },
+  "terser": Object {},
+}
+`;
+
+exports[`api: configuration with YPROX_CLI_IGNORE_CONFIG_FILE=true, should load config from \`package.json\` even if we have two config files 1`] = `
+Object {
+  "assets": Object {
+    "app": Array [
+      Object {
+        "handler": "rollup",
+        "src": "i-dont-exists/from-package-json/index.js",
+      },
+    ],
+  },
+  "autoprefixer": Object {},
+  "buble": Object {},
+  "cssnano": Object {
+    "autoprefixer": false,
+    "safe": true,
+  },
+  "gifsicle": Object {
+    "interlaced": true,
+  },
+  "handlers": Object {
+    "rollup": Object {
+      "commonjs": Object {},
+      "json": Object {},
+      "nodeResolve": Object {},
+      "shims": Object {},
+      "vue": Object {},
+    },
+    "sass": Object {},
+  },
+  "jpegtran": Object {
+    "progressive": true,
+  },
+  "optipng": Object {
+    "optimizationLevel": 5,
+  },
+  "path": Object {},
+  "svgo": Object {
+    "plugins": Array [
+      Object {
+        "removeViewBox": true,
+      },
+    ],
+  },
+  "terser": Object {},
+}
+`;
+
+exports[`api: configuration with YPROX_CLI_IGNORE_PACKAGE_JSON_FILE=true, should load config from \`yprox-cli.config.js\` even if we have two config files 1`] = `
+Object {
+  "assets": Object {
+    "app": Array [
+      Object {
+        "handler": "rollup",
+        "src": "i-dont-exists/from-yprox-cli-config.js/index.js",
+      },
+    ],
+  },
+  "autoprefixer": Object {},
+  "buble": Object {},
+  "cssnano": Object {
+    "autoprefixer": false,
+    "safe": true,
+  },
+  "gifsicle": Object {
+    "interlaced": true,
+  },
+  "handlers": Object {
+    "rollup": Object {
+      "commonjs": Object {},
+      "json": Object {},
+      "nodeResolve": Object {},
+      "shims": Object {},
+      "vue": Object {},
+    },
+    "sass": Object {},
+  },
+  "jpegtran": Object {
+    "progressive": true,
+  },
+  "optipng": Object {
+    "optimizationLevel": 5,
+  },
+  "path": Object {},
+  "svgo": Object {
+    "plugins": Array [
+      Object {
+        "removeViewBox": true,
+      },
+    ],
+  },
+  "terser": Object {},
+}
+`;

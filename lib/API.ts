@@ -1,4 +1,5 @@
 import Logger, { Context, Variables } from '@kocal/logger';
+import stripAnsi from 'strip-ansi';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
 import { ValidationError, ValidationErrorItem } from 'joi';
@@ -33,7 +34,7 @@ export default class API {
           this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
         });
 
-        process.exit(1);
+        return process.exit(1);
       }
 
       if (!config) {
@@ -95,7 +96,7 @@ export default class API {
 
     if (pkgConfig !== null && fileConfig !== null) {
       cb(new Error(
-        "You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m" + ' and \x1b[1;32mpackage.json\x1b[0m at the same time.'
+        "You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time."
       ) as ValidationError);
       return;
     }
@@ -162,7 +163,12 @@ function initLogger(verbose = false): Logger {
   return Logger.getLogger('yprox-cli', {
     level: verbose ? 'log' : 'info',
     format: (ctx: Context, variables: Variables) => {
-      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}]` + ` ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
+      // jest
+      if (process.env.NODE_ENV === 'test') {
+        return `[${ctx.luxon.toFormat('HH:mm:ss')}] ${ctx.level} :: ${stripAnsi(ctx.message)}`;
+      }
+
+      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
     },
   });
 }
