@@ -1,36 +1,21 @@
+import { readFileSync } from 'fs';
 import { createFakeEnv } from '../fake-env';
 
-const packageJson = JSON.stringify({
-  yproxCli: {
-    assets: {
-      app: [{ handler: 'rollup', src: 'i-dont-exists/from-package-json/index.js' }],
-    },
-  },
-});
-
-const yproxCliConfigJs = `
-module.exports = {
-  assets : {
-    app: [{ handler: 'rollup', src: 'i-dont-exists/from-yprox-cli-config.js/index.js' }]
-  },
-};`;
+const packageJson = readFileSync(`${__dirname}/__fixtures__/package.json`, 'utf8');
+const yproxCliConfigJs = readFileSync(`${__dirname}/__fixtures__/yprox-cli.config.js`, 'utf8');
 
 describe('api: configuration', () => {
-  let processExit = process.exit;
-  let consoleError = console.error;
-
   beforeEach(() => {
-    processExit = process.exit;
-    consoleError = console.error;
-
     // @ts-ignore
     process.exit = jest.fn();
     console.error = jest.fn();
   });
 
   afterEach(() => {
-    process.exit = processExit;
-    console.error = consoleError;
+    // @ts-ignore
+    process.exit.mockRestore();
+    // @ts-ignore
+    console.error.mockRestore();
   });
 
   it('should load conf from `yprox-cli.config.js`', async () => {
