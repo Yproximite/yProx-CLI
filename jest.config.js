@@ -21,7 +21,7 @@ module.exports = {
   collectCoverage: !!process.env.CI,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
-  collectCoverageFrom: ["lib"],
+  collectCoverageFrom: ["lib/**/*.ts"],
 
   // The directory where Jest should output its coverage files
   coverageDirectory: "coverage",
@@ -37,6 +37,7 @@ module.exports = {
     "text",
   //   "lcov",
   //   "clover"
+    "html"
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
