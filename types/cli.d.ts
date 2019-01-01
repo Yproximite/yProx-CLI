@@ -6,6 +6,7 @@ type CLIArgs = {
   watch?: boolean; // build
   lint?: boolean; // build
   fix?: boolean; // lint
+  [key: string]: any; // filters
 };
 
 type CLICommandOptions = { [k: string]: string };

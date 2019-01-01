@@ -35,10 +35,13 @@ describe('command: build', () => {
   beforeEach(() => {
     oldEnv = process.env;
     delete process.env.NODE_ENV; // otherwise it will not be set by yprox-cli
+    console.log = jest.fn();
     console.info = jest.fn();
   });
   afterEach(() => {
     process.env = oldEnv;
+    // @ts-ignore
+    console.log.mockRestore();
     // @ts-ignore
     console.info.mockRestore();
   });
@@ -62,7 +65,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/js/button.js'))).toContain('console.log("Hello from index.js!")');
 
     // should have built files with JS handler
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
 
@@ -71,7 +73,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/js/scripts.js'))).toMatchSnapshot('prod js');
 
     // should have built files with CSS
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
 
@@ -80,7 +81,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/css/legacy-styles.css'))).toMatchSnapshot('prod css');
 
     // should have built files with Sass handler
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
 
@@ -89,7 +89,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/css/styles.css'))).toMatchSnapshot('prod sass');
 
     // should have copied files
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
 
@@ -100,7 +99,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/udhr.txt'))).toContain('Universal Declaration of Human Rights - English');
 
     // should have optimized images
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
 
@@ -137,7 +135,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/js/button.js'))).toContain('"Hello from index.js!"');
 
     // should have built files with JS handler
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
 
@@ -146,7 +143,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/js/scripts.js'))).toMatchSnapshot('dev js');
 
     // should have built files with CSS
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
 
@@ -155,7 +151,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/css/legacy-styles.css'))).toMatchSnapshot('dev css');
 
     // should have built files with Sass handler
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
 
@@ -164,7 +159,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/css/styles.css'))).toMatchSnapshot('dev sass');
 
     // should have copied files
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
 
@@ -175,7 +169,6 @@ describe('command: build', () => {
     expect(readFile(api.resolve('dist/udhr.txt'))).toContain('Universal Declaration of Human Rights - English');
 
     // should have optimized images
-    expect(true).toBeTruthy();
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
 
@@ -190,6 +183,108 @@ describe('command: build', () => {
 
     expect(statSync(api.resolve('src/images/uk.svg')).size).toBeGreaterThan(55 * 1024);
     expect(statSync(api.resolve('dist/images/uk.svg')).size).toBeLessThan(42 * 1024);
+
+    await cleanup();
+  }, 70000);
+
+  it('should build only css entries (filter on `css` handler)', async () => {
+    const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+    await run('yarn'); // install dependencies
+    await api.executeCommand('build', { 'filter:handler': 'css' }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+    expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `asset.handler === 'css'`"); // verbose mode
+
+    // should have built files with CSS handler
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
+    expect(existsSync(api.resolve('dist/css/legacy-styles.css'))).toBeTruthy();
+    expect(existsSync(api.resolve('dist/css/legacy-styles.css.map'))).toBeFalsy();
+
+    // other handlers should not have been called
+
+    // rollup
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+    expect(existsSync(api.resolve('dist/js/button.js'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/js/button.js.map'))).toBeFalsy();
+
+    // js
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+    expect(existsSync(api.resolve('dist/js/scripts.js'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/js/scripts.js.map'))).toBeFalsy();
+
+    // sass
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
+    expect(existsSync(api.resolve('dist/css/styles.css'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/css/styles.css.map'))).toBeFalsy();
+
+    // files
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
+    expect(existsSync(api.resolve('dist/lorem.txt'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/udhr.txt'))).toBeFalsy();
+
+    // images
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
+    expect(existsSync(api.resolve('dist/images/guts-white-hair.png'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/jax.jpg'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/golfer.gif'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/uk.svg'))).toBeFalsy();
+
+    await cleanup();
+  }, 70000);
+
+  it('should build only css and sass entries (filter on `css` and `sass` handlers)', async () => {
+    const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+    await run('yarn'); // install dependencies
+    await api.executeCommand('build', { 'filter:handler': ['css', 'sass'] }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+    expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `['css', 'sass'].includes(asset.handler)`"); // verbose mode
+
+    // should have built files with CSS handler
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
+    expect(existsSync(api.resolve('dist/css/legacy-styles.css'))).toBeTruthy();
+    expect(existsSync(api.resolve('dist/css/legacy-styles.css.map'))).toBeFalsy();
+
+    // should have built files with Sass handler
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
+    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
+    expect(existsSync(api.resolve('dist/css/styles.css'))).toBeTruthy();
+    expect(existsSync(api.resolve('dist/css/styles.css.map'))).toBeFalsy();
+
+    // other handlers should not have been called
+
+    // rollup
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+    expect(existsSync(api.resolve('dist/js/button.js'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/js/button.js.map'))).toBeFalsy();
+
+    // js
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+    expect(existsSync(api.resolve('dist/js/scripts.js'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/js/scripts.js.map'))).toBeFalsy();
+
+    // files
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
+    expect(existsSync(api.resolve('dist/lorem.txt'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/udhr.txt'))).toBeFalsy();
+
+    // images
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
+    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
+    expect(existsSync(api.resolve('dist/images/guts-white-hair.png'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/jax.jpg'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/golfer.gif'))).toBeFalsy();
+    expect(existsSync(api.resolve('dist/images/uk.svg'))).toBeFalsy();
 
     await cleanup();
   }, 70000);
