@@ -18,7 +18,7 @@
         {
           "handler": "rollup",
           "src": "src/components/button/index.js",
-          "dest": "dist",
+          "dest": "dist/js",
           "destFile": "button.js"
         },
         {
@@ -44,8 +44,27 @@
           "src": "src/sass/style.scss",
           "dest": "dist/css",
           "destFile": "styles.css"
+        },
+        {
+          "name": "images to optimize",
+          "handler": "image",
+          "src": "src/images/*",
+          "dest": "dist/images"
+        },
+        {
+          "name": "files to copy",
+          "handler": "file",
+          "src": [
+            "src/lorem.txt",
+            "src/udhr.txt"
+          ],
+          "dest": "dist/"
         }
       ]
+    },
+    "gifsicle": {
+      "optimizationLevel": 3,
+      "colors": 16
     }
   }
 }
