@@ -17,7 +17,7 @@
     "watch": "tsc --watch",
     "lint": "tslint {bin,lib,types}/**/*.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "test": "jest -i",
+    "test": "cross-env YPROX_CLI_LOGGER_NO_COLOR=true jest -i",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
@@ -97,6 +97,7 @@
     "@types/rollup-plugin-json": "^3.0.1",
     "@types/strip-ansi": "^3.0.0",
     "@types/stylelint": "^9.4.1",
+    "cross-env": "^5.2.0",
     "eslint": "^5.11.0",
     "fs-extra": "^7.0.1",
     "husky": "^1.3.1",

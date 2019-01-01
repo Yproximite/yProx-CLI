@@ -165,7 +165,7 @@ function initLogger(verbose = false): Logger {
     level: verbose ? 'log' : 'info',
     format: (ctx: Context, variables: Variables) => {
       // jest
-      if (process.env.NODE_ENV === 'test') {
+      if (process.env.NODE_ENV === 'test' || process.env.YPROX_CLI_LOGGER_NO_COLOR === 'true') {
         return `[${ctx.luxon.toFormat('HH:mm:ss')}] ${ctx.level} :: ${stripAnsi(ctx.message)}`;
       }
 

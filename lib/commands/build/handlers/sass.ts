@@ -38,6 +38,7 @@ export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
         .src(entry.src[0])
         .on('error', reject)
         .pipe(concat(destFile as string))
+        .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
         // @ts-ignore
         .pipe(sass(sassOptions).on('error', sass.logError))
         .pipe(postcss(postcssPlugins))
