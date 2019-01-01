@@ -17,7 +17,7 @@
     "watch": "tsc --watch",
     "lint": "tslint {bin,lib,types}/**/*.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "test": "jest",
+    "test": "jest -i",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
