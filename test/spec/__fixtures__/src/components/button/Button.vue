@@ -12,7 +12,7 @@ export default {
     text: String,
   },
 
-  created() {        console.log('Hello world!')
+  created() {        console.log('Hello from Button.vue!')
 
   }
 };

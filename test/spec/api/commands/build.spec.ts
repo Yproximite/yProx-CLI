@@ -23,7 +23,7 @@ describe('command: build', () => {
         'package.json': readFixture('package.json'),
         'yarn.lock': readFixture('yarn.lock'),
         // rollup
-        'src/components/button/Button.vue': readFixture('yarn.lock'),
+        'src/components/button/Button.vue': readFixture('src/components/button/Button.vue'),
         'src/components/button/index.js': readFixture('src/components/button/index.js'),
         // css
         'src/css/bar.css': readFixture('src/css/bar.css'),
@@ -56,7 +56,10 @@ describe('command: build', () => {
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
 
     expect(existsSync(api.resolve('dist/js/button.js'))).toBeTruthy();
-    expect(readFile(api.resolve('dist/js/button.js'))).toMatchSnapshot();
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain('// For security concerns, we use only base name in production mode.');
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain("Vue.component('y-button', Button);");
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain("'Hello from Button.vue!'");
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain('"Hello from index.js!"');
 
     // should have built files with JS handler
     expect(true).toBeTruthy();
