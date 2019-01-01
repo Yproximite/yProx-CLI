@@ -20,58 +20,19 @@ cache:
   yarn: true
   directories:
     - ./node_modules
-    - ./test-app/node_modules
+    - ~/.nvm
+    - ~/.cache
 
 before_install:
   - npm i -g yarn
-  - export NODE_PATH="$PWD/test-app/node_modules:$NODE_PATH" # will prevent ESLint to fails when requiring plugins
 
 install:
   - yarn install --frozen-lockfile
-  - (cd test-app; yarn install --frozen-lockfile)
 
 script:
   - yarn build
   - yarn lint
   - yarn test
-
-  - export YPROX_CLI_IGNORE_PACKAGE_JSON_FILE=true
-  - cd test-app
-
-  - ../dist/bin/yprox-cli.js # should display help
-  - ../dist/bin/yprox-cli.js --version
-  - ../dist/bin/yprox-cli.js --help
-  - ../dist/bin/yprox-cli.js build --help
-  - ../dist/bin/yprox-cli.js lint --help
-
-  # will fix test-app/src/StoreLocatorBundle/Resources/private/js/yprox-store-locator/components/LocatorFilter.js:45
-  - yarn lint --filter:handler rollup --fix
-  - yarn lint --filter:handler rollup
-
-  # will fix test-app/themes/_containers/containers.scss
-  - yarn lint --filter:handler sass --fix
-  - yarn lint --filter:handler sass
-
-  - rm -fr public/{css,img,js,plugins}
-  - yarn build:prod
-  - ../ci/test_build_prod.sh
-
-  - rm -fr public/{css,img,js,plugins}
-  - yarn build:dev
-  - ../ci/test_build_dev.sh
-
-  - rm -fr public/css
-  - yarn build:dev --filter:handler sass --filter:handler css --lint
-  - ../ci/test_build_dev.sh
-
-  # Use config from `package.json`
-  - rm -fr public
-  - unset YPROX_CLI_IGNORE_PACKAGE_JSON_FILE
-  - YPROX_CLI_IGNORE_CONFIG_FILE=true yarn build:dev # it will build `vendor` asset only
-  - test -f public/js/vue.js
-  - test ! -f public/img/check.png
-
-  - cd ..
 
 jobs:
   include:

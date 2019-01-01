@@ -10,6 +10,6 @@
     "ter-arrow-parens": false
   },
   "linterOptions": {
-    "exclude": ["dist", "test-app"]
+    "exclude": ["dist"]
   }
 }

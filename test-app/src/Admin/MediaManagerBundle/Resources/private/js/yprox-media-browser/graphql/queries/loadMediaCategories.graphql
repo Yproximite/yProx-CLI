@@ -1,9 +1,0 @@
-#import "../fragments/mediaCategory.graphql"
-
-query LoadMediaCategories($siteId: Int!) {
-  site(siteId: $siteId) {
-    mediaCategories {
-      ...MediaCategoryFragment
-    }
-  }
-}

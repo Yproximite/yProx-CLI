@@ -1,7 +1,0 @@
-#import "../fragments/media.graphql"
-
-mutation UpdateMedia($siteId: Int!, $mediaId: Int!, $input: UpdateMediaInput!) {
-  updateMedia(siteId: $siteId, mediaId: $mediaId, input: $input) {
-     ...MediaFragment
-  }
-}
