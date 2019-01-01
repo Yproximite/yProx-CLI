@@ -7,6 +7,7 @@ module.exports = {
         handler: 'sass',
         src: './themes/_containers/containers.scss',
         dest: config.path.css,
+        concat: 'containers.function-and-array-entries.css',
       },
     ]),
     themesSimplyArrayEntries: [
@@ -14,7 +15,7 @@ module.exports = {
         handler: 'sass',
         src: './themes/_containers/containers.scss',
         dest: './public/css',
-        concat: 'containers.simple-array-entries.css',
+        destFile: 'containers.simple-array-entries.css',
       },
     ],
   },

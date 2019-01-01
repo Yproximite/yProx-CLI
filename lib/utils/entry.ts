@@ -3,7 +3,7 @@ import API from '../API';
 import { readAssetDef } from './asset';
 
 export function getEntryName(entry: Entry) {
-  return entry.name || entry.concat || entry.src.join(', ');
+  return entry.name || entry.destFile || entry.concat || entry.src.join(', ');
 }
 
 export function readEntries(api: API, args: CLIArgs) {

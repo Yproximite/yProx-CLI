@@ -16,7 +16,7 @@ type CLICommandOpts = {
   options: CLICommandOptions;
 };
 
-type CLICommandFunction = (args: CLIArgs) => any;
+type CLICommandFunction = (args: CLIArgs) => Promise<any>;
 
 type CLICommand = {
   name: string;

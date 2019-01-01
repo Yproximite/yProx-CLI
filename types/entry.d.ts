@@ -6,7 +6,10 @@ type Entry = {
 
 type EntryCSS = Entry & { concat?: string };
 type EntryJS = Entry & { concat?: string };
-type EntrySass = Entry & { concat?: string };
+type EntrySass = Entry & {
+  destFile: string;
+  concat?: string; // deprecated, use `destFile`
+};
 type EntryRollup = Entry & {
   destFile: string;
   name: string;
