@@ -1,7 +1,7 @@
 import { CLIEngine } from 'eslint';
 import API from '../../../API';
 
-export default (api: API, args: CLIArgs, files: string[]) => {
+export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   const config = {
     cwd: api.context,
     fix: !!args.fix || false,
@@ -21,9 +21,9 @@ export default (api: API, args: CLIArgs, files: string[]) => {
 
     if (report.errorCount > 0 || report.warningCount > 0) {
       console.log(formatter(report.results));
-      reject(new Error('Your JS is not clean, stopping.'));
+      reject(new Error('Your JavaScript is not clean, stopping.'));
     } else {
-      api.logger.info('Your JS is clean ✨');
+      api.logger.info('Your JavaScript is clean ✨');
       resolve();
     }
   });

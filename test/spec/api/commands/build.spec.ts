@@ -8,6 +8,8 @@ const readFixture = (filename: string, charset: string | null = 'utf8') => readF
 const files = {
   'package.json': readFixture('package.json'),
   'yarn.lock': readFixture('yarn.lock'),
+  '.eslintrc': readFixture('.eslintrc'),
+  '.stylelintrc': readFixture('.stylelintrc'),
   // rollup
   'src/components/button/Button.vue': readFixture('src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('src/components/button/index.js'),
@@ -37,6 +39,9 @@ describe('command: build', () => {
     delete process.env.NODE_ENV; // otherwise it will not be set by yprox-cli
     console.log = jest.fn();
     console.info = jest.fn();
+    console.error = jest.fn();
+    // @ts-ignore
+    process.exit = jest.fn();
   });
   afterEach(() => {
     process.env = oldEnv;
@@ -44,6 +49,10 @@ describe('command: build', () => {
     console.log.mockRestore();
     // @ts-ignore
     console.info.mockRestore();
+    // @ts-ignore
+    console.error.mockRestore();
+    // @ts-ignore
+    process.exit.mockRestore();
   });
 
   it('should build entries (production mode)', async () => {
@@ -288,4 +297,66 @@ describe('command: build', () => {
 
     await cleanup();
   }, 70000);
+
+  describe('lint before build', () => {
+    it('should check lint (of handler `rollup`) before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'rollup',
+        lint: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
+
+      await cleanup();
+    }, 70000);
+
+    it('should check lint (of handler `js`) before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'js',
+        lint: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
+
+      await cleanup();
+    }, 70000);
+
+    it('should check lint (of handler `css`) before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'css',
+        lint: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your CSS is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
+
+      await cleanup();
+    }, 70000);
+
+    it('should check lint (of handler `sass`) before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'sass',
+        lint: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your Sass is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
+
+      await cleanup();
+    }, 70000);
+  });
 });

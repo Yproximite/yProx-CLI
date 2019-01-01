@@ -49,7 +49,7 @@ export default (api: API) => {
   );
 };
 
-export async function lintEntry(api: API, entry: Entry, args: CLIArgs) {
+export async function lintEntry(api: API, entry: Entry, args: CLIArgs): Promise<any> {
   const linter = entry.handler;
   const normalizedEntry = normalizeEntry(entry);
   const filesToLint = normalizedEntry.src;
