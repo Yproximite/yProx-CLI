@@ -5,7 +5,7 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
-        "dest": "dist",
+        "dest": "dist/js",
         "destFile": "button.js",
         "handler": "rollup",
         "src": "src/components/button/index.js",
@@ -34,6 +34,21 @@ Object {
         "handler": "sass",
         "src": "src/sass/style.scss",
       },
+      Object {
+        "dest": "dist/images",
+        "handler": "image",
+        "name": "images to optimize",
+        "src": "src/images/*",
+      },
+      Object {
+        "dest": "dist/",
+        "handler": "file",
+        "name": "files to copy",
+        "src": Array [
+          "src/lorem.txt",
+          "src/udhr.txt",
+        ],
+      },
     ],
   },
   "autoprefixer": Object {},
@@ -43,7 +58,9 @@ Object {
     "safe": true,
   },
   "gifsicle": Object {
+    "colors": 16,
     "interlaced": true,
+    "optimizationLevel": 3,
   },
   "handlers": Object {
     "rollup": Object {
@@ -125,7 +142,7 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
-        "dest": "dist",
+        "dest": "dist/js",
         "destFile": "button.js",
         "handler": "rollup",
         "src": "src/components/button/index.js",
@@ -154,6 +171,21 @@ Object {
         "handler": "sass",
         "src": "src/sass/style.scss",
       },
+      Object {
+        "dest": "dist/images",
+        "handler": "image",
+        "name": "images to optimize",
+        "src": "src/images/*",
+      },
+      Object {
+        "dest": "dist/",
+        "handler": "file",
+        "name": "files to copy",
+        "src": Array [
+          "src/lorem.txt",
+          "src/udhr.txt",
+        ],
+      },
     ],
   },
   "autoprefixer": Object {},
@@ -163,7 +195,9 @@ Object {
     "safe": true,
   },
   "gifsicle": Object {
+    "colors": 16,
     "interlaced": true,
+    "optimizationLevel": 3,
   },
   "handlers": Object {
     "rollup": Object {
