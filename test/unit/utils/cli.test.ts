@@ -4,7 +4,7 @@ describe('utils: cli', () => {
   const commands = {
     build: {
       name: 'build',
-      fn: () => {},
+      fn: () => Promise.resolve(1),
       opts: {
         description: 'Build files',
         usage: 'yprox-cli build [options]',
@@ -13,7 +13,7 @@ describe('utils: cli', () => {
     },
     lint: {
       name: 'lint',
-      fn: () => {},
+      fn: () => Promise.resolve(2),
       opts: {
         description: 'Lint files',
         usage: 'yprox-cli lint [options]',

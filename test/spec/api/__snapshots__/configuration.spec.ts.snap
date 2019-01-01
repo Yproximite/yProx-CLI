@@ -30,9 +30,9 @@ Object {
       },
       Object {
         "dest": "dist/css",
-        "destFile": "styles.scss",
+        "destFile": "styles.css",
         "handler": "sass",
-        "src": "src/sass/style.sass",
+        "src": "src/sass/style.scss",
       },
     ],
   },
@@ -150,9 +150,9 @@ Object {
       },
       Object {
         "dest": "dist/css",
-        "destFile": "styles.scss",
+        "destFile": "styles.css",
         "handler": "sass",
-        "src": "src/sass/style.sass",
+        "src": "src/sass/style.scss",
       },
     ],
   },
