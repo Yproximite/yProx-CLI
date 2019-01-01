@@ -1,5 +1,4 @@
 import gulp from 'gulp';
-import gulpIf from 'gulp-if';
 import imagemin from 'gulp-imagemin';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
@@ -18,7 +17,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
     return gulp
       .src(entry.src)
       .on('error', reject)
-      .pipe(gulpIf(api.isProduction(), imagemin(imageminPlugins)))
+      .pipe(imagemin(imageminPlugins))
       .pipe(gulp.dest(entry.dest))
       .on('end', () => {
         api.logger.info(`image :: done optimizing "${getEntryName(entry)}"`);
