@@ -1,9 +1,9 @@
 {
-  "extends": [
-    "airbnb-base",
-    "plugin:vue/recommended"
-  ],
+  "rules": {
+    "no-extra-semi": "error"
+  },
   "parserOptions": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "ecmaVersion": 6
   }
 }

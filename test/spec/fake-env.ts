@@ -19,7 +19,6 @@ export const createFakeEnv = async (files: Files = {}, mode = 'development', ver
   env += 1;
   const context = `${__dirname}/envs/${env}`;
   await fs.mkdirp(context);
-  registerDependenciesPath(`${context}/node_modules`);
 
   // Create files
   await Promise.all(
@@ -32,7 +31,6 @@ export const createFakeEnv = async (files: Files = {}, mode = 'development', ver
   const api = new API(context, mode, verbose);
 
   const cleanup = async () => {
-    unregisterDependenciesPath(`${context}/node_modules`);
     return await fs.remove(context);
   };
 
@@ -42,15 +40,3 @@ export const createFakeEnv = async (files: Files = {}, mode = 'development', ver
 
   return { api, cleanup, run };
 };
-
-function registerDependenciesPath(path: string) {
-  // @ts-ignore
-  Module.globalPaths.unshift(path);
-  module.paths.unshift(path);
-}
-
-function unregisterDependenciesPath(path: string) {
-  // @ts-ignore
-  Module.globalPaths = Module.globalPaths.filter(p => p !== path);
-  module.paths = module.paths.filter(p => p !== path);
-}

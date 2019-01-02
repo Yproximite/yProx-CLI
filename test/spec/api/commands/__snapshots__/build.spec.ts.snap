@@ -14,7 +14,7 @@ exports[`command: build should build entries (development mode): dev css 1`] = `
 exports[`command: build should build entries (development mode): dev js 1`] = `
 "console.log('Hello world from \`foo.js\`!');
 
-console.log('Hello world from \`bar.js\`!');
+console.log('Hello world from \`bar.js\`!');;;
 "
 `;
 

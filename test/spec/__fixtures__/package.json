@@ -7,9 +7,6 @@
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",
-    "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-vue": "^5.0.0",
     "stylelint": "^9.9.0",
     "vue-template-compiler": "^2.5.21"
   },
