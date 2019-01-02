@@ -5,7 +5,7 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   const config = {
     cwd: api.context,
     fix: !!args.fix || false,
-    extensions: ['.js'],
+    extensions: api.projectOptions.eslint.extensions,
   };
 
   api.logger.log(`js (lint) :: linting ${JSON.stringify(files, null, 2)}`);

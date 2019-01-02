@@ -8,6 +8,7 @@ const readFixture = (filename: string, charset: string | null = 'utf8') => readF
 const files = {
   'package.json': readFixture('package.json'),
   'yarn.lock': readFixture('yarn.lock'),
+  '.eslintignore': readFixture('.eslintignore'),
   '.eslintrc': readFixture('.eslintrc'),
   '.stylelintrc': readFixture('.stylelintrc'),
   // rollup
@@ -298,8 +299,8 @@ describe('command: build', () => {
     await cleanup();
   }, 70000);
 
-  describe('lint before build', () => {
-    it('should check lint (of handler `rollup`) before building them', async () => {
+  describe('lint (but not fix) before build', () => {
+    it('should lint (but not fix) files built with handler `rollup`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
       await run('yarn'); // install dependencies
@@ -317,7 +318,7 @@ describe('command: build', () => {
       await cleanup();
     }, 70000);
 
-    it('should check lint (of handler `js`) before building them', async () => {
+    it('should lint (but not fix) files built with handler `js`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
       await run('yarn'); // install dependencies
@@ -335,7 +336,7 @@ describe('command: build', () => {
       await cleanup();
     }, 70000);
 
-    it('should check lint (of handler `css`) before building them', async () => {
+    it('should lint (but not fix) files built with handler `css`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
       await run('yarn'); // install dependencies
@@ -353,7 +354,7 @@ describe('command: build', () => {
       await cleanup();
     }, 70000);
 
-    it('should check lint (of handler `sass`) before building them', async () => {
+    it('should lint (but not fix) files built with handler `sass`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
       await run('yarn'); // install dependencies
@@ -367,6 +368,116 @@ describe('command: build', () => {
       expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
       expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
       expect(existsSync(api.resolve('dist/css/styles.css'))).toBeFalsy();
+
+      await cleanup();
+    }, 70000);
+  });
+
+  describe('lint (and fix) before build', () => {
+    it('should lint (and but fix) files built with handler `rollup`, before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      const fileContent = readFile(api.resolve('src/components/button/index.js'));
+      expect(fileContent).toMatchSnapshot('button/index.js before lint');
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'rollup',
+        lint: true,
+        fix: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+      expect(existsSync(api.resolve('dist/js/button.js'))).toBeTruthy();
+
+      const newFileContent = readFile(api.resolve('src/components/button/index.js'));
+      expect(newFileContent).toMatchSnapshot('button/index.js after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
+      await cleanup();
+    }, 70000);
+
+    it('should lint (and but fix) files built with handler `js`, before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      const fileContent = readFile(api.resolve('src/js/bar.js'));
+      expect(fileContent).toMatchSnapshot('js/bar.js before lint');
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'js',
+        lint: true,
+        fix: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+      expect(existsSync(api.resolve('dist/js/scripts.js'))).toBeTruthy();
+
+      const newFileContent = readFile(api.resolve('src/js/bar.js'));
+      expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
+      await cleanup();
+    }, 70000);
+
+    it('should lint (and but fix) files built with handler `css`, before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      const fileContent = readFile(api.resolve('src/css/bar.css'));
+      expect(fileContent).toMatchSnapshot('css/bar.css before lint');
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'css',
+        lint: true,
+        fix: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your CSS is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
+      expect(existsSync(api.resolve('dist/css/legacy-styles.css'))).toBeTruthy();
+
+      const newFileContent = readFile(api.resolve('src/css/bar.css'));
+      expect(newFileContent).toMatchSnapshot('css/bar.css after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
+      await cleanup();
+    }, 70000);
+
+    it('should lint (and but fix) files built with handler `sass`, before building them', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
+
+      const fileContent = readFile(api.resolve('src/sass/style.scss'));
+      expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
+
+      await run('yarn'); // install dependencies
+      await api.executeCommand('build', {
+        'filter:handler': 'sass',
+        lint: true,
+        fix: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your Sass is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
+      expect(existsSync(api.resolve('dist/css/styles.css'))).toBeTruthy();
+
+      const newFileContent = readFile(api.resolve('src/sass/style.scss'));
+      expect(newFileContent).toMatchSnapshot('sass/style.scss after lint');
+      expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();
     }, 70000);

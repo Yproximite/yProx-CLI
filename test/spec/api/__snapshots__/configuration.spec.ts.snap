@@ -57,6 +57,12 @@ Object {
     "autoprefixer": false,
     "safe": true,
   },
+  "eslint": Object {
+    "extensions": Array [
+      ".js",
+      ".vue",
+    ],
+  },
   "gifsicle": Object {
     "colors": 16,
     "interlaced": true,
@@ -105,6 +111,12 @@ Object {
   "cssnano": Object {
     "autoprefixer": false,
     "safe": true,
+  },
+  "eslint": Object {
+    "extensions": Array [
+      ".js",
+      ".vue",
+    ],
   },
   "gifsicle": Object {
     "interlaced": true,
@@ -194,6 +206,12 @@ Object {
     "autoprefixer": false,
     "safe": true,
   },
+  "eslint": Object {
+    "extensions": Array [
+      ".js",
+      ".vue",
+    ],
+  },
   "gifsicle": Object {
     "colors": 16,
     "interlaced": true,
@@ -242,6 +260,12 @@ Object {
   "cssnano": Object {
     "autoprefixer": false,
     "safe": true,
+  },
+  "eslint": Object {
+    "extensions": Array [
+      ".js",
+      ".vue",
+    ],
   },
   "gifsicle": Object {
     "interlaced": true,

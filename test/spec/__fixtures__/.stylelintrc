@@ -1,5 +1,5 @@
 {
   "rules": {
-    "color-named": "never"
+    "no-extra-semicolons": true
   }
 }

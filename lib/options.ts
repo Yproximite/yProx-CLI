@@ -14,6 +14,9 @@ const schema = joi.object().keys({
       shims: joi.object(),
     }),
   }),
+  eslint: joi.object({
+    extensions: joi.array(),
+  }),
   buble: joi.alternatives(joi.object(), joi.boolean()),
   autoprefixer: joi.object(),
   cssnano: joi.object(),
@@ -40,6 +43,9 @@ export function defaults(): ProjectOptions {
         vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
         shims: {},
       },
+    },
+    eslint: {
+      extensions: ['.js', '.vue'],
     },
     buble: {},
     autoprefixer: {},

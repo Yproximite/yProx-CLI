@@ -3,6 +3,4 @@ import Button from './Button.vue';
 
 Vue.component('y-button', Button);
 
-console.log(
-       "Hello from index.js!"
-  )
+console.log("Hello from index.js!");;;
