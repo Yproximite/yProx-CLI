@@ -310,6 +310,9 @@ describe('command: build', () => {
 
       expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+      expect(existsSync(api.resolve('dist/js/button.js'))).toBeFalsy();
 
       await cleanup();
     }, 70000);
@@ -325,6 +328,9 @@ describe('command: build', () => {
 
       expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+      expect(existsSync(api.resolve('dist/js/scripts.js'))).toBeFalsy();
 
       await cleanup();
     }, 70000);
@@ -340,6 +346,9 @@ describe('command: build', () => {
 
       expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your CSS is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
+      expect(existsSync(api.resolve('dist/css/legacy-styles.css'))).toBeFalsy();
 
       await cleanup();
     }, 70000);
@@ -355,6 +364,9 @@ describe('command: build', () => {
 
       expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your Sass is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
+      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
+      expect(existsSync(api.resolve('dist/css/styles.css'))).toBeFalsy();
 
       await cleanup();
     }, 70000);
