@@ -2,7 +2,7 @@ import { existsSync, statSync } from 'fs';
 import { createFakeEnv } from '../../fake-env';
 import { readFile } from '../../read-file';
 
-const readFixture = (filename: string, charset: string | null = 'utf8') => readFile(`${ __dirname }/../../__fixtures__/${ filename }`, charset);
+const readFixture = (filename: string, charset: string | null = 'utf8') => readFile(`${__dirname}/../../__fixtures__/${filename}`, charset);
 
 const files = {
   'package.json': readFixture('package.json'),
@@ -139,34 +139,109 @@ describe('command: build', () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
       await run('yarn'); // install dependencies
-      // await cleanup();
+      await api.executeCommand('lint', {
+        fix: true,
+      });
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+
+      await cleanup();
     });
 
     it('should lint and fix Rollup entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
+      const fileContent = readFile(api.resolve('src/components/button/index.js'));
+      expect(fileContent).toMatchSnapshot('button/index.js before lint');
+
       await run('yarn'); // install dependencies
+      await api.executeCommand('lint', {
+        'filter:handler': 'rollup',
+        fix: true,
+      });
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+
+      const newFileContent = readFile(api.resolve('src/components/button/index.js'));
+      expect(newFileContent).toMatchSnapshot('button/index.js after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
       await cleanup();
     });
 
     it('should lint and fix JS entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
+      const fileContent = readFile(api.resolve('src/js/bar.js'));
+      expect(fileContent).toMatchSnapshot('js/bar.js before lint');
+
       await run('yarn'); // install dependencies
+      await api.executeCommand('lint', {
+        'filter:handler': 'js',
+        fix: true,
+      });
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+
+      const newFileContent = readFile(api.resolve('src/js/bar.js'));
+      expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
       await cleanup();
     });
 
     it('should lint and fix CSS entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
+      const fileContent = readFile(api.resolve('src/css/bar.css'));
+      expect(fileContent).toMatchSnapshot('css/bar.css before lint');
+
       await run('yarn'); // install dependencies
+      await api.executeCommand('lint', {
+        'filter:handler': 'css',
+        fix: true,
+      });
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: css (lint) :: Your CSS is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+
+      const newFileContent = readFile(api.resolve('src/css/bar.css'));
+      expect(newFileContent).toMatchSnapshot('css/bar.css after lint');
+      expect(fileContent).not.toBe(newFileContent);
+
       await cleanup();
     });
 
     it('should lint and fix Sass entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
+      const fileContent = readFile(api.resolve('src/sass/style.scss'));
+      expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
+
       await run('yarn'); // install dependencies
+      await api.executeCommand('lint', {
+        'filter:handler': 'sass',
+        fix: true,
+      });
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
+      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: sass (lint) :: Your Sass is not clean, stopping.');
+      expect(process.exit).not.toHaveBeenCalledWith(1);
+
+      const newFileContent = readFile(api.resolve('src/sass/style.scss'));
+      expect(newFileContent).toMatchSnapshot('sass/style.scss after lint');
+      expect(fileContent).not.toBe(newFileContent);
+      expect(fileContent).not.toBe(newFileContent);
+
       await cleanup();
     });
   });
