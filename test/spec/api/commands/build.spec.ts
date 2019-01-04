@@ -1,9 +1,8 @@
-import { existsSync, readFileSync, statSync } from 'fs';
+import { existsSync, statSync } from 'fs';
 import { createFakeEnv } from '../../fake-env';
+import { readFile } from '../../read-file';
 
-const readFile = (filename: string, charset: string | null = 'utf8') => readFileSync(filename, charset);
-
-const readFixture = (filename: string, charset: string | null = 'utf8') => readFileSync(`${__dirname}/../../__fixtures__/${filename}`, charset);
+const readFixture = (filename: string, charset: string | null = 'utf8') => readFile(`${__dirname}/../../__fixtures__/${filename}`, charset);
 
 const files = {
   'package.json': readFixture('package.json'),
