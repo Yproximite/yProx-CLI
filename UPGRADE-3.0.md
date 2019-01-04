@@ -1,4 +1,4 @@
-# UPGRADE FROM 1.X AND 2.X TO 3.0
+# UPGRADE FROM 2.X TO 3.0
 
 ## No more webpack 
 
