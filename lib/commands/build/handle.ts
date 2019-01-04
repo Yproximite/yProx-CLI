@@ -14,8 +14,10 @@ export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => 
       api.logger.error(err.message);
 
       if (!args.watch) {
-        return process.exit(1);
+        process.exit(1);
       }
+
+      return;
     }
   }
 

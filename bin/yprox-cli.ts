@@ -14,13 +14,7 @@ const command = args._[0];
 
 const cli = new CLI(process.cwd());
 
-cli
-  .run(command, args)
-  .then(() => {
-    console.log('Exiting yprox-cli.');
-    process.exit(0);
-  })
-  .catch((err: Error) => {
-    console.error(err);
-    process.exit(1);
-  });
+cli.run(command, args).catch((err: Error) => {
+  console.error(err);
+  process.exit(1);
+});
