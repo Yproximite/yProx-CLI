@@ -1,5 +1,4 @@
 import * as fs from 'fs-extra';
-import Module from 'module';
 import util from 'util';
 import API from '../../lib/API';
 
@@ -12,6 +11,7 @@ type FakeEnv = {
   api: API;
   cleanup: () => void;
   run: (command: string) => Promise<{ stdout: string; stderr: string }>;
+  writeInFile: (filename: string, content: string) => Promise<void>;
 };
 
 export const createFakeEnv = async (files: Files = {}, mode = 'development', verbose = false): Promise<FakeEnv> => {
@@ -38,5 +38,9 @@ export const createFakeEnv = async (files: Files = {}, mode = 'development', ver
     return await exec(command, { cwd: context });
   };
 
-  return { api, cleanup, run };
+  const writeInFile = async (filename: string, content: string): Promise<void> => {
+    return await fs.writeFile(`${context}/${filename}`, content);
+  };
+
+  return { api, cleanup, run, writeInFile };
 };

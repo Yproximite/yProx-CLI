@@ -12,7 +12,10 @@ export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => 
       await lintEntry(api, entry, args);
     } catch (err) {
       api.logger.error(err.message);
-      return process.exit(1);
+
+      if (!args.watch) {
+        return process.exit(1);
+      }
     }
   }
 

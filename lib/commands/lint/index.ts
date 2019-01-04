@@ -38,8 +38,8 @@ export default (api: API) => {
           (linters as any)
             [linter]()(api, args, files)
             .catch((err: Error) => {
-              api.logger.error(`lint (${linter}) :: ${err.message}`);
-              throw err;
+              api.logger.error(`${linter} (lint) :: ${err.message}`);
+              process.exit(1);
             })
         );
       });
