@@ -12,7 +12,7 @@ import vue from 'rollup-plugin-vue';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
-export default (api: API, entry: EntryRollup, args: CLIArgs) => {
+export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
   const rollupOptions = api.projectOptions.handlers.rollup;
   const getInputOptions = () => {
     const plugins = [];
@@ -24,7 +24,14 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
     if (typeof rollupOptions.json === 'object') plugins.push(json(rollupOptions.json));
     plugins.push(globals());
     if (typeof rollupOptions.vue === 'object') plugins.push(vue(rollupOptions.vue));
-    if (typeof api.projectOptions.buble === 'object') plugins.push(buble(api.projectOptions.buble));
+    if (typeof api.projectOptions.buble === 'object') {
+      plugins.push(
+        buble({
+          ...api.projectOptions.buble,
+          exclude: ['**/node_modules/**'],
+        })
+      );
+    }
 
     plugins.push(
       replace({
@@ -43,6 +50,9 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
       plugins,
       input: entry.src[0],
       external: Object.keys(rollupOptions.shims),
+      acorn: {
+        ecmaVersion: 9,
+      },
     };
   };
 
@@ -54,26 +64,28 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
     globals: rollupOptions.shims,
   });
 
-  const writeBundle = (bundle: rollup.RollupSingleFileBuild) => bundle.write(getOutputOptions());
+  const writeBundle = (bundle: rollup.RollupBuild) => bundle.write(getOutputOptions());
 
-  const build = () => {
+  const build = (resolve: (v?: any) => void, reject: (err?: Error) => void) => {
     api.logger.info(`rollup :: start bundling "${getEntryName(entry)}"`);
 
     return rollup
       .rollup(getInputOptions())
       .then(bundle => writeBundle(bundle))
       .then(() => {
-        api.logger.info(`rollup :: finished bundle "${getEntryName(entry)}"`);
+        api.logger.info(`rollup :: finished bundling "${getEntryName(entry)}"`);
+        resolve();
       })
       .catch((err: rollup.RollupError) => {
         api.logger.error(err.message);
-        if (err.loc) api.logger.error(err.loc);
+        if (err.loc) api.logger.error(JSON.stringify(err.loc, null, 2));
         // @ts-ignore
-        if (err.snippet) api.logger.error(err.snippet);
+        if (err.snippet) api.logger.error(JSON.stringify(err.snippet, null, 2));
 
-        console.log(err);
+        console.error(err);
 
         if (!args.watch) {
+          reject();
           process.exit(1);
         }
       });
@@ -100,13 +112,15 @@ export default (api: API, entry: EntryRollup, args: CLIArgs) => {
       if (code === 'BUNDLE_START') {
         api.logger.info(`rollup (watch) :: start bundling "${getEntryName(entry)}"`);
       } else if (code === 'BUNDLE_END') {
-        api.logger.info(`rollup (watch) :: finished bundle "${getEntryName(entry)}"`);
+        api.logger.info(`rollup (watch) :: finished bundling "${getEntryName(entry)}"`);
       } else if (['ERROR', 'FATAL'].includes(code)) {
         api.logger.error('rollup (watch) :: something wrong happens');
-        api.logger.error(e);
+        console.error(e);
       }
     });
   };
 
-  return args.watch ? watch() : build();
+  return new Promise((resolve, reject) => {
+    return args.watch ? watch() : build(resolve, reject);
+  });
 };

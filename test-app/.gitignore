@@ -1,7 +1,0 @@
-public/js/
-public/css/
-public/img/
-public/plugins/
-
-!.env*
-.env*.local

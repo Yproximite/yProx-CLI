@@ -1,3 +1,0 @@
-mutation deleteMedia($siteId: Int!, $mediaId: Int!) {
-  deleteMedia(siteId: $siteId, mediaId: $mediaId)
-}

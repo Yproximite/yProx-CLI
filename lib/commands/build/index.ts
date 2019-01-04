@@ -15,19 +15,18 @@ export default (api: API) => {
         ...require('../commonOptions'),
       },
     },
-    (args: CLIArgs) => {
-      return new Promise(() => {
-        const entries = readEntries(api, args);
+    async (args: CLIArgs) => {
+      const entries = readEntries(api, args);
+      const promises = entries.map(entry => {
+        if (args.watch && !['rollup'].includes(entry.handler)) {
+          // we gonna use their own watcher
+          return watch(api, entry, args)(handle);
+        }
 
-        entries.forEach(entry => {
-          if (args.watch && !['rollup'].includes(entry.handler)) {
-            // we gonna use their own watcher
-            watch(api, entry, args)(handle);
-          } else {
-            handle(api, entry, args);
-          }
-        });
+        return handle(api, entry, args);
       });
+
+      return await Promise.all(promises);
     }
   );
 };

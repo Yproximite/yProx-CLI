@@ -11,7 +11,7 @@ import API from '../../../API';
 
 import { getEntryName } from '../../../utils/entry';
 
-export default (api: API, entry: EntrySass, args: CLIArgs) => {
+export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
   const sassOptions = Object.assign(
     {
       importer: tildeImporter,
@@ -20,27 +20,34 @@ export default (api: API, entry: EntrySass, args: CLIArgs) => {
   );
 
   const postcssPlugins = [autoprefixer(api.projectOptions.autoprefixer)];
-
   if (api.isProduction()) {
     postcssPlugins.push(cssnano(api.projectOptions.cssnano));
   }
 
-  const src = entry.src[0];
-  api.logger.info(`sass :: start bundling "${getEntryName(entry)}"`);
+  return new Promise((resolve, reject) => {
+    const destFile: string | null = entry.destFile || entry.concat || null;
 
-  let stream = gulp.src(src).on('end', () => api.logger.info(`sass :: finished bundle "${getEntryName(entry)}"`));
+    if (destFile === null) {
+      return reject(new Error(`Entry "${getEntryName(entry)}" does not have destination filename. Specify it with "destFile" parameter.`));
+    }
 
-  if (entry.concat) {
-    stream = stream.pipe(concat(entry.concat));
-  }
+    api.logger.info(`sass :: start bundling "${getEntryName(entry)}"`);
 
-  return (
-    stream
-      .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
-      // @ts-ignore
-      .pipe(sass(sassOptions).on('error', sass.logError))
-      .pipe(postcss(postcssPlugins))
-      .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
-      .pipe(gulp.dest(entry.dest))
-  );
+    return (
+      gulp
+        .src(entry.src[0])
+        .on('error', reject)
+        .pipe(concat(destFile as string))
+        .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+        // @ts-ignore
+        .pipe(sass(sassOptions).on('error', sass.logError))
+        .pipe(postcss(postcssPlugins))
+        .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
+        .pipe(gulp.dest(entry.dest))
+        .on('end', () => {
+          api.logger.info(`sass :: finished bundling "${getEntryName(entry)}"`);
+          resolve();
+        })
+    );
+  });
 };

@@ -1,0 +1,10 @@
+{
+  "rules": {
+    "no-extra-semi": "error"
+  },
+  "parserOptions": {
+    "parser": "babel-eslint",
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  }
+}

@@ -1,0 +1,10 @@
+@import "~bootstrap/scss/bootstrap-reboot";
+
+$font-stack: Helvetica, sans-serif;
+
+body {
+  font: 100% $font-stack;
+  color: red;;;
+}
+
+@import "form";

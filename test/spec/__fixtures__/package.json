@@ -1,0 +1,68 @@
+{
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.2.1",
+    "vue": "^2.5.21"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.11.1",
+    "stylelint": "^9.9.0",
+    "vue-template-compiler": "^2.5.21"
+  },
+  "yproxCli": {
+    "assets": {
+      "app": [
+        {
+          "handler": "rollup",
+          "src": "src/components/button/index.js",
+          "dest": "dist/js",
+          "destFile": "button.js"
+        },
+        {
+          "handler": "js",
+          "src": [
+            "src/js/foo.js",
+            "src/js/bar.js"
+          ],
+          "dest": "dist/js",
+          "concat": "scripts.js"
+        },
+        {
+          "handler": "css",
+          "src": [
+            "src/css/foo.css",
+            "src/css/bar.css"
+          ],
+          "dest": "dist/css",
+          "concat": "legacy-styles.css"
+        },
+        {
+          "handler": "sass",
+          "src": "src/sass/style.scss",
+          "dest": "dist/css",
+          "destFile": "styles.css"
+        },
+        {
+          "name": "images to optimize",
+          "handler": "image",
+          "src": "src/images/*",
+          "dest": "dist/images"
+        },
+        {
+          "name": "files to copy",
+          "handler": "file",
+          "src": [
+            "src/lorem.txt",
+            "src/udhr.txt"
+          ],
+          "dest": "dist/"
+        }
+      ]
+    },
+    "gifsicle": {
+      "optimizationLevel": 3,
+      "colors": 16
+    }
+  }
+}

@@ -1,7 +1,0 @@
-#import "../fragments/mediaCategory.graphql"
-
-mutation CreateMediaCategory($siteId: Int!, $input: CreateMediaCategoryInput!) {
-  createMediaCategory(siteId: $siteId, input: $input) {
-    ...MediaCategoryFragment
-  }
-}

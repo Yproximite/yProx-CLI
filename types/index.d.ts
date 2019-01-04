@@ -24,6 +24,9 @@ type ProjectOptions = {
       shims: { [k: string]: any };
     };
   };
+  eslint: {
+    extensions: string[];
+  };
   buble: { [k: string]: any };
   autoprefixer: { [k: string]: any };
   cssnano: { [k: string]: any };

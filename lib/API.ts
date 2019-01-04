@@ -1,11 +1,12 @@
 import Logger, { Context, Variables } from '@kocal/logger';
+import stripAnsi from 'strip-ansi';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
 import { ValidationError, ValidationErrorItem } from 'joi';
 import { resolve } from 'path';
 import { ProjectOptions } from '../types';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
-import loadEnv from './utils/loadEnv';
+import { loadEnv } from './utils/loadEnv';
 
 export default class API {
   public readonly context: string;
@@ -33,9 +34,10 @@ export default class API {
           this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
         });
 
-        process.exit(1);
+        return process.exit(1);
       }
 
+      /* istanbul ignore next */
       if (!config) {
         throw new Error('This should not happens.');
       }
@@ -58,7 +60,7 @@ export default class API {
     this.commands[commandName] = { opts, fn, name: commandName };
   }
 
-  public executeCommand(commandName: string, args: CLIArgs) {
+  public executeCommand(commandName: string, args: CLIArgs = {}): Promise<any> {
     if (!commandName) {
       throw new Error('You must specify a command to run.');
     }
@@ -95,7 +97,7 @@ export default class API {
 
     if (pkgConfig !== null && fileConfig !== null) {
       cb(new Error(
-        "You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m" + ' and \x1b[1;32mpackage.json\x1b[0m at the same time.'
+        "You can't configure yprox-cli with \x1b[1;32myprox-cli.config.js\x1b[0m and \x1b[1;32mpackage.json\x1b[0m at the same time."
       ) as ValidationError);
       return;
     }
@@ -162,7 +164,13 @@ function initLogger(verbose = false): Logger {
   return Logger.getLogger('yprox-cli', {
     level: verbose ? 'log' : 'info',
     format: (ctx: Context, variables: Variables) => {
-      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}]` + ` ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
+      // jest
+      if (process.env.NODE_ENV === 'test' || process.env.YPROX_CLI_LOGGER_NO_COLOR === 'true') {
+        return `[${ctx.luxon.toFormat('HH:mm:ss')}] ${ctx.level} :: ${stripAnsi(ctx.message)}`;
+      }
+
+      /* istanbul ignore next */
+      return `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`;
     },
   });
 }

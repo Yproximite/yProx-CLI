@@ -1,7 +1,0 @@
-#import "../fragments/media.graphql"
-
-mutation UploadMedias($siteId: Int!, $categoriesIds: [Int]) {
-  uploadMedias(siteId: $siteId, categoriesIds: $categoriesIds) {
-    ...MediaFragment
-  }
-}

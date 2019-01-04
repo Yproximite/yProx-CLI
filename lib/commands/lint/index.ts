@@ -38,8 +38,8 @@ export default (api: API) => {
           (linters as any)
             [linter]()(api, args, files)
             .catch((err: Error) => {
-              api.logger.error(`lint (${linter}) :: ${err.message}`);
-              throw err;
+              api.logger.error(`${linter} (lint) :: ${err.message}`);
+              process.exit(1);
             })
         );
       });
@@ -49,7 +49,7 @@ export default (api: API) => {
   );
 };
 
-export async function lintEntry(api: API, entry: Entry, args: CLIArgs) {
+export async function lintEntry(api: API, entry: Entry, args: CLIArgs): Promise<any> {
   const linter = entry.handler;
   const normalizedEntry = normalizeEntry(entry);
   const filesToLint = normalizedEntry.src;

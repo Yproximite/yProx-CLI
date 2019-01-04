@@ -25,7 +25,24 @@ export default class CLI {
 
     return new Promise((resolve, reject) => {
       if (!commandName && args.version) {
-        console.log(require('../../package').version);
+        let version: string | null = null;
+
+        // In .ts files
+        try {
+          version = version || require('../package').version;
+        } catch (e) {}
+
+        // In `dist` folder
+        try {
+          version = version || require('../../package').version;
+        } catch (e) {}
+
+        if (version === null) {
+          throw new Error('Unable to get yprox-cli version.');
+        }
+
+        console.log(version);
+
         return resolve();
       }
 

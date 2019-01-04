@@ -78,7 +78,7 @@ Used for copying files:
 
 ## Images
 
-Used for minifying images (png, jpeg, gif and svg) in production environment:
+Used for optimizing PNG, JPEG, GIF and SVG images:
 
 ```js
 {
