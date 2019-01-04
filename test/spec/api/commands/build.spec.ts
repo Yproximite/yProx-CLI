@@ -13,6 +13,7 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('src/components/button/index.js'),
+  'src/components/button/foo.graphql': readFixture('src/components/button/foo.graphql'),
   // css
   'src/css/bar.css': readFixture('src/css/bar.css'),
   'src/css/foo.css': readFixture('src/css/foo.css'),
@@ -68,8 +69,11 @@ describe('command: build', () => {
     expect(existsSync(api.resolve('dist/js/button.js'))).toBeTruthy();
     expect(existsSync(api.resolve('dist/js/button.js.map'))).toBeTruthy();
     expect(readFile(api.resolve('dist/js/button.js'))).toContain(
-      '{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!")}};'
-    );
+      '{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!"),'
+    ); // vue plugin
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain(
+      'kind:"Document",definitions:[{kind:"OperationDefinition",operation:"query",name:{kind:"Name",value:"FooQuery"}'
+    ); // graphql plugin
     expect(readFile(api.resolve('dist/js/button.js'))).toContain('fn.component("y-button",');
     expect(readFile(api.resolve('dist/js/button.js'))).toContain('console.log("Hello from index.js!")');
 

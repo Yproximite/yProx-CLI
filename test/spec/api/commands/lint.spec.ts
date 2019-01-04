@@ -13,6 +13,7 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('src/components/button/index.js'),
+  'src/components/button/foo.graphql': readFixture('src/components/button/foo.graphql'),
   // css
   'src/css/bar.css': readFixture('src/css/bar.css'),
   'src/css/foo.css': readFixture('src/css/foo.css'),
