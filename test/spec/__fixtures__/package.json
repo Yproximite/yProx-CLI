@@ -1,5 +1,9 @@
 {
   "private": true,
+  "scripts" : {
+    "build": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../dist/bin/yprox-cli.js build",
+    "lint": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../dist/bin/yprox-cli.js lint"
+  },
   "dependencies": {
     "bootstrap": "^4.2.1",
     "vue": "^2.5.21"
