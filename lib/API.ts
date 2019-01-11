@@ -83,7 +83,9 @@ export default class API {
       } else {
         // read config fron `package.json`
         const pkg = require(this.resolve('package.json'));
-        pkgConfig = pkg.yproxCli || {};
+        if (typeof pkg.yproxCli !== 'undefined') {
+          pkgConfig = pkg.yproxCli;
+        }
       }
     } catch (e) {}
 
@@ -91,7 +93,7 @@ export default class API {
       if (process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true') {
         // no-op
       } else {
-        fileConfig = require(this.resolve('yprox-cli.config.js')) || {};
+        fileConfig = require(this.resolve('yprox-cli.config.js')) || null;
       }
     } catch (e) {}
 
