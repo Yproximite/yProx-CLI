@@ -10,8 +10,8 @@ a different version.
 
 You should install them manually:
 ```bash
-$ yarn add -D eslint@>=5.0.0 stylelint@>=9.0.0
+$ yarn add -D 'eslint@>=5.0.0' 'stylelint@>=9.0.0'
 
 # or with npm
-$ npm install --save-dev eslint@>=5.0.0 stylelint@>=9.0.0
+$ npm install --save-dev 'eslint@>=5.0.0' 'stylelint@>=9.0.0'
 ```
