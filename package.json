@@ -6,7 +6,9 @@
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
   "files": [
-    "dist"
+    "dist",
+    "UPGRADE-2.0.md",
+    "UPGRADE-3.0.md"
   ],
   "bin": {
     "yprox-cli": "dist/bin/yprox-cli.js"
