@@ -33,6 +33,7 @@ script:
   - yarn build
   - yarn lint
   - yarn test
+  - npm pack # display which files will be packaged and sent to npm
 
 jobs:
   include:
