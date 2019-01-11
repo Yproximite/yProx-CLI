@@ -20,8 +20,6 @@ cache:
   yarn: true
   directories:
     - ./node_modules
-    - ~/.nvm
-    - ~/.cache
 
 before_install:
   - npm i -g yarn
