@@ -6435,12 +6435,12 @@ gulp-sourcemaps@^2.6.4:
     through2 "2.X"
 
 gulp-terser@^1.1.6:
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.1.6.tgz#17b845b464690580e2ada280c5f8f539868f4da5"
-  integrity sha512-L+PgqJdj5fcn9BQIcpkHpz23lC/grr2JlOEj5Oegb/HasSASWrtDqML8yW6hwAr8DLv70u+HfeQe+vhVqCrOWw==
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/gulp-terser/-/gulp-terser-1.1.7.tgz#b011c05cc05661c3d2b629d114f419a90622462e"
+  integrity sha512-u577eHpz9zHaO7SiJJM5Rd1deBJastfNJ41pSfUpTagOtCommfDq00VK4JPwwTkQ++IGJbkFBen1C+vDxTO9gg==
   dependencies:
     plugin-error "^1.0.1"
-    terser "^3.11.0"
+    terser "^3.14.1"
     through2 "^3.0.0"
     vinyl-sourcemaps-apply "^0.2.1"
 
@@ -14215,7 +14215,7 @@ terser-webpack-plugin@^1.1.0:
     webpack-sources "^1.1.0"
     worker-farm "^1.5.2"
 
-terser@^3.11.0, terser@^3.14.1, terser@^3.8.1:
+terser@^3.14.1, terser@^3.8.1:
   version "3.14.1"
   resolved "https://registry.yarnpkg.com/terser/-/terser-3.14.1.tgz#cc4764014af570bc79c79742358bd46926018a32"
   integrity sha512-NSo3E99QDbYSMeJaEk9YW2lTg3qS9V0aKGlb+PlOrei1X02r1wSBHCNX/O+yeTRFSWPKPIGj6MqvvdqV4rnVGw==
