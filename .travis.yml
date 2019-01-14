@@ -19,6 +19,7 @@ env:
 cache:
   yarn: true
   directories:
+    - ~/.nvm
     - ./node_modules
 
 before_install:
