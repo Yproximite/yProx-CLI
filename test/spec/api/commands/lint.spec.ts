@@ -59,7 +59,7 @@ describe('command: build', () => {
     it('should lint entries and fails', async () => {
       const { api, run, writeInFile, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint');
 
       // The first entry handled by yprox-cli is a `rollup` entry.
@@ -81,7 +81,7 @@ describe('command: build', () => {
     it('should lint Rollup entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'rollup',
       });
@@ -95,7 +95,7 @@ describe('command: build', () => {
     it('should lint JS entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'js',
       });
@@ -109,7 +109,7 @@ describe('command: build', () => {
     it('should lint CSS entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'css',
       });
@@ -123,7 +123,7 @@ describe('command: build', () => {
     it('should lint Sass entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'sass',
       });
@@ -139,7 +139,7 @@ describe('command: build', () => {
     it('should lint and fix entries', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         fix: true,
       });
@@ -159,7 +159,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/components/button/index.js'));
       expect(fileContent).toMatchSnapshot('button/index.js before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'rollup',
         fix: true,
@@ -182,7 +182,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/js/bar.js'));
       expect(fileContent).toMatchSnapshot('js/bar.js before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'js',
         fix: true,
@@ -205,7 +205,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/css/bar.css'));
       expect(fileContent).toMatchSnapshot('css/bar.css before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'css',
         fix: true,
@@ -228,7 +228,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/sass/style.scss'));
       expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
         'filter:handler': 'sass',
         fix: true,

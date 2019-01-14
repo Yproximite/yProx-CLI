@@ -59,7 +59,7 @@ describe('command: build', () => {
   it('should build entries (production mode)', async () => {
     const { api, cleanup, run } = await createFakeEnv(files, 'production', true);
 
-    await run('yarn'); // install dependencies
+    await run('yarn install --frozen-lockfile');
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     // should have built files with Rollup handler
@@ -133,7 +133,7 @@ describe('command: build', () => {
   it('should build entries (development mode)', async () => {
     const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-    await run('yarn'); // install dependencies
+    await run('yarn install --frozen-lockfile');
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     // should have built files with Rollup handler
@@ -203,7 +203,7 @@ describe('command: build', () => {
   it('should build only css entries (filter on `css` handler)', async () => {
     const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-    await run('yarn'); // install dependencies
+    await run('yarn install --frozen-lockfile');
     await api.executeCommand('build', { 'filter:handler': 'css' }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `asset.handler === 'css'`"); // verbose mode
@@ -254,7 +254,7 @@ describe('command: build', () => {
   it('should build only css and sass entries (filter on `css` and `sass` handlers)', async () => {
     const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-    await run('yarn'); // install dependencies
+    await run('yarn install --frozen-lockfile');
     await api.executeCommand('build', { 'filter:handler': ['css', 'sass'] }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `['css', 'sass'].includes(asset.handler)`"); // verbose mode
@@ -306,7 +306,7 @@ describe('command: build', () => {
     it('should lint (but not fix) files built with handler `rollup`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'rollup',
         lint: true,
@@ -324,7 +324,7 @@ describe('command: build', () => {
     it('should lint (but not fix) files built with handler `js`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'js',
         lint: true,
@@ -342,7 +342,7 @@ describe('command: build', () => {
     it('should lint (but not fix) files built with handler `css`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'css',
         lint: true,
@@ -360,7 +360,7 @@ describe('command: build', () => {
     it('should lint (but not fix) files built with handler `sass`, before building them', async () => {
       const { api, cleanup, run } = await createFakeEnv(files, 'development', true);
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'sass',
         lint: true,
@@ -383,7 +383,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/components/button/index.js'));
       expect(fileContent).toMatchSnapshot('button/index.js before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'rollup',
         lint: true,
@@ -410,7 +410,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/js/bar.js'));
       expect(fileContent).toMatchSnapshot('js/bar.js before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'js',
         lint: true,
@@ -437,7 +437,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/css/bar.css'));
       expect(fileContent).toMatchSnapshot('css/bar.css before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'css',
         lint: true,
@@ -464,7 +464,7 @@ describe('command: build', () => {
       const fileContent = readFile(api.resolve('src/sass/style.scss'));
       expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
 
-      await run('yarn'); // install dependencies
+      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         'filter:handler': 'sass',
         lint: true,
