@@ -38,10 +38,8 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.0.0",
     "@kocal/logger": "^1.1.1",
     "autoprefixer": "^9.1.2",
-    "babel-core": "^7.0.0-bridge.0",
     "buble": "^0.19.6",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
@@ -81,6 +79,7 @@
     "stylelint": ">= 9.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.2.2",
     "@kocal/semantic-release-preset": "^1.1.0",
     "@types/autoprefixer": "^9.1.1",
     "@types/cssnano": "^4.0.0",
@@ -99,6 +98,7 @@
     "@types/rollup-plugin-json": "^3.0.1",
     "@types/strip-ansi": "^3.0.0",
     "@types/stylelint": "^9.4.1",
+    "babel-core": "^7.0.0-bridge.0",
     "cross-env": "^5.2.0",
     "eslint": "^5.11.0",
     "fs-extra": "^7.0.1",
