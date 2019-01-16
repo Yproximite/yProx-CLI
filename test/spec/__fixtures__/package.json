@@ -1,18 +1,18 @@
 {
   "private": true,
   "scripts" : {
-    "build": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../dist/bin/yprox-cli.js build",
-    "lint": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../dist/bin/yprox-cli.js lint"
+    "build": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../../dist/bin/yprox-cli.js build",
+    "lint": "YPROX_CLI_IGNORE_CONFIG_FILE=true ../../../../dist/bin/yprox-cli.js lint"
   },
   "dependencies": {
     "bootstrap": "^4.2.1",
-    "vue": "^2.5.21"
+    "vue": "^2.5.22"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
     "eslint": "^5.11.1",
     "stylelint": "^9.9.0",
-    "vue-template-compiler": "^2.5.21"
+    "vue-template-compiler": "^2.5.22"
   },
   "yproxCli": {
     "assets": {

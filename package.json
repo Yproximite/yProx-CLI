@@ -76,7 +76,8 @@
   },
   "peerDependencies": {
     "eslint": ">= 5.0.0",
-    "stylelint": ">= 9.0.0"
+    "stylelint": ">= 9.0.0",
+    "vue-template-compiler": ">= 2.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
