@@ -68,14 +68,15 @@ describe('command: build', () => {
 
     expect(existsSync(api.resolve('dist/js/button.js'))).toBeTruthy();
     expect(existsSync(api.resolve('dist/js/button.js.map'))).toBeTruthy();
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain('version="2.5.22"'); // vue
     expect(readFile(api.resolve('dist/js/button.js'))).toContain(
       '{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!"),'
     ); // vue plugin
     expect(readFile(api.resolve('dist/js/button.js'))).toContain(
       'kind:"Document",definitions:[{kind:"OperationDefinition",operation:"query",name:{kind:"Name",value:"FooQuery"}'
     ); // graphql plugin
-    expect(readFile(api.resolve('dist/js/button.js'))).toContain('fn.component("y-button",');
-    expect(readFile(api.resolve('dist/js/button.js'))).toContain('console.log("Hello from index.js!")');
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain('.component("y-button",'); // app
+    expect(readFile(api.resolve('dist/js/button.js'))).toContain('console.log("Hello from index.js!")'); // app
 
     // should have built files with JS handler
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
