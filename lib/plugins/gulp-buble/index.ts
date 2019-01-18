@@ -4,7 +4,7 @@ import PluginError from 'plugin-error';
 import { transform as transformBuble } from 'buble';
 import { ProjectOptions } from '../../../types';
 
-export const buble = (options: ProjectOptions['buble']) => {
+export const buble = (options: ProjectOptions['buble'] = {}) => {
   return new Transform({
     objectMode: true,
     transform(file, enc, cb) {
@@ -17,7 +17,6 @@ export const buble = (options: ProjectOptions['buble']) => {
         return;
       }
 
-      options = options || {};
       options.file = file.path;
       options.source = file.path;
       options.includeContent = true;
