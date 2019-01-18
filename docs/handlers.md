@@ -2,7 +2,9 @@
 
 ## Rollup
 
-Used for building `.vue` components with the support of ES6 modules.
+Used for building modern applications. It supports Vue components and ES6 modules.
+
+In production environment, it minimize files and generates sourcemaps.
 
 ```js
 {
@@ -16,9 +18,9 @@ Used for building `.vue` components with the support of ES6 modules.
 
 ## Plain Javascript files
 
-Used for handling JS files.
+Used for handling JS files with the support of ES6 code. Note that ES6 modules are **not supported**, use Rollup instead.
 
-In production environment, it uglify files and generates sourcemaps.
+In production environment, it minimize files and generates sourcemaps.
 
 ```js
 {
