@@ -5,6 +5,7 @@ import sourcemaps from 'gulp-sourcemaps';
 import terser from 'gulp-terser';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
+import { buble } from '../../../plugins/gulp-buble';
 
 export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
   return new Promise((resolve, reject) => {
@@ -15,6 +16,12 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
       .on('error', reject)
       .pipe(gulpIf(!!entry.concat, concat(entry.concat as string)))
       .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+      .pipe(
+        buble({
+          ...api.projectOptions.buble,
+          exclude: ['**/node_modules/**'],
+        })
+      )
       .pipe(gulpIf(api.isProduction(), terser(api.projectOptions.terser)))
       .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))
