@@ -2,6 +2,18 @@ interface Options {
   [k: string]: any;
 }
 
+declare module 'buble' {
+  function transform(content: string, opts?: {}): any;
+
+  export { transform };
+}
+
+declare module 'vinyl-sourcemaps-apply' {
+  function fn(file: any, map: any): any;
+
+  export default fn;
+}
+
 declare module 'gulp-postcss' {
   function fn(plugins: Function[]): any;
 

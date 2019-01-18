@@ -1319,6 +1319,13 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.9.3.tgz#85f288502503ade0b3bfc049fe1777b05d0327d5"
   integrity sha512-DOzWZKUnmFYG0KUOs+9HEBju2QhBU6oM2zeluunQNt0vnJvnkHvtDNlQPZDkTrkC5pZrNx1TPqeL137zciXZMQ==
 
+"@types/readable-stream@^2.3.0":
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.0.tgz#52e4b8bd8c2c222cadbe5366c833bc75fc975763"
+  integrity sha512-c0+lRjSeBakp3YJaP4BixI+sWWO5JFsG3wKAlUNl2olBB5sbXY8rgRbFbBwLkuuX3xSxNqpCZzeROJzMlsCdig==
+  dependencies:
+    "@types/node" "*"
+
 "@types/rollup-plugin-json@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.1.tgz#feba24edb11a152b728109151bf9ffb4f2b42ceb"
@@ -12256,7 +12263,7 @@ readable-stream@1.0, readable-stream@~1.0.26, readable-stream@~1.0.26-4:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-"readable-stream@2 || 3":
+"readable-stream@2 || 3", readable-stream@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-3.1.1.tgz#ed6bbc6c5ba58b090039ff18ce670515795aeb06"
   integrity sha512-DkN66hPyqDhnIQ6Jcsvx9bFjhw214O4poMBcIMgPVpQvNy9a0e0Uhg5SqySyDKAmUlwt8LonTBz1ezOnM8pUdA==
