@@ -5,10 +5,10 @@ import { getEntryName } from '../../../utils/entry';
 
 export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
   const imageminPlugins = [
-    imagemin.gifsicle(api.projectOptions.gifsicle),
-    imagemin.jpegtran(api.projectOptions.jpegtran),
-    imagemin.optipng(api.projectOptions.optipng),
-    imagemin.svgo(api.projectOptions.svgo),
+    imagemin.gifsicle({ ...api.projectOptions.gifsicle }),
+    imagemin.jpegtran({ ...api.projectOptions.jpegtran }),
+    imagemin.optipng({ ...api.projectOptions.optipng }),
+    imagemin.svgo({ ...api.projectOptions.svgo }),
   ];
 
   return new Promise((resolve, reject) => {
