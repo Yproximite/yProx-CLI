@@ -22,7 +22,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
           exclude: ['**/node_modules/**'],
         })
       )
-      .pipe(gulpIf(api.isProduction(), terser(api.projectOptions.terser)))
+      .pipe(gulpIf(api.isProduction(), terser({ ...api.projectOptions.terser })))
       .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))
       .on('end', () => {

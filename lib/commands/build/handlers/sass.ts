@@ -19,9 +19,9 @@ export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
     api.projectOptions.handlers.sass
   );
 
-  const postcssPlugins = [autoprefixer(api.projectOptions.autoprefixer)];
+  const postcssPlugins = [autoprefixer({ ...api.projectOptions.autoprefixer })];
   if (api.isProduction()) {
-    postcssPlugins.push(cssnano(api.projectOptions.cssnano));
+    postcssPlugins.push(cssnano({ ...api.projectOptions.cssnano }));
   }
 
   return new Promise((resolve, reject) => {

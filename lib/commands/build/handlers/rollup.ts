@@ -13,17 +13,17 @@ import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
 export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
-  const rollupOptions = api.projectOptions.handlers.rollup;
+  const rollupOptions = { ...api.projectOptions.handlers.rollup };
   const getInputOptions = () => {
     const plugins = [];
 
     plugins.push(builtins());
-    if (typeof rollupOptions.nodeResolve === 'object') plugins.push(nodeResolve(rollupOptions.nodeResolve));
-    if (typeof rollupOptions.commonjs === 'object') plugins.push(commonjs(rollupOptions.commonjs));
+    if (typeof rollupOptions.nodeResolve === 'object') plugins.push(nodeResolve({ ...rollupOptions.nodeResolve }));
+    if (typeof rollupOptions.commonjs === 'object') plugins.push(commonjs({ ...rollupOptions.commonjs }));
     plugins.push(graphql());
-    if (typeof rollupOptions.json === 'object') plugins.push(json(rollupOptions.json));
+    if (typeof rollupOptions.json === 'object') plugins.push(json({ ...rollupOptions.json }));
     plugins.push(globals());
-    if (typeof rollupOptions.vue === 'object') plugins.push(vue(rollupOptions.vue));
+    if (typeof rollupOptions.vue === 'object') plugins.push(vue({ ...rollupOptions.vue }));
     if (typeof api.projectOptions.buble === 'object') {
       plugins.push(
         buble({
@@ -43,7 +43,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
     );
 
     if (api.isProduction()) {
-      plugins.push(terser(api.projectOptions.terser));
+      plugins.push(terser({ ...api.projectOptions.terser }));
     }
 
     return {

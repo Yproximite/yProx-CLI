@@ -9,10 +9,10 @@ import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
 export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
-  const postcssPlugins = [autoprefixer(api.projectOptions.autoprefixer)];
+  const postcssPlugins = [autoprefixer({ ...api.projectOptions.autoprefixer })];
 
   if (api.isProduction()) {
-    postcssPlugins.push(cssnano(api.projectOptions.cssnano));
+    postcssPlugins.push(cssnano({ ...api.projectOptions.cssnano }));
   }
 
   return new Promise((resolve, reject) => {
