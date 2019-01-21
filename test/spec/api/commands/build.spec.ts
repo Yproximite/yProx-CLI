@@ -486,4 +486,29 @@ describe('command: build', () => {
       await cleanup();
     }, 70000);
   });
+
+  describe('Misc', () => {
+    it('Gulp, Rollup, and Sass plugins should not mutate `api.projectOptions`', async () => {
+      const { api, cleanup, run } = await createFakeEnv(files, 'production', true);
+      const projectOptions = JSON.parse(JSON.stringify(api.projectOptions));
+
+      await run('yarn install --frozen-lockfile');
+      await api.executeCommand('build', {
+        lint: true,
+        fix: true,
+      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+
+      expect(projectOptions.eslint).toEqual(api.projectOptions.eslint);
+      expect(projectOptions.buble).toEqual(api.projectOptions.buble);
+      expect(projectOptions.autoprefixer).toEqual(api.projectOptions.autoprefixer);
+      expect(projectOptions.cssnano).toEqual(api.projectOptions.cssnano);
+      expect(projectOptions.terser).toEqual(api.projectOptions.terser);
+      expect(projectOptions.gifsicle).toEqual(api.projectOptions.gifsicle);
+      expect(projectOptions.jpegtran).toEqual(api.projectOptions.jpegtran);
+      expect(projectOptions.optipng).toEqual(api.projectOptions.optipng);
+      expect(projectOptions.svgo).toEqual(api.projectOptions.svgo);
+
+      await cleanup();
+    }, 70000);
+  });
 });
