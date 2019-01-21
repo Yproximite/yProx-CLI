@@ -13,11 +13,14 @@ export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => 
     } catch (err) {
       api.logger.error(err.message);
 
-      if (!args.watch) {
+      if (args.watch) {
+        if (api.isProduction()) {
+          return;
+        }
+      } else {
         process.exit(1);
+        return;
       }
-
-      return;
     }
   }
 
