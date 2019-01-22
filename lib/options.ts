@@ -37,7 +37,11 @@ export function defaults(): ProjectOptions {
     handlers: {
       sass: {},
       rollup: {
-        nodeResolve: {}, // https://github.com/rollup/rollup-plugin-node-resolve
+        nodeResolve: {
+          module: true,
+          browser: true,
+          extensions: ['.mjs', '.js', '.json', '.node', '.vue'],
+        }, // https://github.com/rollup/rollup-plugin-node-resolve
         commonjs: {}, // https://github.com/rollup/rollup-plugin-commonjs
         json: {}, // https://github.com/rollup/rollup-plugin-json#usage
         vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
