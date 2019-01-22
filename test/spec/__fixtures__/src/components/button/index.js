@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Button from './Button.vue';
+import Button from './Button';
 
 Vue.component('y-button', Button);
 
