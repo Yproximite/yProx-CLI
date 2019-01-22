@@ -26,7 +26,7 @@ exports[`command: build lint (and fix) should lint and fix JS entries only: js/b
 
 exports[`command: build lint (and fix) should lint and fix Rollup entries only: button/index.js after lint 1`] = `
 "import Vue from 'vue';
-import Button from './Button.vue';
+import Button from './Button';
 
 Vue.component('y-button', Button);
 
@@ -36,7 +36,7 @@ console.log(\\"Hello from index.js!\\");
 
 exports[`command: build lint (and fix) should lint and fix Rollup entries only: button/index.js before lint 1`] = `
 "import Vue from 'vue';
-import Button from './Button.vue';
+import Button from './Button';
 
 Vue.component('y-button', Button);
 

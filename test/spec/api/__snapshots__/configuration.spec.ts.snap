@@ -72,7 +72,17 @@ Object {
     "rollup": Object {
       "commonjs": Object {},
       "json": Object {},
-      "nodeResolve": Object {},
+      "nodeResolve": Object {
+        "browser": true,
+        "extensions": Array [
+          ".mjs",
+          ".js",
+          ".json",
+          ".node",
+          ".vue",
+        ],
+        "module": true,
+      },
       "shims": Object {},
       "vue": Object {},
     },
@@ -125,7 +135,17 @@ Object {
     "rollup": Object {
       "commonjs": Object {},
       "json": Object {},
-      "nodeResolve": Object {},
+      "nodeResolve": Object {
+        "browser": true,
+        "extensions": Array [
+          ".mjs",
+          ".js",
+          ".json",
+          ".node",
+          ".vue",
+        ],
+        "module": true,
+      },
       "shims": Object {},
       "vue": Object {},
     },
@@ -221,7 +241,17 @@ Object {
     "rollup": Object {
       "commonjs": Object {},
       "json": Object {},
-      "nodeResolve": Object {},
+      "nodeResolve": Object {
+        "browser": true,
+        "extensions": Array [
+          ".mjs",
+          ".js",
+          ".json",
+          ".node",
+          ".vue",
+        ],
+        "module": true,
+      },
       "shims": Object {},
       "vue": Object {},
     },
@@ -274,7 +304,17 @@ Object {
     "rollup": Object {
       "commonjs": Object {},
       "json": Object {},
-      "nodeResolve": Object {},
+      "nodeResolve": Object {
+        "browser": true,
+        "extensions": Array [
+          ".mjs",
+          ".js",
+          ".json",
+          ".node",
+          ".vue",
+        ],
+        "module": true,
+      },
       "shims": Object {},
       "vue": Object {},
     },
