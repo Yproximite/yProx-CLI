@@ -26,7 +26,7 @@ exports[`command: build lint (and fix) before build should lint (and but fix) fi
 
 exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`rollup\`, before building them: button/index.js after lint 1`] = `
 "import Vue from 'vue';
-import Button from './Button.vue';
+import Button from './Button';
 
 Vue.component('y-button', Button);
 
@@ -36,7 +36,7 @@ console.log(\\"Hello from index.js!\\");
 
 exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`rollup\`, before building them: button/index.js before lint 1`] = `
 "import Vue from 'vue';
-import Button from './Button.vue';
+import Button from './Button';
 
 Vue.component('y-button', Button);
 
