@@ -83,37 +83,3 @@ declare module 'defaults-deep' {
 
   export default fn;
 }
-
-declare module '@kocal/logger' {
-  export interface Context {
-    level: string;
-    levelColor: (level: string) => any;
-    message: string;
-    chalk: any;
-    luxon: any;
-  }
-
-  export type Variables = { [k: string]: any } | (() => { [k: string]: any });
-
-  class Logger {
-    static getLogger(name: string, options: {}): Logger;
-
-    setLevel(level: string): void;
-
-    setFormat(format: (ctx: Context, variables: Variables) => string): void;
-
-    setVariables(variables: Variables): void;
-
-    debug(message: any, additionalVariables?: Variables): void;
-
-    log(message: any, additionalVariables?: Variables): void;
-
-    info(message: any, additionalVariables?: Variables): void;
-
-    warn(message: any, additionalVariables?: Variables): void;
-
-    error(message: any, additionalVariables?: Variables): void;
-  }
-
-  export default Logger;
-}
