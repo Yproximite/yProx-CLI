@@ -38,7 +38,7 @@
     ]
   },
   "dependencies": {
-    "@kocal/logger": "^1.1.1",
+    "@kocal/logger": "^1.3.1",
     "autoprefixer": "^9.1.2",
     "buble": "^0.19.6",
     "chalk": "^2.4.1",
