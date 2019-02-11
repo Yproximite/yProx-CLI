@@ -26,12 +26,6 @@ declare module 'rollup-plugin-node-builtins' {
   export default fn;
 }
 
-declare module 'rollup-plugin-node-resolve' {
-  function fn(options: Options): any;
-
-  export default fn;
-}
-
 declare module 'rollup-plugin-node-globals' {
   function fn(): any;
 

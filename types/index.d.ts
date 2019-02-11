@@ -7,6 +7,7 @@ import { Options as OptipngOptions } from 'imagemin-optipng';
 import { Options as SvgoOptions } from 'imagemin-svgo';
 import { Options as SassOptions } from 'sass';
 import { MinifyOptions } from 'terser';
+import { Options as RollupResolveOptions } from 'rollup-plugin-node-resolve';
 
 type Asset =
   | string // for import
@@ -19,7 +20,7 @@ type ProjectOptions = {
   handlers: {
     sass: SassOptions;
     rollup: {
-      nodeResolve: { [k: string]: any } | boolean;
+      nodeResolve: RollupResolveOptions | boolean;
       commonjs: { [k: string]: any } | boolean;
       json: { [k: string]: any } | boolean;
       vue: { [k: string]: any } | boolean;

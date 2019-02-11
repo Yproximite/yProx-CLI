@@ -1335,6 +1335,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/resolve@*":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
+  integrity sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
+  dependencies:
+    "@types/node" "*"
+
 "@types/rollup-plugin-buble@^0.19.0":
   version "0.19.0"
   resolved "https://registry.yarnpkg.com/@types/rollup-plugin-buble/-/rollup-plugin-buble-0.19.0.tgz#9aa24565a4096f06efe9a01676ef6ef36c19cc58"
@@ -1350,6 +1357,14 @@
   integrity sha512-IXJt0KMauS47OtrfFxMlYeBADkBNoX1xhxYh2KR8VRS2wN+jCw0KrGdNPMMw4VDX8u6K7PoHa7ApWBI4PU+ZkQ==
   dependencies:
     "@types/node" "*"
+    rollup "^0.63.4"
+
+"@types/rollup-plugin-node-resolve@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-node-resolve/-/rollup-plugin-node-resolve-4.0.0.tgz#d5b90bee03c3d9f418c498a6abf40a71d846f255"
+  integrity sha512-Cu0TEpG6mvwARmVNPTpq5TaVIiIm45a7ErikZytdabUVdRyLdLHCDgcXgUohrliyZYxCqKafKVCzXi6Ono0gaw==
+  dependencies:
+    "@types/resolve" "*"
     rollup "^0.63.4"
 
 "@types/sass@^1.16.0":
