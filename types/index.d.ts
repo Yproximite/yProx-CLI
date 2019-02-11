@@ -8,6 +8,7 @@ import { Options as SvgoOptions } from 'imagemin-svgo';
 import { Options as SassOptions } from 'sass';
 import { MinifyOptions } from 'terser';
 import { Options as RollupResolveOptions } from 'rollup-plugin-node-resolve';
+import { VuePluginOptions as RollupVueOptions } from 'rollup-plugin-vue';
 
 type Asset =
   | string // for import
@@ -23,7 +24,7 @@ type ProjectOptions = {
       nodeResolve: RollupResolveOptions | boolean;
       commonjs: { [k: string]: any } | boolean;
       json: { [k: string]: any } | boolean;
-      vue: { [k: string]: any } | boolean;
+      vue: RollupVueOptions | boolean;
       shims: { [k: string]: any };
     };
   };
