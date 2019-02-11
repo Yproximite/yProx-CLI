@@ -15,7 +15,7 @@
   },
   "scripts": {
     "semantic-release": "semantic-release",
-    "build": "tsc; chmod +x ./dist/bin/yprox-cli.js",
+    "build": "tsc && chmod +x ./dist/bin/yprox-cli.js",
     "watch": "tsc --watch",
     "lint": "tslint {bin,lib,types}/**/*.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
