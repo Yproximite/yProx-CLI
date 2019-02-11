@@ -42,6 +42,7 @@
     "@types/autoprefixer": "^9.1.1",
     "@types/buble": "^0.19.0",
     "@types/cssnano": "^4.0.0",
+    "@types/sass": "^1.16.0",
     "autoprefixer": "^9.1.2",
     "buble": "^0.19.6",
     "chalk": "^2.4.1",

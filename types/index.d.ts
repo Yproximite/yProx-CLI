@@ -1,11 +1,12 @@
 import { Options as AutoprefixerOptions } from 'autoprefixer';
 import { TransformOptions as BubleTransformOptions } from 'buble';
 import { CssNanoOptions } from 'cssnano';
-import { MinifyOptions } from 'terser';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
 import { Options as OptipngOptions } from 'imagemin-optipng';
 import { Options as SvgoOptions } from 'imagemin-svgo';
+import { Options as SassOptions } from 'sass';
+import { MinifyOptions } from 'terser';
 
 type Asset =
   | string // for import
@@ -16,10 +17,7 @@ type ProjectOptions = {
   assets?: { [k: string]: Asset };
   path: { [k: string]: string };
   handlers: {
-    sass: {
-      importer?: any;
-      [k: string]: any;
-    };
+    sass: SassOptions;
     rollup: {
       nodeResolve: { [k: string]: any } | boolean;
       commonjs: { [k: string]: any } | boolean;
