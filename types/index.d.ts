@@ -1,3 +1,4 @@
+import { Options as AutoprefixerOptions } from 'autoprefixer';
 import { CssNanoOptions } from 'cssnano';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
@@ -29,7 +30,7 @@ type ProjectOptions = {
     extensions: string[];
   };
   buble: { [k: string]: any };
-  autoprefixer: { [k: string]: any };
+  autoprefixer: AutoprefixerOptions;
   cssnano: CssNanoOptions;
   terser: { [k: string]: any };
   gifsicle: GifsicleOptions;
