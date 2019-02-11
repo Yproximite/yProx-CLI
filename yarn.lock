@@ -1134,6 +1134,11 @@
   dependencies:
     postcss "7.x.x"
 
+"@types/buble@*", "@types/buble@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@types/buble/-/buble-0.19.0.tgz#b05374afa7302f9f30129a81fe2f34358f154d05"
+  integrity sha512-zvURkJU5ri2WQKfO9IUB9tzTzCi5PpZvw+a9Euku/9da9dx2lafvha5MyrNGmdT5+d0yVe3FmdrztlZTw+RrfQ==
+
 "@types/chokidar@*":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@types/chokidar/-/chokidar-1.7.5.tgz#1fa78c8803e035bed6d98e6949e514b133b0c9b6"
@@ -1329,6 +1334,15 @@
   integrity sha512-c0+lRjSeBakp3YJaP4BixI+sWWO5JFsG3wKAlUNl2olBB5sbXY8rgRbFbBwLkuuX3xSxNqpCZzeROJzMlsCdig==
   dependencies:
     "@types/node" "*"
+
+"@types/rollup-plugin-buble@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-buble/-/rollup-plugin-buble-0.19.0.tgz#9aa24565a4096f06efe9a01676ef6ef36c19cc58"
+  integrity sha512-3PF3T0RZ796gcPZy/uyNTSLkWefbxzJYft2a7pVpGLpEe297DV/vhQ2U9/+T/ko2Wu8ttEeZ1TOyOIJPKsBAUQ==
+  dependencies:
+    "@types/buble" "*"
+    "@types/node" "*"
+    rollup "^0.63.4"
 
 "@types/rollup-plugin-json@^3.0.1":
   version "3.0.1"

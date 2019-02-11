@@ -1,4 +1,5 @@
 import { Options as AutoprefixerOptions } from 'autoprefixer';
+import { TransformOptions as BubleTransformOptions } from 'buble';
 import { CssNanoOptions } from 'cssnano';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
@@ -29,8 +30,8 @@ type ProjectOptions = {
   eslint: {
     extensions: string[];
   };
-  buble: { [k: string]: any };
   autoprefixer: AutoprefixerOptions;
+  buble: BubleTransformOptions;
   cssnano: CssNanoOptions;
   terser: { [k: string]: any };
   gifsicle: GifsicleOptions;

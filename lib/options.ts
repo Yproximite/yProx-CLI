@@ -17,8 +17,8 @@ const schema = joi.object().keys({
   eslint: joi.object({
     extensions: joi.array(),
   }),
-  buble: joi.alternatives(joi.object(), joi.boolean()),
   autoprefixer: joi.object(),
+  buble: joi.alternatives(joi.object(), joi.boolean()),
   cssnano: joi.object(),
   terser: joi.object(),
   gifsicle: joi.object(),
@@ -51,8 +51,8 @@ export function defaults(): ProjectOptions {
     eslint: {
       extensions: ['.js', '.vue'],
     },
-    buble: {},
     autoprefixer: {},
+    buble: {},
     cssnano: {
       preset: 'default',
     },
