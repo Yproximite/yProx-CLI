@@ -1,3 +1,4 @@
+import { CssNanoOptions } from 'cssnano';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
 import { Options as OptipngOptions } from 'imagemin-optipng';
@@ -29,7 +30,7 @@ type ProjectOptions = {
   };
   buble: { [k: string]: any };
   autoprefixer: { [k: string]: any };
-  cssnano: { [k: string]: any };
+  cssnano: CssNanoOptions;
   terser: { [k: string]: any };
   gifsicle: GifsicleOptions;
   jpegtran: JpegtranOptions;

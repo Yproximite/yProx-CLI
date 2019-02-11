@@ -54,8 +54,7 @@ export function defaults(): ProjectOptions {
     buble: {},
     autoprefixer: {},
     cssnano: {
-      safe: true,
-      autoprefixer: false,
+      preset: 'default',
     },
     terser: {},
     gifsicle: {
