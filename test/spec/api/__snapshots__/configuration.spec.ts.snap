@@ -54,8 +54,7 @@ Object {
   "autoprefixer": Object {},
   "buble": Object {},
   "cssnano": Object {
-    "autoprefixer": false,
-    "safe": true,
+    "preset": "default",
   },
   "eslint": Object {
     "extensions": Array [
@@ -119,8 +118,7 @@ Object {
   "autoprefixer": Object {},
   "buble": Object {},
   "cssnano": Object {
-    "autoprefixer": false,
-    "safe": true,
+    "preset": "default",
   },
   "eslint": Object {
     "extensions": Array [
@@ -223,8 +221,7 @@ Object {
   "autoprefixer": Object {},
   "buble": Object {},
   "cssnano": Object {
-    "autoprefixer": false,
-    "safe": true,
+    "preset": "default",
   },
   "eslint": Object {
     "extensions": Array [
@@ -288,8 +285,7 @@ Object {
   "autoprefixer": Object {},
   "buble": Object {},
   "cssnano": Object {
-    "autoprefixer": false,
-    "safe": true,
+    "preset": "default",
   },
   "eslint": Object {
     "extensions": Array [
