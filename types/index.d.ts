@@ -1,7 +1,14 @@
+import { Options as AutoprefixerOptions } from 'autoprefixer';
+import { TransformOptions as BubleTransformOptions } from 'buble';
+import { CssNanoOptions } from 'cssnano';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
 import { Options as OptipngOptions } from 'imagemin-optipng';
 import { Options as SvgoOptions } from 'imagemin-svgo';
+import { Options as SassOptions } from 'sass';
+import { MinifyOptions } from 'terser';
+import { Options as RollupResolveOptions } from 'rollup-plugin-node-resolve';
+import { VuePluginOptions as RollupVueOptions } from 'rollup-plugin-vue';
 
 type Asset =
   | string // for import
@@ -12,25 +19,22 @@ type ProjectOptions = {
   assets?: { [k: string]: Asset };
   path: { [k: string]: string };
   handlers: {
-    sass: {
-      importer?: any;
-      [k: string]: any;
-    };
+    sass: SassOptions;
     rollup: {
-      nodeResolve: { [k: string]: any } | boolean;
+      nodeResolve: RollupResolveOptions | boolean;
       commonjs: { [k: string]: any } | boolean;
       json: { [k: string]: any } | boolean;
-      vue: { [k: string]: any } | boolean;
+      vue: RollupVueOptions | boolean;
       shims: { [k: string]: any };
     };
   };
   eslint: {
     extensions: string[];
   };
-  buble: { [k: string]: any };
-  autoprefixer: { [k: string]: any };
-  cssnano: { [k: string]: any };
-  terser: { [k: string]: any };
+  autoprefixer: AutoprefixerOptions;
+  buble: BubleTransformOptions;
+  cssnano: CssNanoOptions;
+  terser: MinifyOptions;
   gifsicle: GifsicleOptions;
   jpegtran: JpegtranOptions;
   optipng: OptipngOptions;

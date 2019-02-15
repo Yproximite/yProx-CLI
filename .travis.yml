@@ -29,10 +29,12 @@ install:
   - yarn install --frozen-lockfile
 
 script:
+  - set -e # stop if one of the following lines fails, see https://github.com/travis-ci/travis-ci/issues/1066
   - yarn build
   - yarn lint
   - yarn test
   - npm pack # display which files will be packaged and sent to npm
+  - set +e # disable "fast fail"
 
 jobs:
   include:

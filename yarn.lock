@@ -1141,6 +1141,11 @@
   dependencies:
     postcss "7.x.x"
 
+"@types/buble@*", "@types/buble@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@types/buble/-/buble-0.19.0.tgz#b05374afa7302f9f30129a81fe2f34358f154d05"
+  integrity sha512-zvURkJU5ri2WQKfO9IUB9tzTzCi5PpZvw+a9Euku/9da9dx2lafvha5MyrNGmdT5+d0yVe3FmdrztlZTw+RrfQ==
+
 "@types/chokidar@*":
   version "1.7.5"
   resolved "https://registry.yarnpkg.com/@types/chokidar/-/chokidar-1.7.5.tgz#1fa78c8803e035bed6d98e6949e514b133b0c9b6"
@@ -1337,6 +1342,22 @@
   dependencies:
     "@types/node" "*"
 
+"@types/resolve@*":
+  version "0.0.8"
+  resolved "https://registry.yarnpkg.com/@types/resolve/-/resolve-0.0.8.tgz#f26074d238e02659e323ce1a13d041eee280e194"
+  integrity sha512-auApPaJf3NPfe18hSoJkp8EbZzer2ISk7o8mCC3M9he/a04+gbMF97NkpD2S8riMGvm4BMRI59/SZQSaLTKpsQ==
+  dependencies:
+    "@types/node" "*"
+
+"@types/rollup-plugin-buble@^0.19.0":
+  version "0.19.0"
+  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-buble/-/rollup-plugin-buble-0.19.0.tgz#9aa24565a4096f06efe9a01676ef6ef36c19cc58"
+  integrity sha512-3PF3T0RZ796gcPZy/uyNTSLkWefbxzJYft2a7pVpGLpEe297DV/vhQ2U9/+T/ko2Wu8ttEeZ1TOyOIJPKsBAUQ==
+  dependencies:
+    "@types/buble" "*"
+    "@types/node" "*"
+    rollup "^0.63.4"
+
 "@types/rollup-plugin-json@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.1.tgz#feba24edb11a152b728109151bf9ffb4f2b42ceb"
@@ -1344,6 +1365,21 @@
   dependencies:
     "@types/node" "*"
     rollup "^0.63.4"
+
+"@types/rollup-plugin-node-resolve@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-node-resolve/-/rollup-plugin-node-resolve-4.0.0.tgz#d5b90bee03c3d9f418c498a6abf40a71d846f255"
+  integrity sha512-Cu0TEpG6mvwARmVNPTpq5TaVIiIm45a7ErikZytdabUVdRyLdLHCDgcXgUohrliyZYxCqKafKVCzXi6Ono0gaw==
+  dependencies:
+    "@types/resolve" "*"
+    rollup "^0.63.4"
+
+"@types/sass@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@types/sass/-/sass-1.16.0.tgz#b41ac1c17fa68ffb57d43e2360486ef526b3d57d"
+  integrity sha512-2XZovu4NwcqmtZtsBR5XYLw18T8cBCnU2USFHTnYLLHz9fkhnoEMoDsqShJIOFsFhn5aJHjweiUUdTrDGujegA==
+  dependencies:
+    "@types/node" "*"
 
 "@types/strip-ansi@^3.0.0":
   version "3.0.0"

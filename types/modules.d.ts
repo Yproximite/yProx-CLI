@@ -2,12 +2,6 @@ interface Options {
   [k: string]: any;
 }
 
-declare module 'buble' {
-  function transform(content: string, opts?: {}): any;
-
-  export { transform };
-}
-
 declare module 'vinyl-sourcemaps-apply' {
   function fn(file: any, map: any): any;
 
@@ -32,12 +26,6 @@ declare module 'rollup-plugin-node-builtins' {
   export default fn;
 }
 
-declare module 'rollup-plugin-node-resolve' {
-  function fn(options: Options): any;
-
-  export default fn;
-}
-
 declare module 'rollup-plugin-node-globals' {
   function fn(): any;
 
@@ -58,12 +46,6 @@ declare module 'rollup-plugin-commonjs' {
 
 declare module 'rollup-plugin-graphql' {
   function fn(): any;
-
-  export default fn;
-}
-
-declare module 'rollup-plugin-buble' {
-  function fn(options: Options): any;
 
   export default fn;
 }
