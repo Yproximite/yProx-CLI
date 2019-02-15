@@ -143,7 +143,6 @@ describe('command: build', () => {
 
     expect(existsSync(api.resolve('dist/js/button.js'))).toBeTruthy();
     expect(existsSync(api.resolve('dist/js/button.js.map'))).toBeFalsy();
-    expect(readFile(api.resolve('dist/js/button.js'))).toContain('// For security concerns, we use only base name in production mode.');
     expect(readFile(api.resolve('dist/js/button.js'))).toContain("Vue.component('y-button', Button);");
     expect(readFile(api.resolve('dist/js/button.js'))).toContain("'Hello from Button.vue!'");
     expect(readFile(api.resolve('dist/js/button.js'))).toContain('"Hello from index.js!"');
