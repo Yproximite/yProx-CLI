@@ -1,5 +1,4 @@
-yProx-cli
-=========
+# yProx-cli
 
 [![npm (scoped)](https://img.shields.io/npm/v/@yproximite/yprox-cli.svg)](https://www.npmjs.com/package/@yproximite/yprox-cli)
 [![Build Status](https://travis-ci.com/Yproximite/yProx-cli.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
@@ -14,13 +13,15 @@ Read the [documentation](https://yprox-cli.netlify.com/).
 ## Development workflow
 
 You need to install dependencies first:
+
 ```bash
 $ yarn
 ```
 
-### Tests and specs
+### Tests
 
-Tests and specs are located inside the `test` folder. You can run them with:
+Tests are located inside the `test` folder. You can run them with:
+
 ```bash
 $ yarn test
 ```
@@ -29,7 +30,7 @@ Be sure to always add a test when you are modifying something!
 
 ### Linting
 
-We use [TSLint](https://palantir.github.io/tslint) and the [AirBnb preset](https://github.com/progre/tslint-config-airbnb) (with some tweaked rules). 
+We use [TSLint](https://palantir.github.io/tslint) and the [AirBnb preset](https://github.com/progre/tslint-config-airbnb) (with some tweaked rules).
 
 You can lint the code with:
 

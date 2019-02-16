@@ -1,5 +1,5 @@
 dist/
-test/spec/envs
+test/functional/envs
 
 # Logs
 logs
