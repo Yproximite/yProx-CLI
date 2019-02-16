@@ -33,7 +33,7 @@ const files = {
   'src/images/uk.svg': readFixture('src/images/uk.svg', null),
 };
 
-describe('command: build', () => {
+describe('command: lint', () => {
   let oldEnv = process.env;
   beforeEach(() => {
     oldEnv = process.env;
@@ -76,7 +76,7 @@ describe('command: build', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint Rollup entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -90,7 +90,7 @@ describe('command: build', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint JS entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -104,7 +104,7 @@ describe('command: build', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint CSS entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -118,7 +118,7 @@ describe('command: build', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint Sass entries only and fails', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -132,7 +132,7 @@ describe('command: build', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
   });
 
   describe('lint (and fix)', () => {
@@ -151,7 +151,7 @@ describe('command: build', () => {
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint and fix Rollup entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -174,7 +174,7 @@ describe('command: build', () => {
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint and fix JS entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -197,7 +197,7 @@ describe('command: build', () => {
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint and fix CSS entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -220,7 +220,7 @@ describe('command: build', () => {
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();
-    });
+    }, 10000);
 
     it('should lint and fix Sass entries only', async () => {
       const { api, run, cleanup } = await createFakeEnv(files);
@@ -244,6 +244,6 @@ describe('command: build', () => {
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();
-    });
+    }, 10000);
   });
 });

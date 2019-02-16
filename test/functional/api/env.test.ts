@@ -39,44 +39,44 @@ describe('api: env', () => {
     await createFakeEnv(files);
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.development.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.development$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.dev.local$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.dev$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.development.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.development$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.dev.local$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.dev$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env$/);
   });
 
   it('should load env vars from production mode and default env vars file', async () => {
     await createFakeEnv(files, 'production');
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.production.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.production$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.prod.local$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.prod$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.production.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.production$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.prod.local$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.prod$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env$/);
   });
 
-  it('should load env vars from a specific mode', async () => {
+  it('should load env vars from a functionalific mode', async () => {
     await createFakeEnv(files, 'test');
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(4);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.test.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.test$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.test.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.test$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env$/);
   });
 
   it('should not load env vars from a file that does not exists', async () => {
     await createFakeEnv(files, 'foobar');
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(3);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).not.toMatch(/\/test\/spec\/envs\/\d+\/.env.foobar.local$/);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.foobar$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/spec\/envs\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).not.toMatch(/\/test\/functional\/envs\/\d+\/.env.foobar.local$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.foobar$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env$/);
   });
 
   describe('getSafeEnvVars', () => {

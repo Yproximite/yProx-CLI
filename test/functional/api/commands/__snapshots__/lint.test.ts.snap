@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command: lint lint (and fix) should lint and fix CSS entries only: css/bar.css after lint 1`] = `
+".bar {
+  color: blue;
+}
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix CSS entries only: css/bar.css before lint 1`] = `
+".bar {
+  color: blue;;;
+}
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix JS entries only: js/bar.js after lint 1`] = `
+"console.log('Hello world from \`bar.js\`!');
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix JS entries only: js/bar.js before lint 1`] = `
+"console.log('Hello world from \`bar.js\`!');;;
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix Rollup entries only: button/index.js after lint 1`] = `
+"import Vue from 'vue';
+import Button from './Button';
+
+Vue.component('y-button', Button);
+
+console.log(\\"Hello from index.js!\\");
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix Rollup entries only: button/index.js before lint 1`] = `
+"import Vue from 'vue';
+import Button from './Button';
+
+Vue.component('y-button', Button);
+
+console.log(\\"Hello from index.js!\\");;;
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix Sass entries only: sass/style.scss after lint 1`] = `
+"@import \\"~bootstrap/scss/bootstrap-reboot\\";
+
+$font-stack: Helvetica, sans-serif;
+
+body {
+  font: 100% $font-stack;
+  color: red;
+}
+
+@import \\"form\\";
+"
+`;
+
+exports[`command: lint lint (and fix) should lint and fix Sass entries only: sass/style.scss before lint 1`] = `
+"@import \\"~bootstrap/scss/bootstrap-reboot\\";
+
+$font-stack: Helvetica, sans-serif;
+
+body {
+  font: 100% $font-stack;
+  color: red;;;
+}
+
+@import \\"form\\";
+"
+`;
