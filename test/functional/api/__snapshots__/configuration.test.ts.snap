@@ -5,49 +5,8 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
-        "dest": "dist/js",
-        "destFile": "button.js",
         "handler": "rollup",
-        "src": "src/components/button/index.js",
-      },
-      Object {
-        "concat": "scripts.js",
-        "dest": "dist/js",
-        "handler": "js",
-        "src": Array [
-          "src/js/foo.js",
-          "src/js/bar.js",
-        ],
-      },
-      Object {
-        "concat": "legacy-styles.css",
-        "dest": "dist/css",
-        "handler": "css",
-        "src": Array [
-          "src/css/foo.css",
-          "src/css/bar.css",
-        ],
-      },
-      Object {
-        "dest": "dist/css",
-        "destFile": "styles.css",
-        "handler": "sass",
-        "src": "src/sass/style.scss",
-      },
-      Object {
-        "dest": "dist/images",
-        "handler": "image",
-        "name": "images to optimize",
-        "src": "src/images/*",
-      },
-      Object {
-        "dest": "dist/",
-        "handler": "file",
-        "name": "files to copy",
-        "src": Array [
-          "src/lorem.txt",
-          "src/udhr.txt",
-        ],
+        "src": "src/package.json/my-file.js",
       },
     ],
   },
@@ -63,9 +22,7 @@ Object {
     ],
   },
   "gifsicle": Object {
-    "colors": 16,
     "interlaced": true,
-    "optimizationLevel": 3,
   },
   "handlers": Object {
     "rollup": Object {
@@ -111,7 +68,7 @@ Object {
     "app": Array [
       Object {
         "handler": "rollup",
-        "src": "i-dont-exists/from-yprox-cli-config.js/index.js",
+        "src": "src/yprox-cli.config.js/my-file.js",
       },
     ],
   },
@@ -172,49 +129,8 @@ Object {
   "assets": Object {
     "app": Array [
       Object {
-        "dest": "dist/js",
-        "destFile": "button.js",
         "handler": "rollup",
-        "src": "src/components/button/index.js",
-      },
-      Object {
-        "concat": "scripts.js",
-        "dest": "dist/js",
-        "handler": "js",
-        "src": Array [
-          "src/js/foo.js",
-          "src/js/bar.js",
-        ],
-      },
-      Object {
-        "concat": "legacy-styles.css",
-        "dest": "dist/css",
-        "handler": "css",
-        "src": Array [
-          "src/css/foo.css",
-          "src/css/bar.css",
-        ],
-      },
-      Object {
-        "dest": "dist/css",
-        "destFile": "styles.css",
-        "handler": "sass",
-        "src": "src/sass/style.scss",
-      },
-      Object {
-        "dest": "dist/images",
-        "handler": "image",
-        "name": "images to optimize",
-        "src": "src/images/*",
-      },
-      Object {
-        "dest": "dist/",
-        "handler": "file",
-        "name": "files to copy",
-        "src": Array [
-          "src/lorem.txt",
-          "src/udhr.txt",
-        ],
+        "src": "src/package.json/my-file.js",
       },
     ],
   },
@@ -230,9 +146,7 @@ Object {
     ],
   },
   "gifsicle": Object {
-    "colors": 16,
     "interlaced": true,
-    "optimizationLevel": 3,
   },
   "handlers": Object {
     "rollup": Object {
@@ -278,7 +192,7 @@ Object {
     "app": Array [
       Object {
         "handler": "rollup",
-        "src": "i-dont-exists/from-yprox-cli-config.js/index.js",
+        "src": "src/yprox-cli.config.js/my-file.js",
       },
     ],
   },

@@ -1,8 +1,8 @@
 import { readFixture } from '../../fixtures';
 import { createFakeEnv } from '../fake-env';
 
-const packageJson = readFixture('modern-project/package.json');
-const yproxCliConfigJs = readFixture('modern-project/yprox-cli.config.js');
+const packageJson = readFixture('configuration/package.json');
+const yproxCliConfigJs = readFixture('configuration/yprox-cli.config.js');
 
 describe('api: configuration', () => {
   beforeEach(() => {
@@ -39,7 +39,7 @@ describe('api: configuration', () => {
   });
 
   it('should throw an error when having both config from `package.json` and `yprox-cli.config.js`', async () => {
-    const { api, cleanup } = await createFakeEnv({
+    const { cleanup } = await createFakeEnv({
       'package.json': packageJson,
       'yprox-cli.config.js': yproxCliConfigJs,
     });
