@@ -11,7 +11,9 @@ type FakeEnv = {
   api: API;
   cleanup: () => void;
   run: (command: string) => Promise<{ stdout: string; stderr: string }>;
-  writeInFile: (filename: string, content: string) => Promise<void>;
+  readFile: (filename: string, encoding?: string) => Promise<string>;
+  writeFile: (filename: string, content: string) => Promise<void>;
+  fileExists: (filename: string) => Promise<boolean>;
 };
 
 export const createFakeEnv = async (files: Files = {}, mode = 'development', verbose = false): Promise<FakeEnv> => {
@@ -30,17 +32,25 @@ export const createFakeEnv = async (files: Files = {}, mode = 'development', ver
   // Create API and helpers funcs
   const api = new API(context, mode, verbose);
 
-  const cleanup = async () => {
-    return await fs.remove(context);
-  };
-
   const run = async (command: string): Promise<{ stdout: string; stderr: string }> => {
     return await exec(command, { cwd: context });
   };
 
-  const writeInFile = async (filename: string, content: string): Promise<void> => {
-    return await fs.writeFile(`${context}/${filename}`, content);
+  const cleanup = async () => {
+    return await fs.remove(context);
   };
 
-  return { api, cleanup, run, writeInFile };
+  const readFile = async (filename: string, encoding: string = 'utf8'): Promise<string> => {
+    return await fs.readFile(api.resolve(filename), { encoding });
+  };
+
+  const writeFile = async (filename: string, content: string): Promise<void> => {
+    return await fs.writeFile(api.resolve(filename), content);
+  };
+
+  const fileExists = async (filename: string): Promise<boolean> => {
+    return await fs.pathExists(api.resolve(filename));
+  };
+
+  return { api, run, cleanup, readFile, writeFile, fileExists };
 };

@@ -1,6 +1,5 @@
 import { readFixture } from '../../../fixtures';
 import { createFakeEnv } from '../../fake-env';
-import { readFile } from '../../../read-file';
 
 const files = {
   'package.json': readFixture('modern-project/package.json'),
@@ -55,7 +54,7 @@ describe('command: lint', () => {
 
   describe('lint (but not fix)', () => {
     it('should lint entries and fails', async () => {
-      const { api, run, writeInFile, cleanup } = await createFakeEnv(files);
+      const { api, run, writeFile, cleanup } = await createFakeEnv(files);
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint');
@@ -66,7 +65,7 @@ describe('command: lint', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       // But if we fix the incriminated file...
-      await writeInFile('src/components/button/index.js', "console.log('ESLint will not fails here.')");
+      await writeFile('src/components/button/index.js', "console.log('ESLint will not fails here.')");
       await api.executeCommand('lint');
 
       // Then it's another linter which fails
@@ -152,9 +151,9 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix Rollup entries only', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv(files);
 
-      const fileContent = readFile(api.resolve('src/components/button/index.js'));
+      const fileContent = await readFile('src/components/button/index.js');
       expect(fileContent).toMatchSnapshot('button/index.js before lint');
 
       await run('yarn install --frozen-lockfile');
@@ -167,7 +166,7 @@ describe('command: lint', () => {
       expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
-      const newFileContent = readFile(api.resolve('src/components/button/index.js'));
+      const newFileContent = await readFile('src/components/button/index.js');
       expect(newFileContent).toMatchSnapshot('button/index.js after lint');
       expect(fileContent).not.toBe(newFileContent);
 
@@ -175,9 +174,9 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix JS entries only', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv(files);
 
-      const fileContent = readFile(api.resolve('src/js/bar.js'));
+      const fileContent = await readFile('src/js/bar.js');
       expect(fileContent).toMatchSnapshot('js/bar.js before lint');
 
       await run('yarn install --frozen-lockfile');
@@ -190,7 +189,7 @@ describe('command: lint', () => {
       expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: js (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
-      const newFileContent = readFile(api.resolve('src/js/bar.js'));
+      const newFileContent = await readFile('src/js/bar.js');
       expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
       expect(fileContent).not.toBe(newFileContent);
 
@@ -198,9 +197,9 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix CSS entries only', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv(files);
 
-      const fileContent = readFile(api.resolve('src/css/bar.css'));
+      const fileContent = await readFile('src/css/bar.css');
       expect(fileContent).toMatchSnapshot('css/bar.css before lint');
 
       await run('yarn install --frozen-lockfile');
@@ -213,7 +212,7 @@ describe('command: lint', () => {
       expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: css (lint) :: Your CSS is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
-      const newFileContent = readFile(api.resolve('src/css/bar.css'));
+      const newFileContent = await readFile('src/css/bar.css');
       expect(newFileContent).toMatchSnapshot('css/bar.css after lint');
       expect(fileContent).not.toBe(newFileContent);
 
@@ -221,9 +220,9 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix Sass entries only', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv(files);
 
-      const fileContent = readFile(api.resolve('src/sass/style.scss'));
+      const fileContent = await readFile('src/sass/style.scss');
       expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
 
       await run('yarn install --frozen-lockfile');
@@ -236,7 +235,7 @@ describe('command: lint', () => {
       expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: sass (lint) :: Your Sass is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
-      const newFileContent = readFile(api.resolve('src/sass/style.scss'));
+      const newFileContent = await readFile('src/sass/style.scss');
       expect(newFileContent).toMatchSnapshot('sass/style.scss after lint');
       expect(fileContent).not.toBe(newFileContent);
       expect(fileContent).not.toBe(newFileContent);
