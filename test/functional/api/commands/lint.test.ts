@@ -1,36 +1,34 @@
-import { existsSync, statSync } from 'fs';
+import { readFixture } from '../../../fixtures';
 import { createFakeEnv } from '../../fake-env';
-import { readFile } from '../../read-file';
-
-const readFixture = (filename: string, charset: string | null = 'utf8') => readFile(`${__dirname}/../../../fixtures/modern-project/${filename}`, charset);
+import { readFile } from '../../../read-file';
 
 const files = {
-  'package.json': readFixture('package.json'),
-  'yarn.lock': readFixture('yarn.lock'),
-  '.eslintignore': readFixture('.eslintignore'),
-  '.eslintrc': readFixture('.eslintrc'),
-  '.stylelintrc': readFixture('.stylelintrc'),
+  'package.json': readFixture('modern-project/package.json'),
+  'yarn.lock': readFixture('modern-project/yarn.lock'),
+  '.eslintignore': readFixture('modern-project/.eslintignore'),
+  '.eslintrc': readFixture('modern-project/.eslintrc'),
+  '.stylelintrc': readFixture('modern-project/.stylelintrc'),
   // rollup
-  'src/components/button/Button.vue': readFixture('src/components/button/Button.vue'),
-  'src/components/button/index.js': readFixture('src/components/button/index.js'),
-  'src/components/button/foo.graphql': readFixture('src/components/button/foo.graphql'),
+  'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
+  'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
+  'src/components/button/foo.graphql': readFixture('modern-project/src/components/button/foo.graphql'),
   // css
-  'src/css/bar.css': readFixture('src/css/bar.css'),
-  'src/css/foo.css': readFixture('src/css/foo.css'),
+  'src/css/bar.css': readFixture('modern-project/src/css/bar.css'),
+  'src/css/foo.css': readFixture('modern-project/src/css/foo.css'),
   // js
-  'src/js/bar.js': readFixture('src/js/bar.js'),
-  'src/js/foo.js': readFixture('src/js/foo.js'),
+  'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
+  'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
   // sass
-  'src/sass/_form.scss': readFixture('src/sass/_form.scss'),
-  'src/sass/style.scss': readFixture('src/sass/style.scss'),
+  'src/sass/_form.scss': readFixture('modern-project/src/sass/_form.scss'),
+  'src/sass/style.scss': readFixture('modern-project/src/sass/style.scss'),
   // files
-  'src/lorem.txt': readFixture('src/lorem.txt'),
-  'src/udhr.txt': readFixture('src/udhr.txt'),
+  'src/lorem.txt': readFixture('modern-project/src/lorem.txt'),
+  'src/udhr.txt': readFixture('modern-project/src/udhr.txt'),
   // images
-  'src/images/guts-white-hair.png': readFixture('src/images/guts-white-hair.png', null),
-  'src/images/jax.jpg': readFixture('src/images/jax.jpg', null),
-  'src/images/golfer.gif': readFixture('src/images/golfer.gif', null),
-  'src/images/uk.svg': readFixture('src/images/uk.svg', null),
+  'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
+  'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
+  'src/images/golfer.gif': readFixture('modern-project/src/images/golfer.gif', null),
+  'src/images/uk.svg': readFixture('modern-project/src/images/uk.svg', null),
 };
 
 describe('command: lint', () => {
