@@ -1,0 +1,18 @@
+{
+  "private": true,
+  "yproxCli": {
+    "assets": {
+      "app": [
+        {
+          "name": "files to copy",
+          "handler": "file",
+          "src": [
+            "src/lorem.txt",
+            "src/udhr.txt"
+          ],
+          "dest": "dist/"
+        }
+      ]
+    }
+  }
+}

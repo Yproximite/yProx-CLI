@@ -20,9 +20,6 @@ const files = {
   // sass
   'src/sass/_form.scss': readFixture('modern-project/src/sass/_form.scss'),
   'src/sass/style.scss': readFixture('modern-project/src/sass/style.scss'),
-  // files
-  'src/lorem.txt': readFixture('modern-project/src/lorem.txt'),
-  'src/udhr.txt': readFixture('modern-project/src/udhr.txt'),
   // images
   'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
   'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),

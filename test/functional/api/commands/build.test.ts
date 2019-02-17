@@ -21,9 +21,6 @@ const files = {
   // sass
   'src/sass/_form.scss': readFixture('modern-project/src/sass/_form.scss'),
   'src/sass/style.scss': readFixture('modern-project/src/sass/style.scss'),
-  // files
-  'src/lorem.txt': readFixture('modern-project/src/lorem.txt'),
-  'src/udhr.txt': readFixture('modern-project/src/udhr.txt'),
   // images
   'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
   'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
@@ -98,16 +95,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/css/styles.css.map')).toBeTruthy();
     expect(await readFile('dist/css/styles.css')).toMatchSnapshot('prod sass');
 
-    // should have copied files
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
-
-    expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
-    expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
-
-    expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
-    expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
-
     // should have optimized images
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -167,16 +154,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/css/styles.css.map')).toBeFalsy();
     expect(await readFile('dist/css/styles.css')).toMatchSnapshot('dev sass');
 
-    // should have copied files
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
-
-    expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
-    expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
-
-    expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
-    expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
-
     // should have optimized images
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -230,12 +207,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/css/styles.css')).toBeFalsy();
     expect(await fileExists('dist/css/styles.css.map')).toBeFalsy();
 
-    // files
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
-    expect(await fileExists('dist/lorem.txt')).toBeFalsy();
-    expect(await fileExists('dist/udhr.txt')).toBeFalsy();
-
     // images
     expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -281,12 +252,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/scripts.js')).toBeFalsy();
     expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
 
-    // files
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
-    expect(await fileExists('dist/lorem.txt')).toBeFalsy();
-    expect(await fileExists('dist/udhr.txt')).toBeFalsy();
-
     // images
     expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -297,6 +262,25 @@ describe('command: build', () => {
 
     await cleanup();
   }, 70000);
+
+  describe('Copy files', () => {
+    it('should copy files', async () => {
+      const { api, cleanup, readFile } = await createFakeEnv('files');
+
+      await api.executeCommand('build');
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
+
+      expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
+      expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
+
+      expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
+      expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
+
+      await cleanup();
+    });
+  });
 
   describe('lint (but not fix) before build', () => {
     it('should lint (but not fix) files built with handler `rollup`, before building them', async () => {

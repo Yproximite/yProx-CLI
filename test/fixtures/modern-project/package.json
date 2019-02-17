@@ -48,15 +48,6 @@
           "handler": "image",
           "src": "src/images/*",
           "dest": "dist/images"
-        },
-        {
-          "name": "files to copy",
-          "handler": "file",
-          "src": [
-            "src/lorem.txt",
-            "src/udhr.txt"
-          ],
-          "dest": "dist/"
         }
       ]
     },

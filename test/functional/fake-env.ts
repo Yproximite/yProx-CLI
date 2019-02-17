@@ -16,18 +16,22 @@ type FakeEnv = {
   fileExists: (filename: string) => Promise<boolean>;
 };
 
-export const createFakeEnv = async (files: Files = {}, mode = 'development', verbose = false): Promise<FakeEnv> => {
+export const createFakeEnv = async (files: Files | string = {}, mode = 'development', verbose = false): Promise<FakeEnv> => {
   // Create new env
   env += 1;
   const context = `${__dirname}/envs/${env}`;
   await fs.mkdirp(context);
 
   // Create files
-  await Promise.all(
-    Object.entries(files).map(([filename, content]) => {
-      return fs.outputFile(`${context}/${filename}`, content);
-    })
-  );
+  if (typeof files === 'string') {
+    await fs.copy(`${__dirname}/../fixtures/${files}`, context);
+  } else {
+    await Promise.all(
+      Object.entries(files).map(([filename, content]) => {
+        return fs.outputFile(`${context}/${filename}`, content);
+      })
+    );
+  }
 
   // Create API and helpers funcs
   const api = new API(context, mode, verbose);
