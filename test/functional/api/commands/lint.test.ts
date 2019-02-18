@@ -10,7 +10,6 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
-  'src/components/button/foo.graphql': readFixture('modern-project/src/components/button/foo.graphql'),
   // css
   'src/css/bar.css': readFixture('modern-project/src/css/bar.css'),
   'src/css/foo.css': readFixture('modern-project/src/css/foo.css'),

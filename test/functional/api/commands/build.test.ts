@@ -11,7 +11,6 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
-  'src/components/button/foo.graphql': readFixture('modern-project/src/components/button/foo.graphql'),
   // css
   'src/css/bar.css': readFixture('modern-project/src/css/bar.css'),
   'src/css/foo.css': readFixture('modern-project/src/css/foo.css'),
@@ -64,10 +63,7 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/button.js')).toBeTruthy();
     expect(await fileExists('dist/js/button.js.map')).toBeTruthy();
     expect(await readFile('dist/js/button.js')).toContain('version="2.5.22"'); // vue
-    expect(await readFile('dist/js/button.js')).toContain('{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!"),'); // vue plugin
-    expect(await readFile('dist/js/button.js')).toContain(
-      'kind:"Document",definitions:[{kind:"OperationDefinition",operation:"query",name:{kind:"Name",value:"FooQuery"}'
-    ); // graphql plugin
+    expect(await readFile('dist/js/button.js')).toContain('{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!")'); // vue plugin
     expect(await readFile('dist/js/button.js')).toContain('.component("y-button",'); // app
     expect(await readFile('dist/js/button.js')).toContain('console.log("Hello from index.js!")'); // app
 
@@ -279,6 +275,35 @@ describe('command: build', () => {
       expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
 
       await cleanup();
+    });
+  });
+
+  describe('GraphQL', () => {
+    it('should build files', async () => {
+      const { api, cleanup, readFile } = await createFakeEnv('graphql');
+
+      await api.executeCommand('build'); // build in "cjs" format, to make it easier/safer to test
+
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "app"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "app"');
+
+      const exports: { [key: string]: any } = {};
+      const fn = new Function('exports', await readFile('dist/medias.js')); // tslint:disable-line
+      fn(exports);
+
+      expect(exports.MediaQuery).toBeDefined();
+      expect(exports.MediaQuery.kind).toBe('Document');
+      expect(exports.MediaQuery.definitions[0].name.value).toBe('MediaQuery');
+
+      expect(exports.MediasQuery).toBeDefined();
+      expect(exports.MediasQuery.kind).toBe('Document');
+      expect(exports.MediasQuery.definitions[0].name.value).toBe('MediasQuery');
+
+      expect(exports.DeleteMediaMutation).toBeDefined();
+      expect(exports.DeleteMediaMutation.kind).toBe('Document');
+      expect(exports.DeleteMediaMutation.definitions[0].name.value).toBe('DeleteMediaMutation');
+
+      cleanup();
     });
   });
 

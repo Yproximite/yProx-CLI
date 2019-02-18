@@ -6,8 +6,6 @@
 </template>
 
 <script>
-import FooQuery from './foo.graphql';
-
 export default {
   name: "Button",
   props: {
@@ -16,7 +14,6 @@ export default {
 
   created() {
     console.log('Hello from Button.vue!')
-    console.log(FooQuery);
   }
 };
 </script>
