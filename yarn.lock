@@ -1387,9 +1387,9 @@
   integrity sha1-m2PUU6a1SqhJGCIHcRoIvo7qSK4=
 
 "@types/stylelint@^9.4.1":
-  version "9.4.1"
-  resolved "https://registry.yarnpkg.com/@types/stylelint/-/stylelint-9.4.1.tgz#ba60a2abb4c6b51d411f6c121270b4ee92270f03"
-  integrity sha512-Q8Dt0u3on5iz7KtHlwcNPawMMKvCGWJdRkmL4rERFfl7zZk35UlYAi1tZkJzlYOmB8d6MT3V0jlSdhMe1lZaDQ==
+  version "9.4.2"
+  resolved "https://registry.yarnpkg.com/@types/stylelint/-/stylelint-9.4.2.tgz#6c5d75d96a1ee947365697dafcae2c7b8e036107"
+  integrity sha512-GVs3wzd6zTzBO9An1rELY2QggquaK/ksn0oosr49XeTDPb4X1IgiDxhFTC/aUUxiecloOCub3bVhj/CgVEm9+A==
 
 "@types/svgo@*":
   version "1.0.1"
