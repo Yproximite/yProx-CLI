@@ -1,7 +1,7 @@
 import * as rollup from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
-import graphql from 'rollup-plugin-graphql';
+import graphql from '@kocal/rollup-plugin-graphql';
 import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
