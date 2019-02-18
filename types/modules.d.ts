@@ -44,7 +44,7 @@ declare module 'rollup-plugin-commonjs' {
   export default fn;
 }
 
-declare module 'rollup-plugin-graphql' {
+declare module '@kocal/rollup-plugin-graphql' {
   function fn(): any;
 
   export default fn;

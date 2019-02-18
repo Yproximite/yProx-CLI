@@ -989,6 +989,14 @@
     chalk "^2.4.1"
     luxon "^1.8.2"
 
+"@kocal/rollup-plugin-graphql@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@kocal/rollup-plugin-graphql/-/rollup-plugin-graphql-1.0.0.tgz#80132fc27abe9dd77125786e747b6e2eb8af2c6e"
+  integrity sha512-kfj4iWKGE08P7Pe3ysXV7ASH+x6HuBJoOgkxB2bXXlrNAQmMfhWhUbfVX+FeCfHw5hNz1feH1lqf6AqcQmdTxA==
+  dependencies:
+    graphql-tag "^2.2.2"
+    rollup-pluginutils "^2.0.1"
+
 "@kocal/semantic-release-preset@^1.1.0":
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/@kocal/semantic-release-preset/-/semantic-release-preset-1.1.7.tgz#3e5b5c37ce20dc5117bcc37ddb09a303cf13b1c4"
@@ -6442,9 +6450,9 @@ graceful-fs@^4.1.10, graceful-fs@~4.1.11:
   integrity sha1-TK+tdrxi8C+gObL5Tpo906ORpyU=
 
 graphql-tag@^2.2.2:
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.0.tgz#87da024be863e357551b2b8700e496ee2d4353ae"
-  integrity sha512-9FD6cw976TLLf9WYIUPCaaTpniawIjHWZSwIRZSjrfufJamcXbVVYfN2TWvJYbw0Xf2JjYbl1/f2+wDnBVw3/w==
+  version "2.10.1"
+  resolved "https://registry.yarnpkg.com/graphql-tag/-/graphql-tag-2.10.1.tgz#10aa41f1cd8fae5373eaf11f1f67260a3cad5e02"
+  integrity sha512-jApXqWBzNXQ8jYa/HLkZJaVw9jgwNqZkywa2zfFn16Iv1Zb7ELNHkJaXHR7Quvd5SIGsy6Ny7SUKATgnu05uEg==
 
 graphql@^14.0.2:
   version "14.1.1"
@@ -12960,14 +12968,6 @@ rollup-plugin-commonjs@^9.2.0:
     magic-string "^0.25.1"
     resolve "^1.8.1"
     rollup-pluginutils "^2.3.3"
-
-rollup-plugin-graphql@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-graphql/-/rollup-plugin-graphql-0.1.0.tgz#cee3d7137133534f570826c00978eafe528069a9"
-  integrity sha512-zEAXAylBAkA489xk/KAzxtwQ5BcpcgEejsAbQ4gO19nZ8iin6+0TSogYfBhMSfZXtI4YXy3NEqwlT5E0E7rh2w==
-  dependencies:
-    graphql-tag "^2.2.2"
-    rollup-pluginutils "^2.0.1"
 
 rollup-plugin-json@^3.1.0:
   version "3.1.0"
