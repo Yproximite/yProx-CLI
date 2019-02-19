@@ -10,15 +10,9 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
-  // css
-  'src/css/bar.css': readFixture('modern-project/src/css/bar.css'),
-  'src/css/foo.css': readFixture('modern-project/src/css/foo.css'),
   // js
   'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
   'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
-  // sass
-  'src/sass/_form.scss': readFixture('modern-project/src/sass/_form.scss'),
-  'src/sass/style.scss': readFixture('modern-project/src/sass/style.scss'),
   // images
   'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
   'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
@@ -98,34 +92,6 @@ describe('command: lint', () => {
 
       await cleanup();
     }, 10000);
-
-    it('should lint CSS entries only and fails', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('lint', {
-        'filter:handler': 'css',
-      });
-
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: css (lint) :: Your CSS is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-
-      await cleanup();
-    }, 10000);
-
-    it('should lint Sass entries only and fails', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('lint', {
-        'filter:handler': 'sass',
-      });
-
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: sass (lint) :: Your Sass is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-
-      await cleanup();
-    }, 10000);
   });
 
   describe('lint (and fix)', () => {
@@ -138,8 +104,6 @@ describe('command: lint', () => {
       });
 
       expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
       expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
@@ -187,53 +151,6 @@ describe('command: lint', () => {
 
       const newFileContent = await readFile('src/js/bar.js');
       expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 10000);
-
-    it('should lint and fix CSS entries only', async () => {
-      const { api, run, cleanup, readFile } = await createFakeEnv(files);
-
-      const fileContent = await readFile('src/css/bar.css');
-      expect(fileContent).toMatchSnapshot('css/bar.css before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('lint', {
-        'filter:handler': 'css',
-        fix: true,
-      });
-
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: css (lint) :: Your CSS is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-
-      const newFileContent = await readFile('src/css/bar.css');
-      expect(newFileContent).toMatchSnapshot('css/bar.css after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 10000);
-
-    it('should lint and fix Sass entries only', async () => {
-      const { api, run, cleanup, readFile } = await createFakeEnv(files);
-
-      const fileContent = await readFile('src/sass/style.scss');
-      expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('lint', {
-        'filter:handler': 'sass',
-        fix: true,
-      });
-
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: sass (lint) :: Your Sass is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-
-      const newFileContent = await readFile('src/sass/style.scss');
-      expect(newFileContent).toMatchSnapshot('sass/style.scss after lint');
-      expect(fileContent).not.toBe(newFileContent);
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();

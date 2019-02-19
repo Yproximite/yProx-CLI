@@ -24,6 +24,10 @@ export default class API {
     this.mode = mode;
     this.verbose = verbose;
     this.logger = initLogger(this.verbose);
+    if (require.main) {
+      require.main.paths.unshift(context);
+    }
+    // require.main.paths.unshift(context);
     this.loadUserOptions((err: ValidationError, config?: ProjectOptions) => {
       if (err) {
         this.logger.error('Your configuration is invalid.');

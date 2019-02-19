@@ -10,7 +10,7 @@ type Files = { [k: string]: string | Buffer };
 type FakeEnv = {
   api: API;
   cleanup: () => void;
-  run: (command: string) => Promise<{ stdout: string; stderr: string }>;
+  run: (command: string) => Promise<{ stdout: string; stderr: string; code: number }>;
   readFile: (filename: string, encoding?: string) => Promise<string>;
   writeFile: (filename: string, content: string) => Promise<void>;
   fileExists: (filename: string) => Promise<boolean>;
@@ -36,8 +36,14 @@ export const createFakeEnv = async (files: Files | string = {}, mode = 'developm
   // Create API and helpers funcs
   const api = new API(context, mode, verbose);
 
-  const run = async (command: string): Promise<{ stdout: string; stderr: string }> => {
-    return await exec(command, { cwd: context });
+  const run = async (command: string): Promise<{ stdout: string; stderr: string; code: number }> => {
+    return await exec(command, {
+      cwd: context,
+      env: {
+        ...process.env,
+        NODE_PATH: api.resolve('node_modules'),
+      },
+    });
   };
 
   const cleanup = async () => {

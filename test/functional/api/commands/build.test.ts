@@ -11,15 +11,9 @@ const files = {
   // rollup
   'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
   'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
-  // css
-  'src/css/bar.css': readFixture('modern-project/src/css/bar.css'),
-  'src/css/foo.css': readFixture('modern-project/src/css/foo.css'),
   // js
   'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
   'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
-  // sass
-  'src/sass/_form.scss': readFixture('modern-project/src/sass/_form.scss'),
-  'src/sass/style.scss': readFixture('modern-project/src/sass/style.scss'),
   // images
   'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
   'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
@@ -75,22 +69,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/scripts.js.map')).toBeTruthy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('prod js');
 
-    // should have built files with CSS
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-
-    expect(await fileExists('dist/css/legacy-styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/legacy-styles.css.map')).toBeTruthy();
-    expect(await readFile('dist/css/legacy-styles.css')).toMatchSnapshot('prod css');
-
-    // should have built files with Sass handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-
-    expect(await fileExists('dist/css/styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/styles.css.map')).toBeTruthy();
-    expect(await readFile('dist/css/styles.css')).toMatchSnapshot('prod sass');
-
     // should have optimized images
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -134,22 +112,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('dev js');
 
-    // should have built files with CSS
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-
-    expect(await fileExists('dist/css/legacy-styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/legacy-styles.css.map')).toBeFalsy();
-    expect(await readFile('dist/css/legacy-styles.css')).toMatchSnapshot('dev css');
-
-    // should have built files with Sass handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-
-    expect(await fileExists('dist/css/styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/styles.css.map')).toBeFalsy();
-    expect(await readFile('dist/css/styles.css')).toMatchSnapshot('dev sass');
-
     // should have optimized images
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
     expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
@@ -169,99 +131,117 @@ describe('command: build', () => {
     await cleanup();
   }, 70000);
 
-  it('should build only css entries (filter on `css` handler)', async () => {
-    const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
+  describe('CSS & Sass', () => {
+    it('should build files', async () => {
+      const { api, cleanup, run, readFile } = await createFakeEnv('css');
 
-    await run('yarn install --frozen-lockfile');
-    await api.executeCommand('build', { 'filter:handler': 'css' }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+      await run('yarn install');
+      await api.executeCommand('build');
 
-    expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `asset.handler === 'css'`"); // verbose mode
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
+      expect(await readFile('dist/bootstrap.css')).toMatchSnapshot();
+      expect(await readFile('dist/style.css')).toMatchSnapshot();
 
-    // should have built files with CSS handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-    expect(await fileExists('dist/css/legacy-styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/legacy-styles.css.map')).toBeFalsy();
+      await cleanup();
+    }, 20000);
 
-    // other handlers should not have been called
+    it('should build files and minify them', async () => {
+      const { api, cleanup, run, readFile } = await createFakeEnv('css', 'production');
 
-    // rollup
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
-    expect(await fileExists('dist/js/button.js')).toBeFalsy();
-    expect(await fileExists('dist/js/button.js.map')).toBeFalsy();
+      await run('yarn install');
+      await api.executeCommand('build');
 
-    // js
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
-    expect(await fileExists('dist/js/scripts.js')).toBeFalsy();
-    expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
+      expect(await readFile('dist/bootstrap.css')).toMatchSnapshot();
+      expect(await readFile('dist/style.css')).toMatchSnapshot();
 
-    // sass
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-    expect(await fileExists('dist/css/styles.css')).toBeFalsy();
-    expect(await fileExists('dist/css/styles.css.map')).toBeFalsy();
+      await cleanup();
+    }, 20000);
 
-    // images
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
-    expect(await fileExists('dist/images/guts-white-hair.png')).toBeFalsy();
-    expect(await fileExists('dist/images/jax.jpg')).toBeFalsy();
-    expect(await fileExists('dist/images/golfer.gif')).toBeFalsy();
-    expect(await fileExists('dist/images/uk.svg')).toBeFalsy();
+    it('should skip linting when Stylelint is not installed', async () => {
+      const { api, cleanup, run, fileExists } = await createFakeEnv('css');
 
-    await cleanup();
-  }, 70000);
+      await run('yarn install');
+      // make module resolution working for stylelint dependency, if someone have a better idea...
+      const { stdout } = await run('node ../../../../dist/bin/yprox-cli.js build --lint');
 
-  it('should build only css and sass entries (filter on `css` and `sass` handlers)', async () => {
-    const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
+      expect(stdout).toContain('info :: Linting Sass requires to install "stylelint" dependency.');
+      expect(stdout).toContain('info :: Linting CSS requires to install "stylelint" dependency.');
+      expect(stdout).toContain('info :: sass :: start bundling "bootstrap.css"');
+      expect(stdout).toContain('info :: sass :: finished bundling "bootstrap.css"');
+      expect(stdout).toContain('info :: css :: start bundling "style.css"');
+      expect(stdout).toContain('info :: css :: finished bundling "style.css"');
+      expect(await fileExists('dist/bootstrap.css')).toBeTruthy();
+      expect(await fileExists('dist/style.css')).toBeTruthy();
 
-    await run('yarn install --frozen-lockfile');
-    await api.executeCommand('build', { 'filter:handler': ['css', 'sass'] }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+      await cleanup();
+    }, 20000);
 
-    expect(console.log).toHaveBeenCalledWith("[08:30:00] log :: Filtering assets where `['css', 'sass'].includes(asset.handler)`"); // verbose mode
+    it('should lint files but not build them', async () => {
+      expect.assertions(6);
 
-    // should have built files with CSS handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-    expect(await fileExists('dist/css/legacy-styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/legacy-styles.css.map')).toBeFalsy();
+      const { cleanup, run, writeFile, fileExists } = await createFakeEnv('css');
 
-    // should have built files with Sass handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-    expect(await fileExists('dist/css/styles.css')).toBeTruthy();
-    expect(await fileExists('dist/css/styles.css.map')).toBeFalsy();
+      await run('yarn install');
+      await run('yarn add -D stylelint');
+      await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
-    // other handlers should not have been called
+      try {
+        // make module resolution working for stylelint dependency, if someone have a better idea...
+        await run('node ../../../../dist/bin/yprox-cli.js build --lint');
+      } catch (e) {
+        expect(e.stderr).toMatch(/error :: Your (CSS|Sass) is not clean, stopping\./);
+        expect(e.stdout).toContain('Unexpected extra semicolon');
+        expect(e.stdout).toContain('info :: Some errors can be automatically fixed with "--fix" flag');
+        expect(e.code).toBe(1);
+      }
 
-    // rollup
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
-    expect(await fileExists('dist/js/button.js')).toBeFalsy();
-    expect(await fileExists('dist/js/button.js.map')).toBeFalsy();
+      expect(await fileExists('dist/bootstrap.css')).toBeFalsy();
+      expect(await fileExists('dist/style.css')).toBeFalsy();
 
-    // js
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
-    expect(await fileExists('dist/js/scripts.js')).toBeFalsy();
-    expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
+      await cleanup();
+    }, 20000);
 
-    // images
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
-    expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
-    expect(await fileExists('dist/images/guts-white-hair.png')).toBeFalsy();
-    expect(await fileExists('dist/images/jax.jpg')).toBeFalsy();
-    expect(await fileExists('dist/images/golfer.gif')).toBeFalsy();
-    expect(await fileExists('dist/images/uk.svg')).toBeFalsy();
+    it('should fix linting issues and build files', async () => {
+      const { api, cleanup, readFile, writeFile, fileExists, run } = await createFakeEnv('css');
 
-    await cleanup();
-  }, 70000);
+      await run('yarn install');
+      await run('yarn add -D stylelint');
+      await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
+
+      expect(await readFile('src/bootstrap.scss')).toMatchSnapshot('bootstrap.scss before linting');
+      expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
+
+      try {
+        // make module resolution working for stylelint dependency, if someone have a better idea...
+        const childProcess = await run('node ../../../../dist/bin/yprox-cli.js build --lint --fix');
+        expect(childProcess.stdout).toContain('info :: sass :: start bundling "bootstrap.css"');
+        expect(childProcess.stdout).toContain('info :: sass :: finished bundling "bootstrap.css"');
+        expect(childProcess.stdout).toContain('info :: css :: start bundling "style.css"');
+        expect(childProcess.stdout).toContain('info :: css :: finished bundling "style.css"');
+      } catch (e) {
+        expect(true).toBeFalsy();
+      }
+
+      expect(await readFile('src/bootstrap.scss')).toMatchSnapshot('bootstrap.scss after linting');
+      expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
+      expect(await fileExists('dist/bootstrap.css')).toBeTruthy();
+      expect(await fileExists('dist/style.css')).toBeTruthy();
+
+      await cleanup();
+    }, 20000);
+  });
 
   describe('Copy files', () => {
     it('should copy files', async () => {
-      const { api, cleanup, readFile } = await createFakeEnv('files');
+      const { api, cleanup, run, readFile } = await createFakeEnv('files');
+      await run('yarn install');
 
       await api.executeCommand('build');
 
@@ -343,42 +323,6 @@ describe('command: build', () => {
 
       await cleanup();
     }, 70000);
-
-    it('should lint (but not fix) files built with handler `css`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'css',
-        lint: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your CSS is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-      expect(await fileExists('dist/css/legacy-styles.css')).toBeFalsy();
-
-      await cleanup();
-    }, 70000);
-
-    it('should lint (but not fix) files built with handler `sass`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'sass',
-        lint: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your Sass is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-      expect(await fileExists('dist/css/styles.css')).toBeFalsy();
-
-      await cleanup();
-    }, 70000);
   });
 
   describe('lint (and fix) before build', () => {
@@ -431,60 +375,6 @@ describe('command: build', () => {
 
       const newFileContent = await readFile('src/js/bar.js');
       expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 70000);
-
-    it('should lint (and but fix) files built with handler `css`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'development', true);
-
-      const fileContent = await readFile('src/css/bar.css');
-      expect(fileContent).toMatchSnapshot('css/bar.css before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'css',
-        lint: true,
-        fix: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your CSS is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your CSS is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "legacy-styles.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "legacy-styles.css"');
-      expect(await fileExists('dist/css/legacy-styles.css')).toBeTruthy();
-
-      const newFileContent = await readFile('src/css/bar.css');
-      expect(newFileContent).toMatchSnapshot('css/bar.css after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 70000);
-
-    it('should lint (and but fix) files built with handler `sass`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'development', true);
-
-      const fileContent = await readFile('src/sass/style.scss');
-      expect(fileContent).toMatchSnapshot('sass/style.scss before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'sass',
-        lint: true,
-        fix: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your Sass is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your Sass is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "styles.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "styles.css"');
-      expect(await fileExists('dist/css/styles.css')).toBeTruthy();
-
-      const newFileContent = await readFile('src/sass/style.scss');
-      expect(newFileContent).toMatchSnapshot('sass/style.scss after lint');
       expect(fileContent).not.toBe(newFileContent);
 
       await cleanup();

@@ -1,6 +1,6 @@
-import stylelint, { LinterResult } from 'stylelint';
 import stylelintFormatter from 'stylelint-formatter-pretty';
 import API from '../../../API';
+import { isPackageInstalled } from '../../../utils/package';
 
 export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   const config = {
@@ -9,11 +9,17 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
     fix: !!args.fix,
   };
 
-  api.logger.log(`css (lint) :: linting ${JSON.stringify(config.files, null, 2)}`);
-
   return new Promise((resolve, reject) => {
+    if (!isPackageInstalled('stylelint', api)) {
+      api.logger.info('Linting CSS requires to install "stylelint" dependency.');
+      return resolve();
+    }
+
+    const { lint, LinterResult } = require('stylelint');
+    api.logger.log(`css (lint) :: linting ${JSON.stringify(config.files, null, 2)}`);
+
     // @ts-ignore
-    stylelint.lint(config).then((res: LinterResult) => {
+    lint(config).then((res: LinterResult) => {
       if (!res.errored) {
         api.logger.info('Your CSS is clean ✨');
         return resolve();

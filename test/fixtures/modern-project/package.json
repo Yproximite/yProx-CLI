@@ -29,21 +29,6 @@
           "concat": "scripts.js"
         },
         {
-          "handler": "css",
-          "src": [
-            "src/css/foo.css",
-            "src/css/bar.css"
-          ],
-          "dest": "dist/css",
-          "concat": "legacy-styles.css"
-        },
-        {
-          "handler": "sass",
-          "src": "src/sass/style.scss",
-          "dest": "dist/css",
-          "destFile": "styles.css"
-        },
-        {
           "name": "images to optimize",
           "handler": "image",
           "src": "src/images/*",
