@@ -1,7 +1,7 @@
+import graphql from '@kocal/rollup-plugin-graphql';
 import * as rollup from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
-import graphql from '@kocal/rollup-plugin-graphql';
 import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
@@ -9,10 +9,11 @@ import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 import vue from 'rollup-plugin-vue';
+import { EntryRollup } from '../../../../types/entry';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
-export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
+export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
   const rollupOptions = { ...api.projectOptions.handlers.rollup };
   const getInputOptions = () => {
     const plugins = [];

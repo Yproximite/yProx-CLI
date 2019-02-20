@@ -1,4 +1,5 @@
 import { Asset } from '../../types';
+import { Entry } from '../../types/entry';
 import API from '../API';
 
 export function readAssetDef(api: API, assetName: string, asset: Asset) {
@@ -15,7 +16,7 @@ export function readAssetDef(api: API, assetName: string, asset: Asset) {
   return entries.map(entry => {
     entry._name = assetName;
     entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
-    entry.src = entry.src.map(src => api.resolve(src));
+    entry.src = entry.src.map((src: string) => api.resolve(src));
     entry.dest = api.resolve(entry.dest);
 
     return entry;

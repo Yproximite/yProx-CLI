@@ -1,4 +1,5 @@
 import { Asset } from '../../types';
+import { Entry } from '../../types/entry';
 import API from '../API';
 import { readAssetDef } from './asset';
 
