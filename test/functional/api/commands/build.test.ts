@@ -165,11 +165,11 @@ describe('command: build', () => {
     }, 20000);
 
     it('should skip linting when Stylelint is not installed', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv('css');
+      const { api, cleanup, run, runYproxCli, fileExists } = await createFakeEnv('css');
 
       await run('yarn install');
       // make module resolution working for stylelint dependency, if someone have a better idea...
-      const { stdout } = await run('node ../../../../dist/bin/yprox-cli.js build --lint');
+      const { stdout } = await runYproxCli('build --lint');
 
       expect(stdout).toContain('info :: Linting Sass requires to install "stylelint" dependency.');
       expect(stdout).toContain('info :: Linting CSS requires to install "stylelint" dependency.');
@@ -186,7 +186,7 @@ describe('command: build', () => {
     it('should lint files but not build them', async () => {
       expect.assertions(6);
 
-      const { cleanup, run, writeFile, fileExists } = await createFakeEnv('css');
+      const { cleanup, run, runYproxCli, writeFile, fileExists } = await createFakeEnv('css');
 
       await run('yarn install');
       await run('yarn add -D stylelint');
@@ -194,7 +194,7 @@ describe('command: build', () => {
 
       try {
         // make module resolution working for stylelint dependency, if someone have a better idea...
-        await run('node ../../../../dist/bin/yprox-cli.js build --lint');
+        await runYproxCli('build --lint');
       } catch (e) {
         expect(e.stderr).toMatch(/error :: Your (CSS|Sass) is not clean, stopping\./);
         expect(e.stdout).toContain('Unexpected extra semicolon');
@@ -209,7 +209,7 @@ describe('command: build', () => {
     }, 20000);
 
     it('should fix linting issues and build files', async () => {
-      const { api, cleanup, readFile, writeFile, fileExists, run } = await createFakeEnv('css');
+      const { api, cleanup, readFile, writeFile, fileExists, run, runYproxCli } = await createFakeEnv('css');
 
       await run('yarn install');
       await run('yarn add -D stylelint');
@@ -220,7 +220,7 @@ describe('command: build', () => {
 
       try {
         // make module resolution working for stylelint dependency, if someone have a better idea...
-        const childProcess = await run('node ../../../../dist/bin/yprox-cli.js build --lint --fix');
+        const childProcess = await runYproxCli('build --lint --fix');
         expect(childProcess.stdout).toContain('info :: sass :: start bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('info :: sass :: finished bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('info :: css :: start bundling "style.css"');

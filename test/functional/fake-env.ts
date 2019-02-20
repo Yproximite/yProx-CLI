@@ -11,6 +11,7 @@ type FakeEnv = {
   api: API;
   cleanup: () => void;
   run: (command: string) => Promise<{ stdout: string; stderr: string; code: number }>;
+  runYproxCli: (command: string) => Promise<{ stdout: string; stderr: string; code: number }>;
   readFile: (filename: string, encoding?: string) => Promise<string>;
   writeFile: (filename: string, content: string) => Promise<void>;
   fileExists: (filename: string) => Promise<boolean>;
@@ -46,6 +47,10 @@ export const createFakeEnv = async (files: Files | string = {}, mode = 'developm
     });
   };
 
+  const runYproxCli = async (command: string): Promise<{ stdout: string; stderr: string; code: number }> => {
+    return run(`node ${__dirname}/../../dist/bin/yprox-cli.js ${command}`);
+  };
+
   const cleanup = async () => {
     return await fs.remove(context);
   };
@@ -62,5 +67,5 @@ export const createFakeEnv = async (files: Files | string = {}, mode = 'developm
     return await fs.pathExists(api.resolve(filename));
   };
 
-  return { api, run, cleanup, readFile, writeFile, fileExists };
+  return { api, run, runYproxCli, cleanup, readFile, writeFile, fileExists };
 };
