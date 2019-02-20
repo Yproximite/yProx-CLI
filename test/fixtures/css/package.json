@@ -8,9 +8,9 @@
       "app": [
         {
           "handler": "sass",
-          "src": "src/bootstrap.scss",
+          "src": "src/bootstrap-grid.scss",
           "dest": "dist/",
-          "destFile": "bootstrap.css"
+          "destFile": "bootstrap-grid.css"
         },
         {
           "handler": "css",

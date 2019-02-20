@@ -138,11 +138,11 @@ describe('command: build', () => {
       await run('yarn install');
       await api.executeCommand('build');
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap-grid.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap-grid.css"');
       expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
       expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
-      expect(await readFile('dist/bootstrap.css')).toMatchSnapshot();
+      expect(await readFile('dist/bootstrap-grid.css')).toMatchSnapshot();
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
@@ -154,11 +154,11 @@ describe('command: build', () => {
       await run('yarn install');
       await api.executeCommand('build');
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap-grid.css"');
+      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap-grid.css"');
       expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
       expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
-      expect(await readFile('dist/bootstrap.css')).toMatchSnapshot();
+      expect(await readFile('dist/bootstrap-grid.css')).toMatchSnapshot();
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
@@ -173,11 +173,11 @@ describe('command: build', () => {
 
       expect(stdout).toContain('info :: Linting Sass requires to install "stylelint" dependency.');
       expect(stdout).toContain('info :: Linting CSS requires to install "stylelint" dependency.');
-      expect(stdout).toContain('info :: sass :: start bundling "bootstrap.css"');
-      expect(stdout).toContain('info :: sass :: finished bundling "bootstrap.css"');
+      expect(stdout).toContain('info :: sass :: start bundling "bootstrap-grid.css"');
+      expect(stdout).toContain('info :: sass :: finished bundling "bootstrap-grid.css"');
       expect(stdout).toContain('info :: css :: start bundling "style.css"');
       expect(stdout).toContain('info :: css :: finished bundling "style.css"');
-      expect(await fileExists('dist/bootstrap.css')).toBeTruthy();
+      expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
       await cleanup();
@@ -202,7 +202,7 @@ describe('command: build', () => {
         expect(e.code).toBe(1);
       }
 
-      expect(await fileExists('dist/bootstrap.css')).toBeFalsy();
+      expect(await fileExists('dist/bootstrap-grid.css')).toBeFalsy();
       expect(await fileExists('dist/style.css')).toBeFalsy();
 
       await cleanup();
@@ -215,23 +215,23 @@ describe('command: build', () => {
       await run('yarn add -D stylelint');
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
-      expect(await readFile('src/bootstrap.scss')).toMatchSnapshot('bootstrap.scss before linting');
+      expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss before linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
 
       try {
         // make module resolution working for stylelint dependency, if someone have a better idea...
         const childProcess = await run('node ../../../../dist/bin/yprox-cli.js build --lint --fix');
-        expect(childProcess.stdout).toContain('info :: sass :: start bundling "bootstrap.css"');
-        expect(childProcess.stdout).toContain('info :: sass :: finished bundling "bootstrap.css"');
+        expect(childProcess.stdout).toContain('info :: sass :: start bundling "bootstrap-grid.css"');
+        expect(childProcess.stdout).toContain('info :: sass :: finished bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('info :: css :: start bundling "style.css"');
         expect(childProcess.stdout).toContain('info :: css :: finished bundling "style.css"');
       } catch (e) {
         expect(true).toBeFalsy();
       }
 
-      expect(await readFile('src/bootstrap.scss')).toMatchSnapshot('bootstrap.scss after linting');
+      expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss after linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
-      expect(await fileExists('dist/bootstrap.css')).toBeTruthy();
+      expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
       await cleanup();
