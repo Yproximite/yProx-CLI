@@ -1,4 +1,6 @@
+import chalk from 'chalk';
 import { readFixture } from '../../fixtures';
+import { mockLogger, unmockLogger } from '../../logger';
 import { createFakeEnv } from '../fake-env';
 
 const packageJson = readFixture('configuration/package.json');
@@ -6,16 +8,15 @@ const yproxCliConfigJs = readFixture('configuration/yprox-cli.config.js');
 
 describe('api: configuration', () => {
   beforeEach(() => {
+    mockLogger();
     // @ts-ignore
     process.exit = jest.fn();
-    console.error = jest.fn();
   });
 
   afterEach(() => {
+    unmockLogger();
     // @ts-ignore
     process.exit.mockRestore();
-    // @ts-ignore
-    console.error.mockRestore();
   });
 
   it('should load conf from `yprox-cli.config.js`', async () => {
@@ -43,7 +44,8 @@ describe('api: configuration', () => {
   });
 
   it('should throw an error when having both config from `package.json` and `yprox-cli.config.js`', async () => {
-    const { cleanup } = await createFakeEnv({
+    const { api, cleanup } = await createFakeEnv({
+      mockLogger: true,
       files: {
         'package.json': packageJson,
         'yprox-cli.config.js': yproxCliConfigJs,
@@ -51,10 +53,10 @@ describe('api: configuration', () => {
     });
 
     expect(process.exit).toHaveBeenCalledWith(1);
-    expect(console.error).toHaveBeenNthCalledWith(1, '[08:30:00] error :: Your configuration is invalid.');
-    expect(console.error).toHaveBeenNthCalledWith(
+    expect(api.logger.error).toHaveBeenNthCalledWith(1, 'Your configuration is invalid.');
+    expect(api.logger.error).toHaveBeenNthCalledWith(
       2,
-      "[08:30:00] error :: You can't configure yprox-cli with yprox-cli.config.js and package.json at the same time."
+      chalk`You can't configure yprox-cli with {blue.bold yprox-cli.config.js} and {blue.bold package.json} at the same time.`
     );
 
     await cleanup();

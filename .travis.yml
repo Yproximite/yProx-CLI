@@ -13,10 +13,6 @@ branches:
 notifications:
   email: false
 
-env:
-  global:
-    - FORCE_COLOR=1
-
 cache:
   yarn: true
   directories:

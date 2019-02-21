@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { dirname } from 'path';
 import stylelintFormatter from 'stylelint-formatter-pretty';
 import API from '../../../API';
@@ -27,7 +28,7 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
       }
 
       console.log(res.output);
-      api.logger.info('Some errors can be automatically fixed with "\x1b[1;34m--fix\x1b[0m" flag');
+      api.logger.info(chalk`Some errors can be automatically fixed with "{blue.bold --fix}" flag`);
       reject(new Error('Your Sass is not clean, stopping.'));
     });
   });

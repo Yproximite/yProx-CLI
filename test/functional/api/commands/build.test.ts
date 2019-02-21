@@ -1,6 +1,7 @@
 import { statSync } from 'fs';
 import { readFixture } from '../../../fixtures';
 import { createFakeEnv } from '../../fake-env';
+import { mockLogger, unmockLogger } from '../../../logger';
 
 const files = {
   'package.json': readFixture('modern-project/package.json'),
@@ -24,22 +25,15 @@ const files = {
 describe('command: build', () => {
   let oldEnv = process.env;
   beforeEach(() => {
+    mockLogger();
     oldEnv = process.env;
     delete process.env.NODE_ENV; // otherwise it will not be set by yprox-cli
-    console.log = jest.fn();
-    console.info = jest.fn();
-    console.error = jest.fn();
     // @ts-ignore
     process.exit = jest.fn();
   });
   afterEach(() => {
+    unmockLogger();
     process.env = oldEnv;
-    // @ts-ignore
-    console.log.mockRestore();
-    // @ts-ignore
-    console.info.mockRestore();
-    // @ts-ignore
-    console.error.mockRestore();
     // @ts-ignore
     process.exit.mockRestore();
   });
@@ -51,8 +45,8 @@ describe('command: build', () => {
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     // should have built files with Rollup handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
 
     expect(await fileExists('dist/js/button.js')).toBeTruthy();
     expect(await fileExists('dist/js/button.js.map')).toBeTruthy();
@@ -62,16 +56,16 @@ describe('command: build', () => {
     expect(await readFile('dist/js/button.js')).toContain('console.log("Hello from index.js!")'); // app
 
     // should have built files with JS handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
 
     expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
     expect(await fileExists('dist/js/scripts.js.map')).toBeTruthy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('prod js');
 
     // should have optimized images
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
+    expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
+    expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
 
     expect(statSync(api.resolve('src/images/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
     expect(statSync(api.resolve('dist/images/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
@@ -95,8 +89,8 @@ describe('command: build', () => {
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
     // should have built files with Rollup handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
 
     expect(await fileExists('dist/js/button.js')).toBeTruthy();
     expect(await fileExists('dist/js/button.js.map')).toBeFalsy();
@@ -105,16 +99,16 @@ describe('command: build', () => {
     expect(await readFile('dist/js/button.js')).toContain('"Hello from index.js!"');
 
     // should have built files with JS handler
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+    expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
 
     expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
     expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('dev js');
 
     // should have optimized images
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: start optimizing "images to optimize"');
-    expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: image :: done optimizing "images to optimize"');
+    expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
+    expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
 
     expect(statSync(api.resolve('src/images/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
     expect(statSync(api.resolve('dist/images/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
@@ -138,10 +132,10 @@ describe('command: build', () => {
       await run('yarn install');
       await api.executeCommand('build');
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap-grid.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap-grid.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "style.css"');
       expect(await readFile('dist/bootstrap-grid.css')).toMatchSnapshot();
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
@@ -154,10 +148,10 @@ describe('command: build', () => {
       await run('yarn install');
       await api.executeCommand('build');
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: start bundling "bootstrap-grid.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: sass :: finished bundling "bootstrap-grid.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: start bundling "style.css"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: css :: finished bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "style.css"');
       expect(await readFile('dist/bootstrap-grid.css')).toMatchSnapshot();
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
@@ -171,12 +165,12 @@ describe('command: build', () => {
       // make module resolution working for stylelint dependency, if someone have a better idea...
       const { stdout } = await runYproxCli('build --lint');
 
-      expect(stdout).toContain('info :: Linting Sass requires to install "stylelint" dependency.');
-      expect(stdout).toContain('info :: Linting CSS requires to install "stylelint" dependency.');
-      expect(stdout).toContain('info :: sass :: start bundling "bootstrap-grid.css"');
-      expect(stdout).toContain('info :: sass :: finished bundling "bootstrap-grid.css"');
-      expect(stdout).toContain('info :: css :: start bundling "style.css"');
-      expect(stdout).toContain('info :: css :: finished bundling "style.css"');
+      expect(stdout).toContain('Linting Sass requires to install "stylelint" dependency.');
+      expect(stdout).toContain('Linting CSS requires to install "stylelint" dependency.');
+      expect(stdout).toContain('sass :: start bundling "bootstrap-grid.css"');
+      expect(stdout).toContain('sass :: finished bundling "bootstrap-grid.css"');
+      expect(stdout).toContain('css :: start bundling "style.css"');
+      expect(stdout).toContain('css :: finished bundling "style.css"');
       expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
@@ -184,7 +178,7 @@ describe('command: build', () => {
     }, 20000);
 
     it('should lint files but not build them', async () => {
-      expect.assertions(6);
+      expect.assertions(5);
 
       const { cleanup, run, runYproxCli, writeFile, fileExists } = await createFakeEnv({ files: 'css' });
 
@@ -196,9 +190,8 @@ describe('command: build', () => {
         // make module resolution working for stylelint dependency, if someone have a better idea...
         await runYproxCli('build --lint');
       } catch (e) {
-        expect(e.stderr).toMatch(/error :: Your (CSS|Sass) is not clean, stopping\./);
+        expect(e.stderr).toMatch(/Your (CSS|Sass) is not clean, stopping\./);
         expect(e.stdout).toContain('Unexpected extra semicolon');
-        expect(e.stdout).toContain('info :: Some errors can be automatically fixed with "--fix" flag');
         expect(e.code).toBe(1);
       }
 
@@ -221,10 +214,10 @@ describe('command: build', () => {
       try {
         // make module resolution working for stylelint dependency, if someone have a better idea...
         const childProcess = await runYproxCli('build --lint --fix');
-        expect(childProcess.stdout).toContain('info :: sass :: start bundling "bootstrap-grid.css"');
-        expect(childProcess.stdout).toContain('info :: sass :: finished bundling "bootstrap-grid.css"');
-        expect(childProcess.stdout).toContain('info :: css :: start bundling "style.css"');
-        expect(childProcess.stdout).toContain('info :: css :: finished bundling "style.css"');
+        expect(childProcess.stdout).toContain('sass :: start bundling "bootstrap-grid.css"');
+        expect(childProcess.stdout).toContain('sass :: finished bundling "bootstrap-grid.css"');
+        expect(childProcess.stdout).toContain('css :: start bundling "style.css"');
+        expect(childProcess.stdout).toContain('css :: finished bundling "style.css"');
       } catch (e) {
         expect(true).toBeFalsy();
       }
@@ -245,8 +238,8 @@ describe('command: build', () => {
 
       await api.executeCommand('build');
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: start copying "files to copy"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: file :: done copying "files to copy"');
+      expect(api.logger.info).toHaveBeenCalledWith('file :: start copying "files to copy"');
+      expect(api.logger.info).toHaveBeenCalledWith('file :: done copying "files to copy"');
 
       expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
       expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
@@ -264,8 +257,8 @@ describe('command: build', () => {
 
       await api.executeCommand('build'); // build in "cjs" format, to make it easier/safer to test
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "app"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "app"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "app"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "app"');
 
       const exports: { [key: string]: any } = {};
       const fn = new Function('exports', await readFile('dist/medias.js')); // tslint:disable-line
@@ -297,10 +290,10 @@ describe('command: build', () => {
         lint: true,
       }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+      expect(api.logger.info).not.toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).not.toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
       expect(await fileExists('dist/js/button.js')).toBeFalsy();
 
       await cleanup();
@@ -315,10 +308,10 @@ describe('command: build', () => {
         lint: true,
       }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-      expect(console.info).not.toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+      expect(api.logger.info).not.toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).not.toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
       expect(await fileExists('dist/js/scripts.js')).toBeFalsy();
 
       await cleanup();
@@ -339,11 +332,11 @@ describe('command: build', () => {
         fix: true,
       }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).not.toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: start bundling "button.js"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
       expect(await fileExists('dist/js/button.js')).toBeTruthy();
 
       const newFileContent = await readFile('src/components/button/index.js');
@@ -366,11 +359,11 @@ describe('command: build', () => {
         fix: true,
       }); // we could use `yarn build`, but we won't have access to mocked `console.info`
 
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).not.toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: start bundling "scripts.js"');
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: js :: finished bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
       expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
 
       const newFileContent = await readFile('src/js/bar.js');

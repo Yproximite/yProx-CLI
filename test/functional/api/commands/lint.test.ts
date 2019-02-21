@@ -1,4 +1,5 @@
 import { readFixture } from '../../../fixtures';
+import { mockLogger, unmockLogger } from '../../../logger';
 import { createFakeEnv } from '../../fake-env';
 
 const files = {
@@ -23,21 +24,14 @@ const files = {
 describe('command: lint', () => {
   let oldEnv = process.env;
   beforeEach(() => {
+    mockLogger();
     oldEnv = process.env;
-    console.log = jest.fn();
-    console.info = jest.fn();
-    console.error = jest.fn();
     // @ts-ignore
     process.exit = jest.fn();
   });
   afterEach(() => {
+    unmockLogger();
     process.env = oldEnv;
-    // @ts-ignore
-    console.log.mockRestore();
-    // @ts-ignore
-    console.info.mockRestore();
-    // @ts-ignore
-    console.error.mockRestore();
     // @ts-ignore
     process.exit.mockRestore();
   });
@@ -51,7 +45,7 @@ describe('command: lint', () => {
 
       // The first entry handled by yprox-cli is a `rollup` entry.
       // Since we lint files grouped by handlers, it means that we are linting `rollup` files first
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
 
       // But if we fix the incriminated file...
@@ -59,7 +53,7 @@ describe('command: lint', () => {
       await api.executeCommand('lint');
 
       // Then it's another linter which fails
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
@@ -73,7 +67,7 @@ describe('command: lint', () => {
         'filter:handler': 'rollup',
       });
 
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
@@ -87,7 +81,7 @@ describe('command: lint', () => {
         'filter:handler': 'js',
       });
 
-      expect(console.error).toHaveBeenCalledWith('[08:30:00] error :: js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
 
       await cleanup();
@@ -103,8 +97,8 @@ describe('command: lint', () => {
         fix: true,
       });
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.error).not.toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
       await cleanup();
@@ -122,8 +116,8 @@ describe('command: lint', () => {
         fix: true,
       });
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.error).not.toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
       const newFileContent = await readFile('src/components/button/index.js');
@@ -145,8 +139,8 @@ describe('command: lint', () => {
         fix: true,
       });
 
-      expect(console.info).toHaveBeenCalledWith('[08:30:00] info :: Your JavaScript is clean ✨');
-      expect(console.error).not.toHaveBeenCalledWith('[08:30:00] error :: js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.error).not.toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).not.toHaveBeenCalledWith(1);
 
       const newFileContent = await readFile('src/js/bar.js');
