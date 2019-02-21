@@ -45,7 +45,7 @@ describe('command: build', () => {
   });
 
   it('should build entries (production mode)', async () => {
-    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'production', true);
+    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'production', verbose: true });
 
     await run('yarn install --frozen-lockfile');
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
@@ -89,7 +89,7 @@ describe('command: build', () => {
   }, 100000);
 
   it('should build entries (development mode)', async () => {
-    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'development', true);
+    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
 
     await run('yarn install --frozen-lockfile');
     await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
@@ -133,7 +133,7 @@ describe('command: build', () => {
 
   describe('CSS & Sass', () => {
     it('should build files', async () => {
-      const { api, cleanup, run, readFile } = await createFakeEnv('css');
+      const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
       await api.executeCommand('build');
@@ -149,7 +149,7 @@ describe('command: build', () => {
     }, 20000);
 
     it('should build files and minify them', async () => {
-      const { api, cleanup, run, readFile } = await createFakeEnv('css', 'production');
+      const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css', mode: 'production' });
 
       await run('yarn install');
       await api.executeCommand('build');
@@ -165,7 +165,7 @@ describe('command: build', () => {
     }, 20000);
 
     it('should skip linting when Stylelint is not installed', async () => {
-      const { api, cleanup, run, runYproxCli, fileExists } = await createFakeEnv('css');
+      const { api, cleanup, run, runYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
       // make module resolution working for stylelint dependency, if someone have a better idea...
@@ -186,7 +186,7 @@ describe('command: build', () => {
     it('should lint files but not build them', async () => {
       expect.assertions(6);
 
-      const { cleanup, run, runYproxCli, writeFile, fileExists } = await createFakeEnv('css');
+      const { cleanup, run, runYproxCli, writeFile, fileExists } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
       await run('yarn add -D stylelint');
@@ -209,7 +209,7 @@ describe('command: build', () => {
     }, 20000);
 
     it('should fix linting issues and build files', async () => {
-      const { api, cleanup, readFile, writeFile, fileExists, run, runYproxCli } = await createFakeEnv('css');
+      const { cleanup, readFile, writeFile, fileExists, run, runYproxCli } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
       await run('yarn add -D stylelint');
@@ -240,7 +240,7 @@ describe('command: build', () => {
 
   describe('Copy files', () => {
     it('should copy files', async () => {
-      const { api, cleanup, run, readFile } = await createFakeEnv('files');
+      const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'files' });
       await run('yarn install');
 
       await api.executeCommand('build');
@@ -260,7 +260,7 @@ describe('command: build', () => {
 
   describe('GraphQL', () => {
     it('should build files', async () => {
-      const { api, cleanup, readFile } = await createFakeEnv('graphql');
+      const { api, cleanup, readFile } = await createFakeEnv({ files: 'graphql' });
 
       await api.executeCommand('build'); // build in "cjs" format, to make it easier/safer to test
 
@@ -289,7 +289,7 @@ describe('command: build', () => {
 
   describe('lint (but not fix) before build', () => {
     it('should lint (but not fix) files built with handler `rollup`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
+      const { api, cleanup, run, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
@@ -307,7 +307,7 @@ describe('command: build', () => {
     }, 70000);
 
     it('should lint (but not fix) files built with handler `js`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv(files, 'development', true);
+      const { api, cleanup, run, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
@@ -327,7 +327,7 @@ describe('command: build', () => {
 
   describe('lint (and fix) before build', () => {
     it('should lint (and but fix) files built with handler `rollup`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'development', true);
+      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
 
       const fileContent = await readFile('src/components/button/index.js');
       expect(fileContent).toMatchSnapshot('button/index.js before lint');
@@ -354,7 +354,7 @@ describe('command: build', () => {
     }, 70000);
 
     it('should lint (and but fix) files built with handler `js`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv(files, 'development', true);
+      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
 
       const fileContent = await readFile('src/js/bar.js');
       expect(fileContent).toMatchSnapshot('js/bar.js before lint');
@@ -383,7 +383,7 @@ describe('command: build', () => {
 
   describe('Misc', () => {
     it('Gulp, Rollup, and Sass plugins should not mutate `api.projectOptions`', async () => {
-      const { api, cleanup, run } = await createFakeEnv(files, 'production', true);
+      const { api, cleanup, run } = await createFakeEnv({ files, mode: 'production', verbose: true });
       const projectOptions = JSON.parse(JSON.stringify(api.projectOptions));
 
       await run('yarn install --frozen-lockfile');

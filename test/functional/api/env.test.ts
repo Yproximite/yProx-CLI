@@ -36,7 +36,7 @@ describe('api: env', () => {
   });
 
   it('should load env vars from default (dev) mode and default env vars files', async () => {
-    await createFakeEnv(files);
+    await createFakeEnv({ files });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
     expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.development.local$/);
@@ -48,7 +48,7 @@ describe('api: env', () => {
   });
 
   it('should load env vars from production mode and default env vars file', async () => {
-    await createFakeEnv(files, 'production');
+    await createFakeEnv({ files, mode: 'production' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
     expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.production.local$/);
@@ -59,8 +59,8 @@ describe('api: env', () => {
     expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env$/);
   });
 
-  it('should load env vars from a functionalific mode', async () => {
-    await createFakeEnv(files, 'test');
+  it('should load env vars from a specific mode', async () => {
+    await createFakeEnv({ files, mode: 'test' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(4);
     expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/test\/functional\/envs\/\d+\/.env.test.local$/);
@@ -70,7 +70,7 @@ describe('api: env', () => {
   });
 
   it('should not load env vars from a file that does not exists', async () => {
-    await createFakeEnv(files, 'foobar');
+    await createFakeEnv({ files, mode: 'foobar' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(3);
     expect(loadEnv.loadEnv.mock.calls[0][0]).not.toMatch(/\/test\/functional\/envs\/\d+\/.env.foobar.local$/);

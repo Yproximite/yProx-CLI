@@ -20,7 +20,9 @@ describe('api: configuration', () => {
 
   it('should load conf from `yprox-cli.config.js`', async () => {
     const { api, cleanup } = await createFakeEnv({
-      'yprox-cli.config.js': yproxCliConfigJs,
+      files: {
+        'yprox-cli.config.js': yproxCliConfigJs,
+      },
     });
 
     expect(api.projectOptions).toMatchSnapshot();
@@ -30,7 +32,9 @@ describe('api: configuration', () => {
 
   it('should load conf from `package.json`', async () => {
     const { api, cleanup } = await createFakeEnv({
-      'package.json': packageJson,
+      files: {
+        'package.json': packageJson,
+      },
     });
 
     expect(api.projectOptions).toMatchSnapshot();
@@ -40,8 +44,10 @@ describe('api: configuration', () => {
 
   it('should throw an error when having both config from `package.json` and `yprox-cli.config.js`', async () => {
     const { cleanup } = await createFakeEnv({
-      'package.json': packageJson,
-      'yprox-cli.config.js': yproxCliConfigJs,
+      files: {
+        'package.json': packageJson,
+        'yprox-cli.config.js': yproxCliConfigJs,
+      },
     });
 
     expect(process.exit).toHaveBeenCalledWith(1);
@@ -58,8 +64,10 @@ describe('api: configuration', () => {
     process.env.YPROX_CLI_IGNORE_CONFIG_FILE = 'true';
 
     const { api, cleanup } = await createFakeEnv({
-      'package.json': packageJson,
-      'yprox-cli.config.js': yproxCliConfigJs,
+      files: {
+        'package.json': packageJson,
+        'yprox-cli.config.js': yproxCliConfigJs,
+      },
     });
 
     expect(api.projectOptions).toMatchSnapshot();
@@ -72,8 +80,10 @@ describe('api: configuration', () => {
     process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE = 'true';
 
     const { api, cleanup } = await createFakeEnv({
-      'package.json': packageJson,
-      'yprox-cli.config.js': yproxCliConfigJs,
+      files: {
+        'package.json': packageJson,
+        'yprox-cli.config.js': yproxCliConfigJs,
+      },
     });
 
     expect(api.projectOptions).toMatchSnapshot();

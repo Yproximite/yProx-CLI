@@ -44,7 +44,7 @@ describe('command: lint', () => {
 
   describe('lint (but not fix)', () => {
     it('should lint entries and fails', async () => {
-      const { api, run, writeFile, cleanup } = await createFakeEnv(files);
+      const { api, run, writeFile, cleanup } = await createFakeEnv({ files });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint');
@@ -66,7 +66,7 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint Rollup entries only and fails', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup } = await createFakeEnv({ files });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
@@ -80,7 +80,7 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint JS entries only and fails', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup } = await createFakeEnv({ files });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
@@ -96,7 +96,7 @@ describe('command: lint', () => {
 
   describe('lint (and fix)', () => {
     it('should lint and fix entries', async () => {
-      const { api, run, cleanup } = await createFakeEnv(files);
+      const { api, run, cleanup } = await createFakeEnv({ files });
 
       await run('yarn install --frozen-lockfile');
       await api.executeCommand('lint', {
@@ -111,7 +111,7 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix Rollup entries only', async () => {
-      const { api, run, cleanup, readFile } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv({ files });
 
       const fileContent = await readFile('src/components/button/index.js');
       expect(fileContent).toMatchSnapshot('button/index.js before lint');
@@ -134,7 +134,7 @@ describe('command: lint', () => {
     }, 10000);
 
     it('should lint and fix JS entries only', async () => {
-      const { api, run, cleanup, readFile } = await createFakeEnv(files);
+      const { api, run, cleanup, readFile } = await createFakeEnv({ files });
 
       const fileContent = await readFile('src/js/bar.js');
       expect(fileContent).toMatchSnapshot('js/bar.js before lint');

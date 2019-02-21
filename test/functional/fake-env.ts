@@ -7,6 +7,7 @@ const exec = util.promisify(require('child_process').exec);
 let env = -1;
 
 type Files = { [k: string]: string | Buffer };
+type FakeEnvArgs = { files: Files | string; mode: string; verbose: boolean };
 type FakeEnv = {
   api: API;
   cleanup: () => void;
@@ -16,8 +17,7 @@ type FakeEnv = {
   writeFile: (filename: string, content: string) => Promise<void>;
   fileExists: (filename: string) => Promise<boolean>;
 };
-
-export const createFakeEnv = async (files: Files | string = {}, mode = 'development', verbose = false): Promise<FakeEnv> => {
+export const createFakeEnv = async ({ files = {}, mode = 'development', verbose = false }: Partial<FakeEnvArgs> = {}): Promise<FakeEnv> => {
   // Create new env
   env += 1;
   const context = `${__dirname}/envs/${env}`;
