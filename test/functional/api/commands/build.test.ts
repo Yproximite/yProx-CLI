@@ -1,4 +1,5 @@
 import { statSync } from 'fs';
+import { restoreEnv, saveEnv } from '../../../node-env';
 import { readFixture } from '../../../fixtures';
 import { createFakeEnv } from '../../fake-env';
 import { mockLogger, unmockLogger } from '../../../logger';
@@ -23,17 +24,15 @@ const files = {
 };
 
 describe('command: build', () => {
-  let oldEnv = process.env;
   beforeEach(() => {
+    saveEnv();
     mockLogger();
-    oldEnv = process.env;
-    delete process.env.NODE_ENV; // otherwise it will not be set by yprox-cli
     // @ts-ignore
     process.exit = jest.fn();
   });
   afterEach(() => {
+    restoreEnv();
     unmockLogger();
-    process.env = oldEnv;
     // @ts-ignore
     process.exit.mockRestore();
   });

@@ -1,3 +1,4 @@
+import { restoreEnv, saveEnv } from '../../../node-env';
 import { readFixture } from '../../../fixtures';
 import { mockLogger, unmockLogger } from '../../../logger';
 import { createFakeEnv } from '../../fake-env';
@@ -22,16 +23,15 @@ const files = {
 };
 
 describe('command: lint', () => {
-  let oldEnv = process.env;
   beforeEach(() => {
+    saveEnv();
     mockLogger();
-    oldEnv = process.env;
     // @ts-ignore
     process.exit = jest.fn();
   });
   afterEach(() => {
+    restoreEnv();
     unmockLogger();
-    process.env = oldEnv;
     // @ts-ignore
     process.exit.mockRestore();
   });
@@ -49,7 +49,7 @@ describe('command: lint', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       // But if we fix the incriminated file...
-      await writeFile('src/components/button/index.js', "console.log('ESLint will not fails here.')");
+      await writeFile('src/components/button/index.js', 'console.log(\'ESLint will not fails here.\')');
       await api.executeCommand('lint');
 
       // Then it's another linter which fails
