@@ -6,7 +6,7 @@ exports[`command: lint lint (and fix) should lint and fix JS entries only: js/ba
 `;
 
 exports[`command: lint lint (and fix) should lint and fix JS entries only: js/bar.js before lint 1`] = `
-"console.log('Hello world from \`bar.js\`!');;;
+"console.log('Hello world from \`bar.js\`!');;
 "
 `;
 
@@ -26,6 +26,6 @@ import Button from './Button';
 
 Vue.component('y-button', Button);
 
-console.log(\\"Hello from index.js!\\");;;
+console.log(\\"Hello from index.js!\\");;
 "
 `;

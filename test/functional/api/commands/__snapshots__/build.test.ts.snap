@@ -2526,7 +2526,7 @@ exports[`command: build lint (and fix) before build should lint (and but fix) fi
 `;
 
 exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`js\`, before building them: js/bar.js before lint 1`] = `
-"console.log('Hello world from \`bar.js\`!');;;
+"console.log('Hello world from \`bar.js\`!');;
 "
 `;
 
@@ -2546,7 +2546,7 @@ import Button from './Button';
 
 Vue.component('y-button', Button);
 
-console.log(\\"Hello from index.js!\\");;;
+console.log(\\"Hello from index.js!\\");;
 "
 `;
 
@@ -2556,7 +2556,7 @@ exports[`command: build should build entries (development mode): dev js 1`] = `
 var foo = 'My variable';
 console.log((\\"My variable value: \\" + foo));
 
-console.log('Hello world from \`bar.js\`!');;;
+console.log('Hello world from \`bar.js\`!');;
 "
 `;
 
