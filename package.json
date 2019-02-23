@@ -19,7 +19,7 @@
     "watch": "tsc --watch",
     "lint": "tslint {bin,lib,types}/**/*.ts",
     "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "test": "FORCE_COLOR=1 jest -i",
+    "test": "FORCE_COLOR=1 rm -fr test/functional/envs && jest -i",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs"
   },
