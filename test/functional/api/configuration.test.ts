@@ -45,7 +45,6 @@ describe('api: configuration', () => {
 
   it('should throw an error when having both config from `package.json` and `yprox-cli.config.js`', async () => {
     const { api, cleanup } = await createFakeEnv({
-      mockLogger: true,
       files: {
         'package.json': packageJson,
         'yprox-cli.config.js': yproxCliConfigJs,
