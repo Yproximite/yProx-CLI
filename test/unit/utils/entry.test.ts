@@ -1,6 +1,7 @@
 import API from '../../../lib/API';
 import { getEntryName, readEntries } from '../../../lib/utils/entry';
 import { Entry } from '../../../types/entry';
+import { mockLogger, unmockLogger } from '../../logger';
 
 const createEntry = (opts: { [K in keyof Entry]?: Entry[K] } = {}): Entry => ({
   handler: 'css',
@@ -33,15 +34,19 @@ describe('utils: entry', () => {
   });
 
   describe('readEntries()', () => {
-    const api = new API(__dirname);
-    api.projectOptions.assets = {
-      app: [
-        createEntry({ name: 'app-css', handler: 'css', src: ['app.css'] }),
-        createEntry({ name: 'app-sass', handler: 'sass', src: ['app.sass'] }),
-        createEntry({ name: 'app-rollup', handler: 'rollup', src: ['app.js'] }),
-      ],
-      vendor: [createEntry({ name: 'vendor-css', handler: 'css', src: ['vendor.css'] })],
-    };
+    let api: API;
+
+    beforeEach(() => {
+      api = new API(__dirname);
+      api.projectOptions.assets = {
+        app: [
+          createEntry({ name: 'app-css', handler: 'css', src: ['app.css'] }),
+          createEntry({ name: 'app-sass', handler: 'sass', src: ['app.sass'] }),
+          createEntry({ name: 'app-rollup', handler: 'rollup', src: ['app.js'] }),
+        ],
+        vendor: [createEntry({ name: 'vendor-css', handler: 'css', src: ['vendor.css'] })],
+      };
+    });
 
     it('should returns all entries', () => {
       const args = {};
@@ -85,6 +90,22 @@ describe('utils: entry', () => {
         { name: 'app-sass', handler: 'sass', src: [`${__dirname}/app.sass`], _name: 'app', dest: `${__dirname}/dist` },
         { name: 'app-rollup', handler: 'rollup', src: [`${__dirname}/app.js`], _name: 'app', dest: `${__dirname}/dist` },
       ]);
+    });
+
+    it('should display an error if there is no entries', () => {
+      mockLogger();
+      // @ts-ignore
+      process.exit = jest.fn();
+
+      delete api.projectOptions.assets;
+      readEntries(api, {});
+      expect(api.logger.error).toHaveBeenCalledWith('No assets have been configured.');
+      expect(api.logger.error).toHaveBeenCalledWith('See the documentation (https://yprox-cli.netlify.com/configuration.html#configuration) to know to do it!');
+      expect(process.exit).toHaveBeenCalledWith(1);
+
+      unmockLogger();
+      // @ts-ignore
+      process.exit.mockRestore();
     });
   });
 });

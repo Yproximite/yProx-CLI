@@ -10,7 +10,14 @@ export function getEntryName(entry: Entry) {
 export function readEntries(api: API, args: CLIArgs) {
   let entries: Entry[] = [];
 
-  Object.entries(api.projectOptions.assets as { [k: string]: Asset }).forEach(([assetName, assetDef]) => {
+  if (typeof api.projectOptions.assets === 'undefined') {
+    api.logger.error('No assets have been configured.');
+    api.logger.error('See the documentation (https://yprox-cli.netlify.com/configuration.html#configuration) to know to do it!');
+    process.exit(1);
+    return;
+  }
+
+  Object.entries(api.projectOptions.assets).forEach(([assetName, assetDef]) => {
     entries = entries.concat(readAssetDef(api, assetName, assetDef));
   });
 
