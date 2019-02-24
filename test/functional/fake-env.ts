@@ -7,7 +7,7 @@ const exec = util.promisify(require('child_process').exec);
 let env = -1;
 
 type Files = { [k: string]: string | Buffer };
-type FakeEnvArgs = { files: Files | string; mode: string; verbose: boolean; mockLogger: boolean };
+type FakeEnvArgs = { files: Files | string; mode: string; verbose: boolean };
 type FakeEnv = {
   api: API;
   cleanup: () => void;

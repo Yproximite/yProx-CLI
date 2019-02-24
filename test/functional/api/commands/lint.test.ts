@@ -15,11 +15,6 @@ const files = {
   // js
   'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
   'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
-  // images
-  'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
-  'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
-  'src/images/golfer.gif': readFixture('modern-project/src/images/golfer.gif', null),
-  'src/images/uk.svg': readFixture('modern-project/src/images/uk.svg', null),
 };
 
 describe('command: lint', () => {
@@ -49,7 +44,7 @@ describe('command: lint', () => {
       expect(process.exit).toHaveBeenCalledWith(1);
 
       // But if we fix the incriminated file...
-      await writeFile('src/components/button/index.js', 'console.log(\'ESLint will not fails here.\')');
+      await writeFile('src/components/button/index.js', "console.log('ESLint will not fails here.')");
       await api.executeCommand('lint');
 
       // Then it's another linter which fails

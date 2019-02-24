@@ -2520,6 +2520,24 @@ exports[`command: build CSS & Sass should fix linting issues and build files: st
 "
 `;
 
+exports[`command: build Images optimization should minify images in development env 1`] = `
+Array [
+  Array [
+    "gulp-imagemin:",
+    "Minified 4 images[90m (saved 2.92 MB - 67.8%)[39m",
+  ],
+]
+`;
+
+exports[`command: build Images optimization should minify images in production env 1`] = `
+Array [
+  Array [
+    "gulp-imagemin:",
+    "Minified 4 images[90m (saved 2.92 MB - 67.8%)[39m",
+  ],
+]
+`;
+
 exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`js\`, before building them: js/bar.js after lint 1`] = `
 "console.log('Hello world from \`bar.js\`!');
 "

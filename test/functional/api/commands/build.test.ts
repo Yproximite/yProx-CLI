@@ -1,8 +1,8 @@
 import { statSync } from 'fs';
-import { restoreEnv, saveEnv } from '../../../node-env';
 import { readFixture } from '../../../fixtures';
-import { createFakeEnv } from '../../fake-env';
 import { mockLogger, unmockLogger } from '../../../logger';
+import { restoreEnv, saveEnv } from '../../../node-env';
+import { createFakeEnv } from '../../fake-env';
 
 const files = {
   'package.json': readFixture('modern-project/package.json'),
@@ -16,11 +16,6 @@ const files = {
   // js
   'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
   'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
-  // images
-  'src/images/guts-white-hair.png': readFixture('modern-project/src/images/guts-white-hair.png', null),
-  'src/images/jax.jpg': readFixture('modern-project/src/images/jax.jpg', null),
-  'src/images/golfer.gif': readFixture('modern-project/src/images/golfer.gif', null),
-  'src/images/uk.svg': readFixture('modern-project/src/images/uk.svg', null),
 };
 
 describe('command: build', () => {
@@ -62,22 +57,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/scripts.js.map')).toBeTruthy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('prod js');
 
-    // should have optimized images
-    expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
-    expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
-
-    expect(statSync(api.resolve('src/images/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
-    expect(statSync(api.resolve('dist/images/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
-
-    expect(statSync(api.resolve('src/images/jax.jpg')).size).toBeGreaterThan(230 * 1024);
-    expect(statSync(api.resolve('dist/images/jax.jpg')).size).toBeLessThan(230 * 1024);
-
-    expect(statSync(api.resolve('src/images/golfer.gif')).size).toBeGreaterThan(2800 * 1024);
-    expect(statSync(api.resolve('dist/images/golfer.gif')).size).toBeLessThan(435 * 1024);
-
-    expect(statSync(api.resolve('src/images/uk.svg')).size).toBeGreaterThan(55 * 1024);
-    expect(statSync(api.resolve('dist/images/uk.svg')).size).toBeLessThan(42 * 1024);
-
     await cleanup();
   }, 100000);
 
@@ -104,22 +83,6 @@ describe('command: build', () => {
     expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
     expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
     expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('dev js');
-
-    // should have optimized images
-    expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
-    expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
-
-    expect(statSync(api.resolve('src/images/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
-    expect(statSync(api.resolve('dist/images/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
-
-    expect(statSync(api.resolve('src/images/jax.jpg')).size).toBeGreaterThan(230 * 1024);
-    expect(statSync(api.resolve('dist/images/jax.jpg')).size).toBeLessThan(230 * 1024);
-
-    expect(statSync(api.resolve('src/images/golfer.gif')).size).toBeGreaterThan(2800 * 1024);
-    expect(statSync(api.resolve('dist/images/golfer.gif')).size).toBeLessThan(435 * 1024);
-
-    expect(statSync(api.resolve('src/images/uk.svg')).size).toBeGreaterThan(55 * 1024);
-    expect(statSync(api.resolve('dist/images/uk.svg')).size).toBeLessThan(42 * 1024);
 
     await cleanup();
   }, 70000);
@@ -248,6 +211,47 @@ describe('command: build', () => {
 
       await cleanup();
     });
+  });
+
+  describe('Images optimization', () => {
+    beforeEach(() => {
+      console.log = jest.fn();
+    });
+
+    afterEach(() => {
+      // @ts-ignore
+      console.log.mockRestore();
+    });
+
+    it.each([['development'], ['production']])(
+      'should minify images in %s env',
+      async mode => {
+        const { api, cleanup } = await createFakeEnv({ mode, files: 'images' });
+
+        await api.executeCommand('build');
+
+        expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
+        expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
+        expect(console.log).toHaveBeenCalled();
+        // @ts-ignore
+        expect(console.log.mock.calls).toMatchSnapshot();
+
+        expect(statSync(api.resolve('src/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
+        expect(statSync(api.resolve('dist/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
+
+        expect(statSync(api.resolve('src/jax.jpg')).size).toBeGreaterThan(230 * 1024);
+        expect(statSync(api.resolve('dist/jax.jpg')).size).toBeLessThan(230 * 1024);
+
+        expect(statSync(api.resolve('src/golfer.gif')).size).toBeGreaterThan(2800 * 1024);
+        expect(statSync(api.resolve('dist/golfer.gif')).size).toBeLessThan(435 * 1024);
+
+        expect(statSync(api.resolve('src/uk.svg')).size).toBeGreaterThan(55 * 1024);
+        expect(statSync(api.resolve('dist/uk.svg')).size).toBeLessThan(42 * 1024);
+
+        await cleanup();
+      },
+      20000
+    );
   });
 
   describe('GraphQL', () => {
