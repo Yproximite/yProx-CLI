@@ -2538,17 +2538,176 @@ Array [
 ]
 `;
 
-exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`js\`, before building them: js/bar.js after lint 1`] = `
-"console.log('Hello world from \`bar.js\`!');
+exports[`command: build JavaScript should build files, minify them and generate a source map: scripts.js in production env 1`] = `
+"console.log(\\"Hello world from!\\");var constant=\\"abc\\";console.log(\\"The constant value: \\"+constant);var arr=[1,2,3];arr=[].concat(arr);var obj={a:\\"1\\",b:\\"2\\",c:\\"3\\"};obj=Object.assign({},obj);var myFunction=function(o,a){for(var r=[],n=arguments.length-2;n-- >0;)r[n]=arguments[n+2];console.log({arg1:o,arg2:a,otherArgs:r})};
+//# sourceMappingURL=scripts.js.map
 "
 `;
 
-exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`js\`, before building them: js/bar.js before lint 1`] = `
-"console.log('Hello world from \`bar.js\`!');;
+exports[`command: build JavaScript should build files: scripts.js in development env 1`] = `
+"console.log('Hello world from!');;
+
+var constant = 'abc';
+console.log((\\"The constant value: \\" + constant));
+
+var arr = [1, 2, 3];
+arr = [].concat( arr );
+
+var obj = { a: '1', b: '2', c: '3' };
+obj = Object.assign({}, obj);
+
+var myFunction = function (arg1, arg2) {
+  var otherArgs = [], len = arguments.length - 2;
+  while ( len-- > 0 ) otherArgs[ len ] = arguments[ len + 2 ];
+
+  console.log({
+    arg1: arg1,
+    arg2: arg2,
+    otherArgs: otherArgs,
+  });
+};
 "
 `;
 
-exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`rollup\`, before building them: button/index.js after lint 1`] = `
+exports[`command: build JavaScript should fix linting issues and build files: src/es6.js after linting 1`] = `
+"const constant = 'abc';
+console.log(\`The constant value: \${constant}\`);
+
+let arr = [1, 2, 3];
+arr = [...arr];
+
+let obj = { a: '1', b: '2', c: '3' };
+obj = { ...obj };
+
+const myFunction = (arg1, arg2, ...otherArgs) => {
+  console.log({
+    arg1,
+    arg2,
+    otherArgs,
+  });
+};
+"
+`;
+
+exports[`command: build JavaScript should fix linting issues and build files: src/es6.js before linting 1`] = `
+"const constant = 'abc';
+console.log(\`The constant value: \${constant}\`);
+
+let arr = [1, 2, 3];
+arr = [...arr];
+
+let obj = { a: '1', b: '2', c: '3' };
+obj = { ...obj };
+
+const myFunction = (arg1, arg2, ...otherArgs) => {
+  console.log({
+    arg1,
+    arg2,
+    otherArgs,
+  });
+};
+"
+`;
+
+exports[`command: build JavaScript should fix linting issues and build files: src/hello-world.js after linting 1`] = `
+"console.log('Hello world from!');
+"
+`;
+
+exports[`command: build JavaScript should fix linting issues and build files: src/hello-world.js before linting 1`] = `
+"console.log('Hello world from!');;
+"
+`;
+
+exports[`command: build JavaScript should skip linting when ESLint is not installed: scripts.js in development env 1`] = `
+"console.log('Hello world from!');;
+
+var constant = 'abc';
+console.log((\\"The constant value: \\" + constant));
+
+var arr = [1, 2, 3];
+arr = [].concat( arr );
+
+var obj = { a: '1', b: '2', c: '3' };
+obj = Object.assign({}, obj);
+
+var myFunction = function (arg1, arg2) {
+  var otherArgs = [], len = arguments.length - 2;
+  while ( len-- > 0 ) otherArgs[ len ] = arguments[ len + 2 ];
+
+  console.log({
+    arg1: arg1,
+    arg2: arg2,
+    otherArgs: otherArgs,
+  });
+};
+"
+`;
+
+exports[`command: build Vue should fix linting issues and build files: src/button/Button.vue after linting 1`] = `
+"<template>
+  <button
+    @click=\\"$emit('click')\\"
+  >
+    {{ text }}
+  </button>
+</template>
+
+<script>
+export default {
+  name: \\"Button\\",
+  props: {
+    text: {
+      type: String,
+      required: true,
+    }
+  },
+  data() {
+    return {
+      'i-should': 'be after \\"props\\" definition'
+    }
+  },
+
+  created() {
+    console.log('Hello from Button.vue!')
+  }
+};
+</script>
+"
+`;
+
+exports[`command: build Vue should fix linting issues and build files: src/button/Button.vue before linting 1`] = `
+"<template>
+  <button @click=\\"$emit('click')\\"
+  >
+    {{ text }}
+  </button>
+</template>
+
+<script>
+export default {
+  name: \\"Button\\",
+  data() {
+    return {
+      'i-should': 'be after \\"props\\" definition'
+    }
+  },
+  props: {
+    text: {
+      type: String,
+      required: true,
+    }
+  },
+
+  created() {
+    console.log('Hello from Button.vue!')
+  }
+};
+</script>
+"
+`;
+
+exports[`command: build Vue should fix linting issues and build files: src/button/index.js after linting 1`] = `
 "import Vue from 'vue';
 import Button from './Button';
 
@@ -2558,28 +2717,12 @@ console.log(\\"Hello from index.js!\\");
 "
 `;
 
-exports[`command: build lint (and fix) before build should lint (and but fix) files built with handler \`rollup\`, before building them: button/index.js before lint 1`] = `
+exports[`command: build Vue should fix linting issues and build files: src/button/index.js before linting 1`] = `
 "import Vue from 'vue';
 import Button from './Button';
 
 Vue.component('y-button', Button);
 
 console.log(\\"Hello from index.js!\\");;
-"
-`;
-
-exports[`command: build should build entries (development mode): dev js 1`] = `
-"console.log('Hello world from \`foo.js\`!');
-
-var foo = 'My variable';
-console.log((\\"My variable value: \\" + foo));
-
-console.log('Hello world from \`bar.js\`!');;
-"
-`;
-
-exports[`command: build should build entries (production mode): prod js 1`] = `
-"console.log(\\"Hello world from \`foo.js\`!\\");var foo=\\"My variable\\";console.log(\\"My variable value: \\"+foo),console.log(\\"Hello world from \`bar.js\`!\\");
-//# sourceMappingURL=scripts.js.map
 "
 `;

@@ -8,7 +8,15 @@
 ## Installation
 
 ```bash
-$ yarn add --dev @yproximite/yprox-cli 'eslint@>=5.0.0' 'vue-template-compiler@>=2.0.0'
+$ yarn add --dev @yproximite/yprox-cli 'vue-template-compiler@>=2.0.0'
+```
+
+### Linting JavaScript
+
+If you plan to use yProx-CLI to lint your JavaScript, you need to install ESLint too:
+
+```bash
+$ yarn add --dev 'eslint@>=5.0.0'
 ```
 
 ### Linting CSS and Sass

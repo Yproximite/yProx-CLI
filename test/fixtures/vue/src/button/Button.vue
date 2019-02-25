@@ -8,8 +8,16 @@
 <script>
 export default {
   name: "Button",
+  data() {
+    return {
+      'i-should': 'be after "props" definition'
+    }
+  },
   props: {
-    text: String,
+    text: {
+      type: String,
+      required: true,
+    }
   },
 
   created() {

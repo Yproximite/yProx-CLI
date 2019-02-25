@@ -7,13 +7,14 @@ export function getEntryName(entry: Entry) {
   return entry.name || entry.destFile || entry.concat || entry.src.join(', ');
 }
 
-export function readEntries(api: API, args: CLIArgs) {
+export function readEntries(api: API, args: CLIArgs): Entry[] {
   let entries: Entry[] = [];
 
   if (typeof api.projectOptions.assets === 'undefined') {
     api.logger.error('No assets have been configured.');
     api.logger.error('See the documentation (https://yprox-cli.netlify.com/configuration.html#configuration) to know to do it!');
     process.exit(1);
+    // @ts-ignore
     return;
   }
 

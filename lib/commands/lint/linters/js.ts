@@ -1,5 +1,5 @@
-import { CLIEngine } from 'eslint';
 import API from '../../../API';
+import { isPackageInstalled } from '../../../utils/package';
 
 export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   const config = {
@@ -8,9 +8,15 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
     extensions: api.projectOptions.eslint.extensions,
   };
 
-  api.logger.log(`js (lint) :: linting ${JSON.stringify(files, null, 2)}`);
-
   return new Promise((resolve, reject) => {
+    if (!isPackageInstalled('eslint', api)) {
+      api.logger.info('Linting JavaScript requires to install "eslint" dependency.');
+      return resolve();
+    }
+
+    const { CLIEngine } = require('eslint');
+    api.logger.log(`js (lint) :: linting ${JSON.stringify(files, null, 2)}`);
+
     const engine = new CLIEngine(config);
     const report = engine.executeOnFiles(files);
     const formatter = engine.getFormatter('codeframe');

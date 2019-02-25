@@ -1,22 +1,7 @@
 import { statSync } from 'fs';
-import { readFixture } from '../../../fixtures';
 import { mockLogger, unmockLogger } from '../../../logger';
 import { restoreEnv, saveEnv } from '../../../node-env';
 import { createFakeEnv } from '../../fake-env';
-
-const files = {
-  'package.json': readFixture('modern-project/package.json'),
-  'yarn.lock': readFixture('modern-project/yarn.lock'),
-  '.eslintignore': readFixture('modern-project/.eslintignore'),
-  '.eslintrc': readFixture('modern-project/.eslintrc'),
-  '.stylelintrc': readFixture('modern-project/.stylelintrc'),
-  // rollup
-  'src/components/button/Button.vue': readFixture('modern-project/src/components/button/Button.vue'),
-  'src/components/button/index.js': readFixture('modern-project/src/components/button/index.js'),
-  // js
-  'src/js/bar.js': readFixture('modern-project/src/js/bar.js'),
-  'src/js/foo.js': readFixture('modern-project/src/js/foo.js'),
-};
 
 describe('command: build', () => {
   beforeEach(() => {
@@ -32,60 +17,273 @@ describe('command: build', () => {
     process.exit.mockRestore();
   });
 
-  it('should build entries (production mode)', async () => {
-    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'production', verbose: true });
+  describe('JavaScript', () => {
+    it('should build files', async () => {
+      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
 
-    await run('yarn install --frozen-lockfile');
-    await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
+      await api.executeCommand('build');
 
-    // should have built files with Rollup handler
-    expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-    expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
 
-    expect(await fileExists('dist/js/button.js')).toBeTruthy();
-    expect(await fileExists('dist/js/button.js.map')).toBeTruthy();
-    expect(await readFile('dist/js/button.js')).toContain('version="2.5.22"'); // vue
-    expect(await readFile('dist/js/button.js')).toContain('{name:"Button",props:{text:String},created:function(){console.log("Hello from Button.vue!")'); // vue plugin
-    expect(await readFile('dist/js/button.js')).toContain('.component("y-button",'); // app
-    expect(await readFile('dist/js/button.js')).toContain('console.log("Hello from index.js!")'); // app
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain("console.log('Hello world from!');;");
+      expect(generatedFile).toContain('console.log(("The constant value: " + constant));');
+      expect(generatedFile).toContain('[].concat( arr )');
+      expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
-    // should have built files with JS handler
-    expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
-    expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+      await cleanup();
+    }, 5000);
 
-    expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
-    expect(await fileExists('dist/js/scripts.js.map')).toBeTruthy();
-    expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('prod js');
+    it('should build files, minify them and generate a source map', async () => {
+      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
 
-    await cleanup();
-  }, 100000);
+      await api.executeCommand('build');
 
-  it('should build entries (development mode)', async () => {
-    const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
 
-    await run('yarn install --frozen-lockfile');
-    await api.executeCommand('build'); // we could use `yarn build`, but we won't have access to mocked `console.info`
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in production env');
+      expect(generatedFile).toContain('console.log("Hello world from!");');
+      expect(generatedFile).toContain('console.log("The constant value: "+constant);');
+      expect(generatedFile).toContain('[].concat(arr)');
+      expect(generatedFile).toContain('//# sourceMappingURL=scripts.js.map');
+      expect(await fileExists('dist/scripts.js.map')).toBeTruthy();
 
-    // should have built files with Rollup handler
-    expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-    expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      await cleanup();
+    }, 5000);
 
-    expect(await fileExists('dist/js/button.js')).toBeTruthy();
-    expect(await fileExists('dist/js/button.js.map')).toBeFalsy();
-    expect(await readFile('dist/js/button.js')).toContain("Vue.component('y-button', Button);");
-    expect(await readFile('dist/js/button.js')).toContain("'Hello from Button.vue!'");
-    expect(await readFile('dist/js/button.js')).toContain('"Hello from index.js!"');
+    it('should skip linting when ESLint is not installed', async () => {
+      const { fileExists, readFile, cleanup, runYproxCli } = await createFakeEnv({ files: 'javascript' });
 
-    // should have built files with JS handler
-    expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
-    expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+      const { stdout } = await runYproxCli('build --lint');
 
-    expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
-    expect(await fileExists('dist/js/scripts.js.map')).toBeFalsy();
-    expect(await readFile('dist/js/scripts.js')).toMatchSnapshot('dev js');
+      expect(stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
+      expect(stdout).toContain('js :: start bundling "scripts.js"');
+      expect(stdout).toContain('js :: finished bundling "scripts.js"');
 
-    await cleanup();
-  }, 70000);
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain("console.log('Hello world from!');;");
+      expect(generatedFile).toContain('console.log(("The constant value: " + constant));');
+      expect(generatedFile).toContain('[].concat( arr )');
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 20000);
+
+    it('should lint files but not build them', async () => {
+      expect.assertions(7);
+
+      const { fileExists, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'javascript' });
+
+      await run('yarn add -D eslint babel-eslint');
+      await writeFile(
+        '.eslintrc',
+        `
+        {
+          "rules": { "no-extra-semi": "error" },
+          "parser": "babel-eslint",
+          "parserOptions": { "ecmaVersion": "6" }
+        }`
+      );
+
+      try {
+        await runYproxCli('build --lint');
+      } catch (e) {
+        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+        expect(e.stdout).toContain('Unnecessary semicolon');
+        expect(e.stdout).toContain('src/hello-world.js:1:34');
+        expect(e.stdout).toContain('1 error potentially fixable with the `--fix` option.');
+        expect(e.code).toBe(1);
+      }
+
+      expect(await fileExists('dist/scripts.js')).toBeFalsy();
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 20000);
+
+    it('should fix linting issues and build files', async () => {
+      expect.assertions(9);
+
+      const { fileExists, readFile, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'javascript' });
+
+      await run('yarn add -D eslint babel-eslint');
+      await writeFile(
+        '.eslintrc',
+        `
+        {
+          "rules": { "no-extra-semi": "error" },
+          "parser": "babel-eslint",
+          "parserOptions": { "ecmaVersion": "6" }
+        }`
+      );
+
+      expect(await readFile('src/es6.js')).toMatchSnapshot('src/es6.js before linting');
+      expect(await readFile('src/hello-world.js')).toMatchSnapshot('src/hello-world.js before linting');
+
+      try {
+        const childProcess = await runYproxCli('build --lint --fix');
+        expect(childProcess.stdout).toContain('Your JavaScript is clean ✨');
+        expect(childProcess.stdout).toContain('js :: start bundling "scripts.js"');
+        expect(childProcess.stdout).toContain('js :: finished bundling "scripts.js"');
+      } catch (e) {
+        expect(true).toBeFalsy();
+      }
+
+      expect(await readFile('src/es6.js')).toMatchSnapshot('src/es6.js after linting');
+      expect(await readFile('src/hello-world.js')).toMatchSnapshot('src/hello-world.js after linting');
+      expect(await fileExists('dist/scripts.js')).toBeTruthy();
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 20000);
+  });
+
+  describe('Vue', () => {
+    it('should build files', async () => {
+      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+
+      await run('yarn');
+      const { stdout } = await runYproxCli('build');
+
+      expect(stdout).toContain('rollup :: start bundling "button.js"');
+      expect(stdout).toContain('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain("Vue.component('y-button', Button);");
+      expect(generatedFile).toContain('console.log("Hello from index.js!");');
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 30000);
+
+    it('should build files, minify them and generate a source map', async () => {
+      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue', mode: 'production' });
+
+      await run('yarn');
+      const { stdout } = await runYproxCli('build');
+
+      expect(stdout).toContain('rollup :: start bundling "button.js"');
+      expect(stdout).toContain('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).not.toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain('console.log("Hello from Button.vue!")');
+      expect(generatedFile).toContain('Cn.component("y-button",Po)');
+      expect(generatedFile).toContain('console.log("Hello from index.js!")');
+      expect(generatedFile).toContain('//# sourceMappingURL=button.js.map');
+      expect(await fileExists('dist/button.js.map')).toBeTruthy();
+
+      await cleanup();
+    }, 30000);
+
+    it('should skip linting when ESLint is not installed', async () => {
+      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+
+      await run('yarn');
+      const { stdout } = await runYproxCli('build --lint');
+
+      expect(stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
+      expect(stdout).toContain('rollup :: start bundling "button.js"');
+      expect(stdout).toContain('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain("Vue.component('y-button', Button);");
+      expect(generatedFile).toContain('console.log("Hello from index.js!");');
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 30000);
+
+    it('should lint files but not build them', async () => {
+      expect.assertions(12);
+
+      const { fileExists, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+
+      await run('yarn');
+      await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
+      await writeFile(
+        '.eslintrc',
+        `
+        {
+          "extends": [ 'plugin:vue/recommended' ],
+          "parserOptions": { "parser": "babel-eslint", "ecmaVersion": "6" },
+          "rules": { "no-extra-semi": "error" }
+        }`
+      );
+
+      try {
+        await runYproxCli('build --lint');
+      } catch (e) {
+        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+
+        expect(e.stdout).toContain('The "props" property should be above the "data" property on line 11');
+        expect(e.stdout).toContain('src/button/Button.vue:16:3');
+
+        expect(e.stdout).toContain('Unnecessary semicolon');
+        expect(e.stdout).toContain('src/button/index.js:6:37');
+
+        expect(e.stdout).toContain('1 error and 3 warnings found.');
+        expect(e.stdout).toContain('1 error and 3 warnings potentially fixable with the `--fix` option.');
+
+        expect(e.code).toBe(1);
+
+        expect(e.stdout).not.toContain('rollup :: start bundling "button.js"');
+        expect(e.stdout).not.toContain('rollup :: finished bundling "button.js"');
+      }
+
+      expect(await fileExists('dist/button.js')).toBeFalsy();
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 30000);
+
+    it('should fix linting issues and build files', async () => {
+      expect.assertions(9);
+
+      const { fileExists, readFile, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+
+      await run('yarn');
+      await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
+      await writeFile(
+        '.eslintrc',
+        `
+        {
+          "extends": [ 'plugin:vue/recommended' ],
+          "parserOptions": { "parser": "babel-eslint", "ecmaVersion": "6" },
+          "rules": { "no-extra-semi": "error" }
+        }`
+      );
+
+      expect(await readFile('src/button/Button.vue')).toMatchSnapshot('src/button/Button.vue before linting');
+      expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js before linting');
+
+      try {
+        const { stdout } = await runYproxCli('build --lint --fix');
+        expect(stdout).toContain('Your JavaScript is clean ✨');
+        expect(stdout).toContain('rollup :: start bundling "button.js"');
+        expect(stdout).toContain('rollup :: finished bundling "button.js"');
+      } catch (e) {
+        expect(true).toBeFalsy();
+      }
+
+      expect(await readFile('src/button/Button.vue')).toMatchSnapshot('src/button/Button.vue after linting');
+      expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js after linting');
+      expect(await fileExists('dist/button.js')).toBeTruthy();
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 30000);
+  });
 
   describe('CSS & Sass', () => {
     it('should build files', async () => {
@@ -124,7 +322,6 @@ describe('command: build', () => {
       const { api, cleanup, run, runYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
-      // make module resolution working for stylelint dependency, if someone have a better idea...
       const { stdout } = await runYproxCli('build --lint');
 
       expect(stdout).toContain('Linting Sass requires to install "stylelint" dependency.');
@@ -149,7 +346,6 @@ describe('command: build', () => {
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
       try {
-        // make module resolution working for stylelint dependency, if someone have a better idea...
         await runYproxCli('build --lint');
       } catch (e) {
         expect(e.stderr).toMatch(/Your (CSS|Sass) is not clean, stopping\./);
@@ -174,7 +370,6 @@ describe('command: build', () => {
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
 
       try {
-        // make module resolution working for stylelint dependency, if someone have a better idea...
         const childProcess = await runYproxCli('build --lint --fix');
         expect(childProcess.stdout).toContain('sass :: start bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('sass :: finished bundling "bootstrap-grid.css"');
@@ -279,114 +474,19 @@ describe('command: build', () => {
       expect(exports.DeleteMediaMutation.kind).toBe('Document');
       expect(exports.DeleteMediaMutation.definitions[0].name.value).toBe('DeleteMediaMutation');
 
-      cleanup();
+      await cleanup();
     });
   });
 
-  describe('lint (but not fix) before build', () => {
-    it('should lint (but not fix) files built with handler `rollup`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'rollup',
-        lint: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(api.logger.error).toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-      expect(api.logger.info).not.toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).not.toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
-      expect(await fileExists('dist/js/button.js')).toBeFalsy();
-
-      await cleanup();
-    }, 70000);
-
-    it('should lint (but not fix) files built with handler `js`, before building them', async () => {
-      const { api, cleanup, run, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'js',
-        lint: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(api.logger.error).toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
-      expect(process.exit).toHaveBeenCalledWith(1);
-      expect(api.logger.info).not.toHaveBeenCalledWith('js :: start bundling "scripts.js"');
-      expect(api.logger.info).not.toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
-      expect(await fileExists('dist/js/scripts.js')).toBeFalsy();
-
-      await cleanup();
-    }, 70000);
-  });
-
-  describe('lint (and fix) before build', () => {
-    it('should lint (and but fix) files built with handler `rollup`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
-
-      const fileContent = await readFile('src/components/button/index.js');
-      expect(fileContent).toMatchSnapshot('button/index.js before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'rollup',
-        lint: true,
-        fix: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(api.logger.error).not.toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
-      expect(await fileExists('dist/js/button.js')).toBeTruthy();
-
-      const newFileContent = await readFile('src/components/button/index.js');
-      expect(newFileContent).toMatchSnapshot('button/index.js after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 70000);
-
-    it('should lint (and but fix) files built with handler `js`, before building them', async () => {
-      const { api, cleanup, run, readFile, fileExists } = await createFakeEnv({ files, mode: 'development', verbose: true });
-
-      const fileContent = await readFile('src/js/bar.js');
-      expect(fileContent).toMatchSnapshot('js/bar.js before lint');
-
-      await run('yarn install --frozen-lockfile');
-      await api.executeCommand('build', {
-        'filter:handler': 'js',
-        lint: true,
-        fix: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
-
-      expect(api.logger.error).not.toHaveBeenCalledWith('Your JavaScript is not clean, stopping.');
-      expect(process.exit).not.toHaveBeenCalledWith(1);
-      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
-      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
-      expect(await fileExists('dist/js/scripts.js')).toBeTruthy();
-
-      const newFileContent = await readFile('src/js/bar.js');
-      expect(newFileContent).toMatchSnapshot('js/bar.js after lint');
-      expect(fileContent).not.toBe(newFileContent);
-
-      await cleanup();
-    }, 70000);
-  });
-
   describe('Misc', () => {
-    it('Gulp, Rollup, and Sass plugins should not mutate `api.projectOptions`', async () => {
-      const { api, cleanup, run } = await createFakeEnv({ files, mode: 'production', verbose: true });
+    xit('Gulp, Rollup, and Sass plugins should not mutate `api.projectOptions`', async () => {
+      const { api, cleanup, run } = await createFakeEnv({ files: '', mode: 'production', verbose: true });
       const projectOptions = JSON.parse(JSON.stringify(api.projectOptions));
 
-      await run('yarn install --frozen-lockfile');
       await api.executeCommand('build', {
         lint: true,
         fix: true,
-      }); // we could use `yarn build`, but we won't have access to mocked `console.info`
+      });
 
       expect(projectOptions.eslint).toEqual(api.projectOptions.eslint);
       expect(projectOptions.buble).toEqual(api.projectOptions.buble);

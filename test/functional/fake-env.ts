@@ -47,6 +47,12 @@ export const createFakeEnv = async ({ files = {}, mode = 'development', verbose 
     });
   };
 
+  /**
+   * This method is used to make Node dependencies resolution works.
+   * For example if we run `build` command with `api.executeCommand()`, it won't be able to
+   * find `vue`, `eslint` or `stylelint` dependencies (that are intalled aside the fixture code).
+   * But when using this method (that use `run` method, that create a `NODE_PATH` env var), everything works.
+   */
   const runYproxCli = async (command: string): Promise<{ stdout: string; stderr: string; code: number }> => {
     return run(`node ${__dirname}/../../dist/bin/yprox-cli.js ${command}`);
   };
