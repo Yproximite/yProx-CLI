@@ -1,3 +1,4 @@
+import * as os from 'os';
 import * as fs from 'fs-extra';
 import util from 'util';
 import API from '../../lib/API';
@@ -20,7 +21,7 @@ type FakeEnv = {
 export const createFakeEnv = async ({ files = {}, mode = 'development', verbose = false }: Partial<FakeEnvArgs> = {}): Promise<FakeEnv> => {
   // Create new env
   env += 1;
-  const context = `${__dirname}/envs/${env}`;
+  const context = `${os.tmpdir()}/yprox-cli/${env}`;
   await fs.mkdirp(context);
 
   // Create files
