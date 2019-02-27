@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { statSync } from 'fs';
 import { mockLogger, unmockLogger } from '../../../logger';
 import { restoreEnv, saveEnv } from '../../../node-env';
@@ -148,6 +149,32 @@ describe('command: build', () => {
   });
 
   describe('Vue', () => {
+    it('should fails and display a message when vue-template-compiler is not installed', async () => {
+      expect.assertions(8);
+
+      const { fileExists, cleanup, run, installYproxCli, readFile } = await createFakeEnv({ files: 'vue' });
+
+      await run('yarn');
+      await run('yarn remove vue-template-compiler');
+      await installYproxCli();
+
+      try {
+        await run('yarn yprox-cli build');
+      } catch (e) {
+        expect(e.stdout).toContain('rollup :: start bundling "button.js"');
+        expect(e.stderr).toContain("SyntaxError: Unexpected character '@' (2:10)");
+        expect(e.stderr).toContain('/src/button/Button.vue (2:10)');
+        expect(e.stdout).toContain(chalk`If you try to building Vue code, try to run {blue.bold yarn add -D vue-template-compiler}.`);
+        expect(e.stdout).not.toContain('rollup :: finished bundling "button.js"');
+        expect(e.code).toBe(1);
+      }
+
+      expect(await fileExists('dist/button.js')).toBeFalsy();
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    }, 30000);
+
     it('should build files', async () => {
       const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 

@@ -9,7 +9,7 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   };
 
   return new Promise((resolve, reject) => {
-    if (!isPackageInstalled('eslint', api)) {
+    if (!isPackageInstalled('eslint')) {
       api.logger.info('Linting JavaScript requires to install "eslint" dependency.');
       return resolve();
     }

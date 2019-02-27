@@ -12,7 +12,7 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   };
 
   return new Promise((resolve, reject) => {
-    if (!isPackageInstalled('stylelint', api)) {
+    if (!isPackageInstalled('stylelint')) {
       api.logger.info('Linting Sass requires to install "stylelint" dependency.');
       return resolve();
     }
