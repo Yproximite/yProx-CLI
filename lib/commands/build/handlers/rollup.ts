@@ -1,4 +1,5 @@
 import graphql from '@kocal/rollup-plugin-graphql';
+import chalk from 'chalk';
 import * as rollup from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
@@ -78,12 +79,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
         resolve();
       })
       .catch((err: rollup.RollupError) => {
-        api.logger.error(err.message);
-        if (err.loc) api.logger.error(JSON.stringify(err.loc, null, 2));
-        // @ts-ignore
-        if (err.snippet) api.logger.error(JSON.stringify(err.snippet, null, 2));
-
-        console.error(err);
+        handleError(err, api);
 
         if (!args.watch) {
           reject();
@@ -115,8 +111,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       } else if (code === 'BUNDLE_END') {
         api.logger.info(`rollup (watch) :: finished bundling "${getEntryName(entry)}"`);
       } else if (['ERROR', 'FATAL'].includes(code)) {
-        api.logger.error('rollup (watch) :: something wrong happens');
-        console.error(e);
+        handleError(e.error, api);
       }
     });
   };
@@ -125,3 +120,39 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
     return args.watch ? watch() : build(resolve, reject);
   });
 };
+
+function handleError(err: rollup.RollupError, api: API) {
+  let description = err.message || err;
+  if (err.name) description = `${err.name}: ${description}`;
+  let message = '';
+
+  if ((<{ plugin?: string }>err).plugin) {
+    message = `(${(<{ plugin?: string }>err).plugin} plugin) ${description}`;
+  } else if (description) {
+    message = description as string;
+  } else {
+    message = err.message;
+  }
+
+  console.error(chalk.bold.red(`[!] ${chalk.bold(message.toString())}`));
+
+  if (err.url) {
+    console.error(chalk.cyan(err.url));
+  }
+
+  if (err.loc) {
+    console.error(`${(err.loc.file || err.id || '').replace(api.context, '')} (${err.loc.line}:${err.loc.column})`);
+  } else if (err.id) {
+    console.error(err.id.replace(api.context, ''));
+  }
+
+  if (err.frame) {
+    console.error(chalk.dim(err.frame));
+  }
+
+  if (err.stack) {
+    console.error(chalk.dim(err.stack));
+  }
+
+  console.error('');
+}
