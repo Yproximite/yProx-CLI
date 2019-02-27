@@ -57,9 +57,10 @@ describe('command: build', () => {
     }, 5000);
 
     it('should skip linting when ESLint is not installed', async () => {
-      const { fileExists, readFile, cleanup, runYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
 
-      const { stdout } = await runYproxCli('build --lint');
+      await installYproxCli();
+      const { stdout } = await run('yarn yprox-cli build --lint');
 
       expect(stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
       expect(stdout).toContain('js :: start bundling "scripts.js"');
@@ -73,14 +74,15 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
 
     it('should lint files but not build them', async () => {
       expect.assertions(7);
 
-      const { fileExists, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { fileExists, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
+      await installYproxCli();
       await writeFile(
         '.eslintrc',
         `
@@ -92,7 +94,7 @@ describe('command: build', () => {
       );
 
       try {
-        await runYproxCli('build --lint');
+        await run('yarn yprox-cli build --lint');
       } catch (e) {
         expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
         expect(e.stdout).toContain('Unnecessary semicolon');
@@ -105,14 +107,15 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
 
     it('should fix linting issues and build files', async () => {
       expect.assertions(9);
 
-      const { fileExists, readFile, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { fileExists, readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
+      await installYproxCli();
       await writeFile(
         '.eslintrc',
         `
@@ -127,7 +130,7 @@ describe('command: build', () => {
       expect(await readFile('src/hello-world.js')).toMatchSnapshot('src/hello-world.js before linting');
 
       try {
-        const childProcess = await runYproxCli('build --lint --fix');
+        const childProcess = await run('yarn yprox-cli build --lint --fix');
         expect(childProcess.stdout).toContain('Your JavaScript is clean ✨');
         expect(childProcess.stdout).toContain('js :: start bundling "scripts.js"');
         expect(childProcess.stdout).toContain('js :: finished bundling "scripts.js"');
@@ -141,15 +144,16 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
   });
 
   describe('Vue', () => {
     it('should build files', async () => {
-      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
-      const { stdout } = await runYproxCli('build');
+      await installYproxCli();
+      const { stdout } = await run('yarn yprox-cli build');
 
       expect(stdout).toContain('rollup :: start bundling "button.js"');
       expect(stdout).toContain('rollup :: finished bundling "button.js"');
@@ -165,10 +169,11 @@ describe('command: build', () => {
     }, 30000);
 
     it('should build files, minify them and generate a source map', async () => {
-      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue', mode: 'production' });
+      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue', mode: 'production' });
 
       await run('yarn');
-      const { stdout } = await runYproxCli('build');
+      await installYproxCli();
+      const { stdout } = await run('yarn yprox-cli build');
 
       expect(stdout).toContain('rollup :: start bundling "button.js"');
       expect(stdout).toContain('rollup :: finished bundling "button.js"');
@@ -185,10 +190,11 @@ describe('command: build', () => {
     }, 30000);
 
     it('should skip linting when ESLint is not installed', async () => {
-      const { fileExists, readFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
-      const { stdout } = await runYproxCli('build --lint');
+      await installYproxCli();
+      const { stdout } = await run('yarn yprox-cli build --lint');
 
       expect(stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
       expect(stdout).toContain('rollup :: start bundling "button.js"');
@@ -207,10 +213,11 @@ describe('command: build', () => {
     it('should lint files but not build them', async () => {
       expect.assertions(12);
 
-      const { fileExists, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { fileExists, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
+      await installYproxCli();
       await writeFile(
         '.eslintrc',
         `
@@ -222,7 +229,7 @@ describe('command: build', () => {
       );
 
       try {
-        await runYproxCli('build --lint');
+        await run('yarn yprox-cli build --lint');
       } catch (e) {
         expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
 
@@ -250,10 +257,11 @@ describe('command: build', () => {
     it('should fix linting issues and build files', async () => {
       expect.assertions(9);
 
-      const { fileExists, readFile, writeFile, cleanup, run, runYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { fileExists, readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
+      await installYproxCli();
       await writeFile(
         '.eslintrc',
         `
@@ -268,7 +276,7 @@ describe('command: build', () => {
       expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js before linting');
 
       try {
-        const { stdout } = await runYproxCli('build --lint --fix');
+        const { stdout } = await run('yarn yprox-cli build --lint --fix');
         expect(stdout).toContain('Your JavaScript is clean ✨');
         expect(stdout).toContain('rollup :: start bundling "button.js"');
         expect(stdout).toContain('rollup :: finished bundling "button.js"');
@@ -319,10 +327,12 @@ describe('command: build', () => {
     }, 20000);
 
     it('should skip linting when Stylelint is not installed', async () => {
-      const { api, cleanup, run, runYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
+      const { cleanup, run, installYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
-      const { stdout } = await runYproxCli('build --lint');
+      await installYproxCli();
+
+      const { stdout } = await run('yarn yprox-cli build --lint');
 
       expect(stdout).toContain('Linting Sass requires to install "stylelint" dependency.');
       expect(stdout).toContain('Linting CSS requires to install "stylelint" dependency.');
@@ -334,19 +344,20 @@ describe('command: build', () => {
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
 
     it('should lint files but not build them', async () => {
       expect.assertions(5);
 
-      const { cleanup, run, runYproxCli, writeFile, fileExists } = await createFakeEnv({ files: 'css' });
+      const { cleanup, run, installYproxCli, writeFile, fileExists } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
+      await installYproxCli();
       await run('yarn add -D stylelint');
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
       try {
-        await runYproxCli('build --lint');
+        await run('yarn yprox-cli build --lint');
       } catch (e) {
         expect(e.stderr).toMatch(/Your (CSS|Sass) is not clean, stopping\./);
         expect(e.stdout).toContain('Unexpected extra semicolon');
@@ -357,12 +368,13 @@ describe('command: build', () => {
       expect(await fileExists('dist/style.css')).toBeFalsy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
 
     it('should fix linting issues and build files', async () => {
-      const { cleanup, readFile, writeFile, fileExists, run, runYproxCli } = await createFakeEnv({ files: 'css' });
+      const { cleanup, readFile, writeFile, fileExists, run, installYproxCli } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
+      await installYproxCli();
       await run('yarn add -D stylelint');
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
@@ -370,7 +382,7 @@ describe('command: build', () => {
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
 
       try {
-        const childProcess = await runYproxCli('build --lint --fix');
+        const childProcess = await run('yarn yprox-cli build --lint --fix');
         expect(childProcess.stdout).toContain('sass :: start bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('sass :: finished bundling "bootstrap-grid.css"');
         expect(childProcess.stdout).toContain('css :: start bundling "style.css"');
@@ -385,7 +397,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
       await cleanup();
-    }, 20000);
+    }, 30000);
   });
 
   describe('Copy files', () => {

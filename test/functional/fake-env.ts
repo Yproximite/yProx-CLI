@@ -13,7 +13,7 @@ type FakeEnv = {
   api: API;
   cleanup: () => void;
   run: (command: string) => Promise<{ stdout: string; stderr: string; code: number }>;
-  runYproxCli: (command: string) => Promise<{ stdout: string; stderr: string; code: number }>;
+  installYproxCli: () => Promise<{ stdout: string; stderr: string; code: number }>;
   readFile: (filename: string, encoding?: string) => Promise<string>;
   writeFile: (filename: string, content: string) => Promise<void>;
   fileExists: (filename: string) => Promise<boolean>;
@@ -48,14 +48,9 @@ export const createFakeEnv = async ({ files = {}, mode = 'development', verbose 
     });
   };
 
-  /**
-   * This method is used to make Node dependencies resolution works.
-   * For example if we run `build` command with `api.executeCommand()`, it won't be able to
-   * find `vue`, `eslint` or `stylelint` dependencies (that are intalled aside the fixture code).
-   * But when using this method (that use `run` method, that create a `NODE_PATH` env var), everything works.
-   */
-  const runYproxCli = async (command: string): Promise<{ stdout: string; stderr: string; code: number }> => {
-    return run(`node ${__dirname}/../../dist/bin/yprox-cli.js ${command}`);
+  const installYproxCli = async (): Promise<{ stdout: string; stderr: string; code: number }> => {
+    const tarball = `${__dirname}/../../yproximite-yprox-cli-0.0.0-development.tgz`;
+    return run(`yarn add file:${tarball}`);
   };
 
   const cleanup = async () => {
@@ -74,5 +69,5 @@ export const createFakeEnv = async ({ files = {}, mode = 'development', verbose 
     return await fs.pathExists(api.resolve(filename));
   };
 
-  return { api, run, runYproxCli, cleanup, readFile, writeFile, fileExists };
+  return { api, run, installYproxCli, cleanup, readFile, writeFile, fileExists };
 };
