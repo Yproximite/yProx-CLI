@@ -5,8 +5,6 @@ import API from '../../lib/API';
 
 const exec = util.promisify(require('child_process').exec);
 
-let env = -1;
-
 type Files = { [k: string]: string | Buffer };
 type FakeEnvArgs = { files: Files | string; mode: string; verbose: boolean };
 type FakeEnv = {
@@ -20,7 +18,9 @@ type FakeEnv = {
 };
 export const createFakeEnv = async ({ files = {}, mode = 'development', verbose = false }: Partial<FakeEnvArgs> = {}): Promise<FakeEnv> => {
   // Create new env
-  env += 1;
+  const env = Math.random()
+    .toString(36)
+    .substring(7);
   const context = `${os.tmpdir()}/yprox-cli/${env}`;
   await fs.mkdirp(context);
 

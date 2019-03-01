@@ -39,44 +39,44 @@ describe('api: env', () => {
     await createFakeEnv({ files });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.development.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.development$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.dev.local$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.dev$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.development.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.development$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.dev.local$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.dev$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env$/);
   });
 
   it('should load env vars from production mode and default env vars file', async () => {
     await createFakeEnv({ files, mode: 'production' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(6);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.production.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.production$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.prod.local$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.prod$/); // alias
-    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.production.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.production$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.prod.local$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.prod$/); // alias
+    expect(loadEnv.loadEnv.mock.calls[4][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[5][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env$/);
   });
 
   it('should load env vars from a specific mode', async () => {
     await createFakeEnv({ files, mode: 'test' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(4);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.test.local$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.test$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.test.local$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.test$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[3][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env$/);
   });
 
   it('should not load env vars from a file that does not exists', async () => {
     await createFakeEnv({ files, mode: 'foobar' });
 
     expect(loadEnv.loadEnv.mock.calls).toHaveLength(3);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).not.toMatch(/\/tmp\/yprox-cli\/\d+\/.env.foobar.local$/);
-    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.foobar$/);
-    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env.local$/);
-    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/\d+\/.env$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).not.toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.foobar.local$/);
+    expect(loadEnv.loadEnv.mock.calls[0][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.foobar$/);
+    expect(loadEnv.loadEnv.mock.calls[1][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env.local$/);
+    expect(loadEnv.loadEnv.mock.calls[2][0]).toMatch(/\/tmp\/yprox-cli\/[a-zA-Z0-9]+\/.env$/);
   });
 
   describe('getSafeEnvVars', () => {
