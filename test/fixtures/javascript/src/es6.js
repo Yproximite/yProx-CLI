@@ -1,5 +1,5 @@
 const constant = 'abc';
-console.log(`The constant value: ${constant}`);
+console.log(`The constant value: ${constant}`);;
 
 let arr = [1, 2, 3];
 arr = [...arr];

@@ -2548,7 +2548,7 @@ exports[`command: build JavaScript should build files: scripts.js in development
 "console.log('Hello world from!');;
 
 var constant = 'abc';
-console.log((\\"The constant value: \\" + constant));
+console.log((\\"The constant value: \\" + constant));;
 
 var arr = [1, 2, 3];
 arr = [].concat( arr );
@@ -2591,7 +2591,7 @@ const myFunction = (arg1, arg2, ...otherArgs) => {
 
 exports[`command: build JavaScript should fix linting issues and build files: src/es6.js before linting 1`] = `
 "const constant = 'abc';
-console.log(\`The constant value: \${constant}\`);
+console.log(\`The constant value: \${constant}\`);;
 
 let arr = [1, 2, 3];
 arr = [...arr];
@@ -2616,31 +2616,6 @@ exports[`command: build JavaScript should fix linting issues and build files: sr
 
 exports[`command: build JavaScript should fix linting issues and build files: src/hello-world.js before linting 1`] = `
 "console.log('Hello world from!');;
-"
-`;
-
-exports[`command: build JavaScript should skip linting when ESLint is not installed: scripts.js in development env 1`] = `
-"console.log('Hello world from!');;
-
-var constant = 'abc';
-console.log((\\"The constant value: \\" + constant));
-
-var arr = [1, 2, 3];
-arr = [].concat( arr );
-
-var obj = { a: '1', b: '2', c: '3' };
-obj = Object.assign({}, obj);
-
-var myFunction = function (arg1, arg2) {
-  var otherArgs = [], len = arguments.length - 2;
-  while ( len-- > 0 ) otherArgs[ len ] = arguments[ len + 2 ];
-
-  console.log({
-    arg1: arg1,
-    arg2: arg2,
-    otherArgs: otherArgs,
-  });
-};
 "
 `;
 
