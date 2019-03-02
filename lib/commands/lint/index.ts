@@ -1,4 +1,5 @@
 import { dirname } from 'path';
+import { Entry } from '../../../types/entry';
 import API from '../../API';
 import { flatten, groupBy } from '../../utils/array';
 import { readEntries } from '../../utils/entry';
@@ -52,28 +53,19 @@ export default (api: API) => {
 export async function lintEntry(api: API, entry: Entry, args: CLIArgs): Promise<any> {
   const linter = entry.handler;
   const normalizedEntry = normalizeEntry(entry);
-  const filesToLint = normalizedEntry.src;
 
-  if (!(linter in linters)) {
+  if (!(linter in linters) || normalizedEntry.skip_lint === true || normalizedEntry.src.length === 0) {
     return;
   }
 
-  if (normalizedEntry.skip_lint === true) {
-    return;
-  }
-
-  if (filesToLint.length === 0) {
-    return;
-  }
-
-  return (linters as any)[linter]()(api, args, filesToLint);
+  return (linters as any)[linter]()(api, args, normalizedEntry.src);
 }
 
 function normalizeEntry(e: Entry) {
   const entry = { ...e };
 
   if (entry.handler === 'rollup') {
-    entry.src = entry.src.map(src => {
+    entry.src = entry.src.map((src: string) => {
       if (src.endsWith('index.js')) {
         return `${dirname(src)}/**/*.{js,vue}`;
       }
@@ -82,7 +74,7 @@ function normalizeEntry(e: Entry) {
     });
   }
 
-  entry.src = entry.src.filter(src => !/node_modules/.test(src));
+  entry.src = entry.src.filter((src: string) => !/node_modules/.test(src));
 
   return entry;
 }

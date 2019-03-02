@@ -1,0 +1,17 @@
+{
+  "private": true,
+  "yproxCli": {
+    "assets": {
+      "app": [
+        {
+          "name": "app",
+          "handler": "rollup",
+          "format": "cjs",
+          "src": "src/medias.js",
+          "dest": "dist/",
+          "destFile": "medias.js"
+        }
+      ]
+    }
+  }
+}

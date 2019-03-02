@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "yproxCli": {
+    "assets": {
+      "app": [
+        {
+          "handler": "rollup",
+          "src": "src/package.json/my-file.js"
+        }
+      ]
+    }
+  }
+}

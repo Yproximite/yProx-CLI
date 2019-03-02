@@ -3,11 +3,12 @@ import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import sourcemaps from 'gulp-sourcemaps';
 import terser from 'gulp-terser';
+import { EntryJS } from '../../../../types/entry';
 import API from '../../../API';
 import { buble } from '../../../plugins/gulp-buble';
 import { getEntryName } from '../../../utils/entry';
 
-export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
+export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
   return new Promise((resolve, reject) => {
     api.logger.info(`js :: start bundling "${getEntryName(entry)}"`);
 

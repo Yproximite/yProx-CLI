@@ -1,3 +1,4 @@
+import { EntryJS } from '../../../types/entry';
 import API from '../../API';
 import { lintEntry } from '../lint';
 import handlers from './handlers';

@@ -1,0 +1,6 @@
+fragment MediaFragment on Media {
+  id
+  name
+  title
+  foo: title
+}

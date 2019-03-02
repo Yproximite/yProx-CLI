@@ -1,18 +1,20 @@
+import graphql from '@kocal/rollup-plugin-graphql';
+import chalk from 'chalk';
 import * as rollup from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
-import graphql from '@kocal/rollup-plugin-graphql';
 import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import replace from 'rollup-plugin-replace';
 import { terser } from 'rollup-plugin-terser';
-import vue from 'rollup-plugin-vue';
+import { EntryRollup } from '../../../../types/entry';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
+import { isPackageInstalled } from '../../../utils/package';
 
-export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
+export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
   const rollupOptions = { ...api.projectOptions.handlers.rollup };
   const getInputOptions = () => {
     const plugins = [];
@@ -20,10 +22,17 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
     plugins.push(builtins());
     if (typeof rollupOptions.nodeResolve === 'object') plugins.push(nodeResolve({ ...rollupOptions.nodeResolve }));
     if (typeof rollupOptions.commonjs === 'object') plugins.push(commonjs({ ...rollupOptions.commonjs }));
-    plugins.push(graphql());
     if (typeof rollupOptions.json === 'object') plugins.push(json({ ...rollupOptions.json }));
+    plugins.push(graphql());
     plugins.push(globals());
-    if (typeof rollupOptions.vue === 'object') plugins.push(vue({ ...rollupOptions.vue }));
+
+    if (typeof rollupOptions.vue === 'object') {
+      if (isPackageInstalled('vue-template-compiler')) {
+        const vue = require('rollup-plugin-vue');
+        plugins.push(vue({ ...rollupOptions.vue }));
+      }
+    }
+
     if (typeof api.projectOptions.buble === 'object') {
       plugins.push(
         buble({
@@ -77,12 +86,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
         resolve();
       })
       .catch((err: rollup.RollupError) => {
-        api.logger.error(err.message);
-        if (err.loc) api.logger.error(JSON.stringify(err.loc, null, 2));
-        // @ts-ignore
-        if (err.snippet) api.logger.error(JSON.stringify(err.snippet, null, 2));
-
-        console.error(err);
+        handleError(err, api);
 
         if (!args.watch) {
           reject();
@@ -114,8 +118,7 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
       } else if (code === 'BUNDLE_END') {
         api.logger.info(`rollup (watch) :: finished bundling "${getEntryName(entry)}"`);
       } else if (['ERROR', 'FATAL'].includes(code)) {
-        api.logger.error('rollup (watch) :: something wrong happens');
-        console.error(e);
+        handleError(e.error, api);
       }
     });
   };
@@ -124,3 +127,40 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
     return args.watch ? watch() : build(resolve, reject);
   });
 };
+
+function handleError(err: rollup.RollupError, api: API) {
+  let description = err.message || err;
+  if (err.name) description = `${err.name}: ${description}`;
+  let message = '';
+
+  if ((<{ plugin?: string }>err).plugin) {
+    message = `(${(<{ plugin?: string }>err).plugin} plugin) ${description}`;
+  } else if (description) {
+    message = description as string;
+  } else {
+    message = err.message;
+  }
+
+  console.error(chalk`{bold.red [!] ${message.toString()}}`);
+
+  if (err.loc) {
+    console.error(`${(err.loc.file || err.id || '').replace(api.context, '')} (${err.loc.line}:${err.loc.column})`);
+  } else if (err.id) {
+    console.error(err.id.replace(api.context, ''));
+  }
+
+  if (err.frame) {
+    console.error(chalk.dim(err.frame));
+  }
+
+  if (err.stack) {
+    console.error(chalk.dim(err.stack));
+  }
+
+  const file = (err.loc && err.loc.file) || err.id || '';
+  if (/\.vue$/.test(file)) {
+    api.logger.info(chalk`If you try to building Vue code, try to run {blue.bold yarn add -D vue-template-compiler}.`);
+  }
+
+  console.error('');
+}

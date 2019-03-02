@@ -1,0 +1,17 @@
+#import "./fragments/MediaFragment.graphql"
+
+query MediaQuery($mediaId: ID!) {
+  media(mediaId: $mediaId) {
+    ...MediaFragment
+  }
+}
+
+query MediasQuery ($categoryId: ID) {
+  medias(categoryId: $categoryId) {
+    ...MediaFragment
+  }
+}
+
+mutation DeleteMediaMutation($mediaId: ID!) {
+  deleteMedia(mediaId: $mediaId)
+}

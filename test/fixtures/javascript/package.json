@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "yproxCli": {
+    "buble": {
+      "objectAssign": true
+    },
+    "assets": {
+      "app": [
+        {
+          "handler": "js",
+          "src": [
+            "src/hello-world.js",
+            "src/es6.js"
+          ],
+          "dest": "dist",
+          "concat": "scripts.js"
+        }
+      ]
+    }
+  }
+}

@@ -1,9 +1,10 @@
 import gulp from 'gulp';
 import imagemin from 'gulp-imagemin';
+import { EntryImage } from '../../../../types/entry';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
-export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
+export default (api: API, entry: EntryImage, args: CLIArgs): Promise<any> => {
   const imageminPlugins = [
     imagemin.gifsicle({ ...api.projectOptions.gifsicle }),
     imagemin.jpegtran({ ...api.projectOptions.jpegtran }),

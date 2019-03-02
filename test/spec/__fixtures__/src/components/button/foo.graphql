@@ -1,7 +1,0 @@
-query FooQuery {
-    foo (id: $id) {
-        foo
-        bar
-        foobar
-    }
-}

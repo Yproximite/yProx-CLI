@@ -7,6 +7,7 @@ import postcss from 'gulp-postcss';
 import sass from 'gulp-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import tildeImporter from 'node-sass-tilde-importer';
+import { EntrySass } from '../../../../types/entry';
 import API from '../../../API';
 
 import { getEntryName } from '../../../utils/entry';

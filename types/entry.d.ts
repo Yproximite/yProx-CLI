@@ -1,20 +1,22 @@
-type Entry = {
+export type Entry = {
+  handler: 'css' | 'file' | 'image' | 'js' | 'rollup' | 'sass';
+  name?: string;
   src: string[];
   dest: string;
   [k: string]: any;
 };
 
-type EntryCSS = Entry & { concat?: string };
-type EntryJS = Entry & { concat?: string };
-type EntrySass = Entry & {
+export type EntryCSS = Entry & { concat?: string };
+export type EntryJS = Entry & { concat?: string };
+export type EntrySass = Entry & {
   destFile: string;
   concat?: string; // deprecated, use `destFile`
 };
-type EntryRollup = Entry & {
+export type EntryRollup = Entry & {
   destFile: string;
   name: string;
   concat?: string; // deprecated, use `destFile`
   format?: 'umd' | 'amd' | 'cjs' | 'esm' | 'iife';
 };
-type EntryFile = Entry & {};
-type EntryImage = Entry & {};
+export type EntryFile = Entry & {};
+export type EntryImage = Entry & {};

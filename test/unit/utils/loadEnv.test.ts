@@ -1,4 +1,5 @@
 import { loadEnv } from '../../../lib/utils/loadEnv';
+import { resolveFixturePath } from '../../fixtures';
 
 describe('utils: loadEnv', () => {
   describe('loadEnv', () => {
@@ -15,8 +16,8 @@ describe('utils: loadEnv', () => {
       expect(process.env.NODE_ENV).toBe('test'); // injected by jest
       expect(process.env.API_KEY).toBeUndefined();
 
-      loadEnv(`${__dirname}/__fixtures__/env/.env.prod`);
-      loadEnv(`${__dirname}/__fixtures__/env/.env`);
+      loadEnv(resolveFixturePath('env/.env.prod'));
+      loadEnv(resolveFixturePath('env/.env'));
       expect(process.env.APP_NAME).toBe('My app'); // .env
       expect(process.env.NODE_ENV).toBe('test'); // not overloaded because already defined
       expect(process.env.API_KEY).toBe('api key for prod env'); // .env.prod
