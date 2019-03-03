@@ -1210,9 +1210,9 @@
   integrity sha512-ONhaKPIufzzrlNbqtWFFd+jlnemX6lJAgq9ZeiZtS7I1PIf/la7CW4m83rTXRnVnsMbW2k56pGYu7AUFJD9Pow==
 
 "@types/autoprefixer@^9.1.1":
-  version "9.1.1"
-  resolved "https://registry.yarnpkg.com/@types/autoprefixer/-/autoprefixer-9.1.1.tgz#b2bc6670cdf7c090ef1c57ac4e2bd01d2664fd88"
-  integrity sha512-mseeUmIM9k44Ml5yRG2zAfdVjf1cuOVUmWODuPqbZ97/1vUOCc7DzTp/I/NyXAUL5VCkHIR5nvqUobx42eYHgQ==
+  version "9.4.0"
+  resolved "https://registry.yarnpkg.com/@types/autoprefixer/-/autoprefixer-9.4.0.tgz#b72589130765cf8f7f403b9cec8ea81e507e759b"
+  integrity sha512-dN3gnhzPnDNmL0JckzmwPoEvqNTmIuvb/bRv73ku/TDqFBciBr4KtijA42Zbghkgxp5YomANvPphHOPeBQg+xw==
   dependencies:
     postcss "7.x.x"
 
