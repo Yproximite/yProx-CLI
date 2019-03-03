@@ -14,6 +14,7 @@ export default (api: API) => {
       options: {
         ...require('../commonOptions'),
         '--fix': 'automatically fix lint errors',
+        '--max-warnings': 'number of warnings to trigger nonzero exit code - default: -1',
       },
     },
     args => {

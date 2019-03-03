@@ -115,6 +115,51 @@ describe('command: lint', () => {
 
       await cleanup();
     }, 30000);
+
+    it('should lint files and fails because of max-warnings arg', async () => {
+      expect.assertions(11);
+
+      const { writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
+
+      await run('yarn add -D eslint babel-eslint');
+      await installYproxCli();
+      await writeFile(
+        '.eslintrc',
+        `
+        {
+          "rules": { "no-extra-semi": "warn" },
+          "parser": "babel-eslint",
+          "parserOptions": { "ecmaVersion": "6" }
+        }`
+      );
+
+      try {
+        const p = await run('yarn yprox-cli lint');
+        expect(p.stdout).toContain('Your JavaScript is clean ✨');
+      } catch (e) {
+        expect(true).toBe(false);
+      }
+
+      try {
+        await run('yarn yprox-cli lint --max-warnings 1'); // fails because we have 2 warnings
+      } catch (e) {
+        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+
+        expect(e.stdout).toContain('Unnecessary semicolon');
+        expect(e.stdout).toContain('src/hello-world.js:1:34');
+        expect(e.stdout).toContain("console.log('Hello world from!');;");
+
+        expect(e.stdout).toContain('Unnecessary semicolon');
+        expect(e.stdout).toContain('src/es6.js:2:48');
+        expect(e.stdout).toContain('console.log(`The constant value: ${constant}`);;');
+
+        expect(e.stdout).toContain('2 warnings found.');
+        expect(e.stdout).toContain('2 warnings potentially fixable with the `--fix` option.');
+        expect(e.code).toBe(1);
+      }
+
+      await cleanup();
+    }, 40000);
   });
 
   describe('Vue', () => {

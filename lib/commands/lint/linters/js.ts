@@ -25,7 +25,9 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
       CLIEngine.outputFixes(report);
     }
 
-    if (report.errorCount > 0 || report.warningCount > 0) {
+    const showErrors = report.errorCount > 0;
+    const showWarnings = typeof args['max-warnings'] === 'number' && args['max-warnings'] > -1 && report.warningCount > args['max-warnings'];
+    if (showErrors || showWarnings) {
       console.log(formatter(report.results));
       reject(new Error('Your JavaScript is not clean, stopping.'));
     } else {
