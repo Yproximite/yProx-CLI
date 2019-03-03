@@ -10,9 +10,9 @@ export default (api: API) => {
       description: 'build files',
       usage: 'yprox-cli build [options]',
       options: {
+        ...require('../commonOptions'),
         '--watch': 'enable watch mode',
         '--lint': 'lint before build, if lint fails, files will not be build',
-        ...require('../commonOptions'),
       },
     },
     async (args: CLIArgs) => {
