@@ -9,6 +9,9 @@ const args = require('minimist')(process.argv.slice(2), {
     // lint
     'fix',
   ],
+  default: {
+    'max-warnings': -1,
+  },
 });
 const command = args._[0];
 

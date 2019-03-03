@@ -26,6 +26,7 @@ Object {
         "--filter:<filterName> <value>": "apply a filter on file entries",
         "--fix": "automatically fix lint errors",
         "--help": "display help",
+        "--max-warnings": "number of warnings to trigger nonzero exit code - default: -1",
         "--mode": "specify env mode (default: development)",
       },
       "usage": "yprox-cli lint [options]",
