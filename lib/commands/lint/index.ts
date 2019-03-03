@@ -12,8 +12,8 @@ export default (api: API) => {
       description: 'lint source files',
       usage: 'yprox-cli lint [options]',
       options: {
-        '--fix': 'automatically fix lint errors',
         ...require('../commonOptions'),
+        '--fix': 'automatically fix lint errors',
       },
     },
     args => {

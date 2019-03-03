@@ -8,13 +8,11 @@ Object {
     "opts": Object {
       "description": "build files",
       "options": Object {
+        "--filter:<filterName> <value>": "apply a filter on file entries",
+        "--help": "display help",
         "--lint": "lint before build, if lint fails, files will not be build",
+        "--mode": "specify env mode (default: development)",
         "--watch": "enable watch mode",
-        "default": Object {
-          "--filter:<filterName> <value>": "apply a filter on file entries",
-          "--help": "display help",
-          "--mode": "specify env mode (default: development)",
-        },
       },
       "usage": "yprox-cli build [options]",
     },
@@ -25,12 +23,10 @@ Object {
     "opts": Object {
       "description": "lint source files",
       "options": Object {
+        "--filter:<filterName> <value>": "apply a filter on file entries",
         "--fix": "automatically fix lint errors",
-        "default": Object {
-          "--filter:<filterName> <value>": "apply a filter on file entries",
-          "--help": "display help",
-          "--mode": "specify env mode (default: development)",
-        },
+        "--help": "display help",
+        "--mode": "specify env mode (default: development)",
       },
       "usage": "yprox-cli lint [options]",
     },
