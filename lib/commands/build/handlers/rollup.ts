@@ -37,7 +37,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       plugins.push(
         buble({
           ...api.projectOptions.buble,
-          exclude: ['**/node_modules/**'],
+          exclude: [/node_modules/],
         })
       );
     }
