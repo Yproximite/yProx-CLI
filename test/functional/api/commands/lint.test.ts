@@ -1,6 +1,5 @@
-import chalk from 'chalk';
-import { restoreEnv, saveEnv } from '../../../node-env';
 import { mockLogger, unmockLogger } from '../../../logger';
+import { restoreEnv, saveEnv } from '../../../node-env';
 import { createFakeEnv } from '../../fake-env';
 
 describe('command: lint', () => {
@@ -8,11 +7,15 @@ describe('command: lint', () => {
     saveEnv();
     mockLogger();
     // @ts-ignore
+    console.log = jest.fn();
+    // @ts-ignore
     process.exit = jest.fn();
   });
   afterEach(() => {
     restoreEnv();
     unmockLogger();
+    // @ts-ignore
+    console.log.mockRestore();
     // @ts-ignore
     process.exit.mockRestore();
   });
@@ -21,6 +24,7 @@ describe('command: lint', () => {
     it('should skip linting when ESLint is not installed', async () => {
       const { cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
 
+      await run('yarn');
       await installYproxCli();
       const p = await run('yarn yprox-cli lint');
 
@@ -30,136 +34,117 @@ describe('command: lint', () => {
     }, 30000);
 
     it('should lint files but fails', async () => {
-      expect.assertions(10);
-
-      const { writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "rules": { "no-extra-semi": "error" },
-          "parser": "babel-eslint",
-          "parserOptions": { "ecmaVersion": "6" }
+        module.exports = {
+          rules: { 'no-extra-semi': 'error' },
+          parser: 'babel-eslint',
+          parserOptions: { ecmaVersion: 6 }
         }`
       );
 
-      try {
-        await run('yarn yprox-cli lint');
-      } catch (e) {
-        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+      await api.executeCommand('lint');
 
-        expect(e.stdout).toContain('Unnecessary semicolon');
-        expect(e.stdout).toContain('src/hello-world.js:1:34');
-        expect(e.stdout).toContain("console.log('Hello world from!');;");
+      expect(api.logger.error).toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
 
-        expect(e.stdout).toContain('Unnecessary semicolon');
-        expect(e.stdout).toContain('src/es6.js:2:48');
-        expect(e.stdout).toContain('console.log(`The constant value: ${constant}`);;');
+      // @ts-ignore
+      const eslintOutput = console.log.mock.calls[0][0];
+      expect(eslintOutput).toContain('src/hello-world.js:1:34');
+      expect(eslintOutput).toContain('Unnecessary semicolon');
+      expect(eslintOutput).toContain("console.log('Hello world from!');;");
 
-        expect(e.stdout).toContain('2 errors found.');
-        expect(e.stdout).toContain('2 errors potentially fixable with the `--fix` option.');
-        expect(e.code).toBe(1);
-      }
+      expect(eslintOutput).toContain('src/es6.js:2:48');
+      expect(eslintOutput).toContain('Unnecessary semicolon');
+      expect(eslintOutput).toContain('console.log(`The constant value: ${constant}`);;');
+
+      expect(eslintOutput).toContain('2 errors found.');
+      expect(eslintOutput).toContain('2 errors potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should lint and fix linting issues', async () => {
-      expect.assertions(8);
-
-      const { readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { api, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "rules": { "no-extra-semi": "error" },
-          "parser": "babel-eslint",
-          "parserOptions": { "ecmaVersion": "6" }
+        module.exports = {
+          rules: { 'no-extra-semi': 'error' },
+          parser: 'babel-eslint',
+          parserOptions: { ecmaVersion: 6 }
         }`
       );
 
       const fileES6BeforeLint = await readFile('src/es6.js');
-      const fileHelloWorldBeforeLint = await readFile('src/hello-world.js');
-
       expect(fileES6BeforeLint).toMatchSnapshot('src/es6.js before linting');
+
+      const fileHelloWorldBeforeLint = await readFile('src/hello-world.js');
       expect(fileHelloWorldBeforeLint).toMatchSnapshot('src/hello-world.js before linting');
 
-      try {
-        const p = await run('yarn yprox-cli lint --fix');
-        expect(p.stdout).toContain('Your JavaScript is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('lint', { fix: true });
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
 
       const fileES6AfterLint = await readFile('src/es6.js');
-      const fileHelloWorldAfterLint = await readFile('src/hello-world.js');
-
       expect(fileES6AfterLint).toMatchSnapshot('src/es6.js after linting');
-      expect(fileHelloWorldAfterLint).toMatchSnapshot('src/hello-world.js after linting');
-
       expect(fileES6AfterLint).not.toEqual(fileES6BeforeLint);
+
+      const fileHelloWorldAfterLint = await readFile('src/hello-world.js');
+      expect(fileHelloWorldAfterLint).toMatchSnapshot('src/hello-world.js after linting');
       expect(fileHelloWorldAfterLint).not.toEqual(fileHelloWorldBeforeLint);
 
-      try {
-        const p = await run('yarn yprox-cli lint');
-        expect(p.stdout).toContain('Your JavaScript is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      // To be sure
+      await api.executeCommand('lint');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should lint files and fails because of max-warnings arg', async () => {
-      expect.assertions(11);
-
-      const { writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "rules": { "no-extra-semi": "warn" },
-          "parser": "babel-eslint",
-          "parserOptions": { "ecmaVersion": "6" }
+        module.exports = {
+          rules: { 'no-extra-semi': 'warn' },
+          parser: require.resolve('babel-eslint'),
+          parserOptions: { ecmaVersion: 6 }
         }`
       );
 
-      try {
-        const p = await run('yarn yprox-cli lint');
-        expect(p.stdout).toContain('Your JavaScript is clean ✨');
-      } catch (e) {
-        expect(true).toBe(false);
-      }
+      await api.executeCommand('lint');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(process.exit).not.toHaveBeenCalled();
 
-      try {
-        await run('yarn yprox-cli lint --max-warnings 1'); // fails because we have 2 warnings
-      } catch (e) {
-        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+      // Will fails because we have 2 warnings
+      await api.executeCommand('lint', { 'max-warnings': 1 });
+      expect(api.logger.error).toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
 
-        expect(e.stdout).toContain('Unnecessary semicolon');
-        expect(e.stdout).toContain('src/hello-world.js:1:34');
-        expect(e.stdout).toContain("console.log('Hello world from!');;");
+      // @ts-ignore
+      const eslintOutput = console.log.mock.calls[0][0];
 
-        expect(e.stdout).toContain('Unnecessary semicolon');
-        expect(e.stdout).toContain('src/es6.js:2:48');
-        expect(e.stdout).toContain('console.log(`The constant value: ${constant}`);;');
+      expect(eslintOutput).toContain('Unnecessary semicolon');
+      expect(eslintOutput).toContain('src/hello-world.js:1:34');
+      expect(eslintOutput).toContain("console.log('Hello world from!');;");
 
-        expect(e.stdout).toContain('2 warnings found.');
-        expect(e.stdout).toContain('2 warnings potentially fixable with the `--fix` option.');
-        expect(e.code).toBe(1);
-      }
+      expect(eslintOutput).toContain('Unnecessary semicolon');
+      expect(eslintOutput).toContain('src/es6.js:2:48');
+      expect(eslintOutput).toContain('console.log(`The constant value: ${constant}`);;');
+
+      expect(eslintOutput).toContain('2 warnings found.');
+      expect(eslintOutput).toContain('2 warnings potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 40000);
+    }, 15000);
   });
 
   describe('Vue', () => {
@@ -176,94 +161,79 @@ describe('command: lint', () => {
     }, 30000);
 
     it('should lint files but fails', async () => {
-      expect.assertions(10);
-
-      const { writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "extends": [ 'plugin:vue/recommended' ],
-          "parserOptions": { "parser": "babel-eslint", "ecmaVersion": "6" },
-          "rules": { "no-extra-semi": "error" }
+        module.exports = {
+          extends: [ 'plugin:vue/recommended' ],
+          parserOptions: { parser: 'babel-eslint', ecmaVersion: 6 },
+          rules: { 'no-extra-semi': 'error' },
         }`
       );
 
-      try {
-        await run('yarn yprox-cli lint');
-      } catch (e) {
-        expect(e.stderr).toMatch(/Your JavaScript is not clean, stopping\./);
+      await api.executeCommand('lint');
 
-        expect(e.stdout).toContain('src/button/Button.vue:2:11');
-        expect(e.stdout).toContain('Event "click" should be on a new line');
+      expect(api.logger.error).toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(process.exit).toHaveBeenCalledWith(1);
 
-        expect(e.stdout).toContain('The "props" property should be above the "data" property on line 11');
-        expect(e.stdout).toContain('src/button/Button.vue:16:3');
+      // @ts-ignore
+      const eslintOutput = console.log.mock.calls[0][0];
+      expect(eslintOutput).toContain('src/button/Button.vue:2:11');
+      expect(eslintOutput).toContain('Event "click" should be on a new line');
 
-        expect(e.stdout).toContain('Unnecessary semicolon');
-        expect(e.stdout).toContain('src/button/index.js:6:37');
+      expect(eslintOutput).toContain('src/button/Button.vue:16:3');
+      expect(eslintOutput).toContain('The "props" property should be above the "data" property on line 11');
 
-        expect(e.stdout).toContain('1 error and 3 warnings found.');
-        expect(e.stdout).toContain('1 error and 3 warnings potentially fixable with the `--fix` option.');
-        expect(e.code).toBe(1);
-      }
+      expect(eslintOutput).toContain('src/button/index.js:6:37');
+      expect(eslintOutput).toContain('Unnecessary semicolon');
+
+      expect(eslintOutput).toContain('1 error and 3 warnings found.');
+      expect(eslintOutput).toContain('1 error and 3 warnings potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should fix linting issues', async () => {
-      expect.assertions(8);
-
-      const { readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { api, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "extends": [ 'plugin:vue/recommended' ],
-          "parserOptions": { "parser": "babel-eslint", "ecmaVersion": "6" },
-          "rules": { "no-extra-semi": "error" }
+        module.exports = {
+          extends: [ 'plugin:vue/recommended' ],
+          parserOptions: { parser: 'babel-eslint', ecmaVersion: 6 },
+          rules: { 'no-extra-semi': 'error' },
         }`
       );
 
       const fileButtonBeforeLint = await readFile('src/button/Button.vue');
-      const fileIndexBeforeLint = await readFile('src/button/index.js');
-
       expect(fileButtonBeforeLint).toMatchSnapshot('src/button/Button.vue before linting');
+
+      const fileIndexBeforeLint = await readFile('src/button/index.js');
       expect(fileIndexBeforeLint).toMatchSnapshot('src/button/index.js before linting');
 
-      try {
-        const p = await run('yarn yprox-cli lint --fix');
-        expect(p.stdout).toContain('Your JavaScript is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('lint', { fix: true });
 
       const fileButtonAfterLint = await readFile('src/button/Button.vue');
-      const fileIndexAfterLint = await readFile('src/button/index.js');
-
       expect(fileButtonAfterLint).toMatchSnapshot('src/button/Button.vue after linting');
-      expect(fileIndexAfterLint).toMatchSnapshot('src/button/index.js after linting');
-
       expect(fileButtonAfterLint).not.toEqual(fileButtonBeforeLint);
+
+      const fileIndexAfterLint = await readFile('src/button/index.js');
+      expect(fileIndexAfterLint).toMatchSnapshot('src/button/index.js after linting');
       expect(fileIndexAfterLint).not.toEqual(fileIndexBeforeLint);
 
-      try {
-        const p = await run('yarn yprox-cli lint');
-        expect(p.stdout).toContain('Your JavaScript is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      // To be sure
+      await api.executeCommand('lint');
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
   });
 
   describe('CSS & Sass', () => {
@@ -282,66 +252,54 @@ describe('command: lint', () => {
     }, 30000);
 
     it('should lint files but fails', async () => {
-      expect.assertions(3);
+      const { api, cleanup, run, writeFile } = await createFakeEnv({ files: 'css' });
 
-      const { cleanup, run, installYproxCli, writeFile, fileExists } = await createFakeEnv({ files: 'css' });
-
-      await run('yarn install');
-      await installYproxCli();
+      await run('yarn');
       await run('yarn add -D stylelint');
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
-      try {
-        await run('yarn yprox-cli lint');
-      } catch (e) {
-        expect(e.stderr).toMatch(/Your (CSS|Sass) is not clean, stopping\./);
-        expect(e.stdout).toContain('Unexpected extra semicolon');
-        expect(e.code).toBe(1);
-      }
+      await api.executeCommand('lint');
+
+      expect(process.exit).toHaveBeenCalledWith(1);
+      // @ts-ignore
+      expect(api.logger.error.mock.calls[0][0]).toMatch(/Your (CSS|Sass) is not clean, stopping\./);
+      // @ts-ignore
+      expect(console.log.mock.calls[0][0]).toContain('Unexpected extra semicolon');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should fix linting issues', async () => {
-      const { cleanup, readFile, writeFile, run, installYproxCli } = await createFakeEnv({ files: 'css' });
+      const { api, cleanup, run, readFile, writeFile } = await createFakeEnv({ files: 'css' });
 
-      await run('yarn install');
-      await installYproxCli();
+      await run('yarn');
       await run('yarn add -D stylelint');
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
       const fileBootstrapGridBeforeLint = await readFile('src/bootstrap-grid.scss');
-      const fileStyleBeforeLint = await readFile('src/style.css');
-
       expect(fileBootstrapGridBeforeLint).toMatchSnapshot('bootstrap-grid.scss before linting');
+
+      const fileStyleBeforeLint = await readFile('src/style.css');
       expect(fileStyleBeforeLint).toMatchSnapshot('style.css before linting');
 
-      try {
-        const p = await run('yarn yprox-cli lint --fix');
-        expect(p.stdout).toContain('Your CSS is clean ✨');
-        expect(p.stdout).toContain('Your Sass is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('lint', { fix: true });
+      expect(api.logger.info).toHaveBeenCalledWith('Your CSS is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('Your Sass is clean ✨');
 
       const fileBootstrapGridAfterLint = await readFile('src/bootstrap-grid.scss');
-      const fileStyleAfterLint = await readFile('src/style.css');
-
       expect(fileBootstrapGridAfterLint).toMatchSnapshot('src/button/Button.vue after linting');
-      expect(fileStyleAfterLint).toMatchSnapshot('src/button/index.js after linting');
-
       expect(fileBootstrapGridAfterLint).not.toEqual(fileBootstrapGridBeforeLint);
+
+      const fileStyleAfterLint = await readFile('src/style.css');
+      expect(fileStyleAfterLint).toMatchSnapshot('src/button/index.js after linting');
       expect(fileStyleAfterLint).not.toEqual(fileStyleBeforeLint);
 
-      try {
-        const p = await run('yarn yprox-cli lint');
-        expect(p.stdout).toContain('Your CSS is clean ✨');
-        expect(p.stdout).toContain('Your Sass is clean ✨');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      // To be sure
+      await api.executeCommand('lint');
+      expect(api.logger.info).toHaveBeenCalledWith('Your CSS is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('Your Sass is clean ✨');
 
       await cleanup();
-    }, 30000);
+    }, 15000);
   });
 });

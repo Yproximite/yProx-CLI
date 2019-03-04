@@ -74,6 +74,56 @@ exports[`command: lint JavaScript should lint and fix linting issues: src/hello-
 "
 `;
 
+exports[`command: lint JavaScript should lint files and fails because of max-warnings arg: src/es6.js after linting 1`] = `
+"const constant = 'abc';
+console.log(\`The constant value: \${constant}\`);
+
+let arr = [1, 2, 3];
+arr = [...arr];
+
+let obj = { a: '1', b: '2', c: '3' };
+obj = { ...obj };
+
+const myFunction = (arg1, arg2, ...otherArgs) => {
+  console.log({
+    arg1,
+    arg2,
+    otherArgs,
+  });
+};
+"
+`;
+
+exports[`command: lint JavaScript should lint files and fails because of max-warnings arg: src/es6.js before linting 1`] = `
+"const constant = 'abc';
+console.log(\`The constant value: \${constant}\`);;
+
+let arr = [1, 2, 3];
+arr = [...arr];
+
+let obj = { a: '1', b: '2', c: '3' };
+obj = { ...obj };
+
+const myFunction = (arg1, arg2, ...otherArgs) => {
+  console.log({
+    arg1,
+    arg2,
+    otherArgs,
+  });
+};
+"
+`;
+
+exports[`command: lint JavaScript should lint files and fails because of max-warnings arg: src/hello-world.js after linting 1`] = `
+"console.log('Hello world from!');
+"
+`;
+
+exports[`command: lint JavaScript should lint files and fails because of max-warnings arg: src/hello-world.js before linting 1`] = `
+"console.log('Hello world from!');;
+"
+`;
+
 exports[`command: lint Vue should fix linting issues: src/button/Button.vue after linting 1`] = `
 "<template>
   <button

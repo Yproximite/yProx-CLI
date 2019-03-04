@@ -56,31 +56,27 @@ describe('command: build', () => {
     it('should fix linting issues and build files', async () => {
       expect.assertions(9);
 
-      const { fileExists, readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'javascript' });
+      const { api, fileExists, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
       await run('yarn add -D eslint babel-eslint');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "rules": { "no-extra-semi": "error" },
-          "parser": "babel-eslint",
-          "parserOptions": { "ecmaVersion": "6" }
+        module.exports = {
+          rules: { 'no-extra-semi': 'error' },
+          parser: require.resolve('babel-eslint'),
+          parserOptions: { ecmaVersion: 6 }
         }`
       );
 
       expect(await readFile('src/es6.js')).toMatchSnapshot('src/es6.js before linting');
       expect(await readFile('src/hello-world.js')).toMatchSnapshot('src/hello-world.js before linting');
 
-      try {
-        const childProcess = await run('yarn yprox-cli build --lint --fix');
-        expect(childProcess.stdout).toContain('Your JavaScript is clean ✨');
-        expect(childProcess.stdout).toContain('js :: start bundling "scripts.js"');
-        expect(childProcess.stdout).toContain('js :: finished bundling "scripts.js"');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('build', { lint: true, fix: true });
+
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
 
       expect(await readFile('src/es6.js')).toMatchSnapshot('src/es6.js after linting');
       expect(await readFile('src/hello-world.js')).toMatchSnapshot('src/hello-world.js after linting');
@@ -95,7 +91,7 @@ describe('command: build', () => {
     it('should fails and display a message when vue-template-compiler is not installed', async () => {
       expect.assertions(8);
 
-      const { fileExists, cleanup, run, installYproxCli, readFile } = await createFakeEnv({ files: 'vue' });
+      const { fileExists, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn remove vue-template-compiler');
@@ -119,14 +115,13 @@ describe('command: build', () => {
     }, 30000);
 
     it('should build files', async () => {
-      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
-      await installYproxCli();
-      const { stdout } = await run('yarn yprox-cli build');
+      await api.executeCommand('build');
 
-      expect(stdout).toContain('rollup :: start bundling "button.js"');
-      expect(stdout).toContain('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
@@ -136,17 +131,16 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should build files, minify them and generate a source map', async () => {
-      const { fileExists, readFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue', mode: 'production' });
+      const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue', mode: 'production' });
 
       await run('yarn');
-      await installYproxCli();
-      const { stdout } = await run('yarn yprox-cli build');
+      await api.executeCommand('build');
 
-      expect(stdout).toContain('rollup :: start bundling "button.js"');
-      expect(stdout).toContain('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).not.toContain('You are running Vue in development mode.');
@@ -157,37 +151,31 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeTruthy();
 
       await cleanup();
-    }, 30000);
+    }, 15000);
 
     it('should fix linting issues and build files', async () => {
-      expect.assertions(9);
-
-      const { fileExists, readFile, writeFile, cleanup, run, installYproxCli } = await createFakeEnv({ files: 'vue' });
+      const { api, fileExists, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
 
       await run('yarn');
       await run('yarn add -D eslint babel-eslint eslint-plugin-vue');
-      await installYproxCli();
       await writeFile(
-        '.eslintrc',
+        '.eslintrc.js',
         `
-        {
-          "extends": [ 'plugin:vue/recommended' ],
-          "parserOptions": { "parser": "babel-eslint", "ecmaVersion": "6" },
-          "rules": { "no-extra-semi": "error" }
+        module.exports = {
+          extends: [ 'plugin:vue/recommended' ],
+          parserOptions: { parser: 'babel-eslint', ecmaVersion: 6 },
+          rules: { 'no-extra-semi': 'error' },
         }`
       );
 
       expect(await readFile('src/button/Button.vue')).toMatchSnapshot('src/button/Button.vue before linting');
       expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js before linting');
 
-      try {
-        const { stdout } = await run('yarn yprox-cli build --lint --fix');
-        expect(stdout).toContain('Your JavaScript is clean ✨');
-        expect(stdout).toContain('rollup :: start bundling "button.js"');
-        expect(stdout).toContain('rollup :: finished bundling "button.js"');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('build', { lint: true, fix: true });
+
+      expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
 
       expect(await readFile('src/button/Button.vue')).toMatchSnapshot('src/button/Button.vue after linting');
       expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js after linting');
@@ -195,7 +183,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 30000);
+    }, 15000);
   });
 
   describe('CSS & Sass', () => {
@@ -213,7 +201,7 @@ describe('command: build', () => {
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
-    }, 20000);
+    }, 15000);
 
     it('should build files and minify them', async () => {
       const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css', mode: 'production' });
@@ -229,28 +217,23 @@ describe('command: build', () => {
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
-    }, 20000);
+    }, 15000);
 
     it('should fix linting issues and build files', async () => {
-      const { cleanup, readFile, writeFile, fileExists, run, installYproxCli } = await createFakeEnv({ files: 'css' });
+      const { api, cleanup, readFile, writeFile, fileExists, run } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
       await run('yarn add -D stylelint');
-      await installYproxCli();
       await writeFile('.stylelintrc', '{ "rules": { "no-extra-semicolons": true } }');
 
       expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss before linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
 
-      try {
-        const childProcess = await run('yarn yprox-cli build --lint --fix');
-        expect(childProcess.stdout).toContain('sass :: start bundling "bootstrap-grid.css"');
-        expect(childProcess.stdout).toContain('sass :: finished bundling "bootstrap-grid.css"');
-        expect(childProcess.stdout).toContain('css :: start bundling "style.css"');
-        expect(childProcess.stdout).toContain('css :: finished bundling "style.css"');
-      } catch (e) {
-        expect(true).toBeFalsy();
-      }
+      await api.executeCommand('build', { lint: true, fix: true });
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "style.css"');
 
       expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss after linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
