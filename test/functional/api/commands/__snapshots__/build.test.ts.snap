@@ -2529,45 +2529,8 @@ Array [
 ]
 `;
 
-exports[`command: build Images optimization should minify images in development env: bootstrap-grid.scss after linting 1`] = `
-"@import \\"~bootstrap/scss/bootstrap-grid\\";
-"
-`;
-
-exports[`command: build Images optimization should minify images in development env: bootstrap-grid.scss before linting 1`] = `
-"@import \\"~bootstrap/scss/bootstrap-grid\\";;
-"
-`;
-
-exports[`command: build Images optimization should minify images in development env: style.css after linting 1`] = `
-".foo {
-  color: blue;
-}
-"
-`;
-
-exports[`command: build Images optimization should minify images in development env: style.css before linting 1`] = `
-".foo {
-  color: blue;;
-}
-"
-`;
-
 exports[`command: build Images optimization should minify images in production env 1`] = `
 Array [
-  Array [
-    "gulp-imagemin:",
-    "Minified 4 images[90m (saved 2.92 MB - 67.8%)[39m",
-  ],
-]
-`;
-
-exports[`command: build Images optimization should minify images in production env 2`] = `
-Array [
-  Array [
-    "gulp-imagemin:",
-    "Minified 4 images[90m (saved 2.92 MB - 67.8%)[39m",
-  ],
   Array [
     "gulp-imagemin:",
     "Minified 4 images[90m (saved 2.92 MB - 67.8%)[39m",
