@@ -14,7 +14,12 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
       return resolve();
     }
 
-    const { CLIEngine } = require('eslint');
+    // import ESLint from end-user node_modules.
+    // `require('eslint')` should simply works too, but not in functional tests
+    // when requiring a plugin (`require.resolve('eslint-plugin-vue)`), it does not work.
+    // We have too many weird issues because it use ESLint from yProx-CLI's node_modules,
+    // but `eslint-plugin-vue` is from end-user directory... :(
+    const { CLIEngine } = require(api.resolve('node_modules/eslint'));
     api.logger.log(`js (lint) :: linting ${JSON.stringify(files, null, 2)}`);
 
     const engine = new CLIEngine(config);
