@@ -59,9 +59,6 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       plugins,
       input: entry.src[0],
       external: Object.keys(rollupOptions.shims),
-      acorn: {
-        ecmaVersion: 9,
-      },
     };
   };
 
