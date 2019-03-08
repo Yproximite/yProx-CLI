@@ -9,11 +9,15 @@ module.exports = {
     'plugin:prettier/recommended',
     'prettier/@typescript-eslint',
   ],
+  rules: {
+    'import/prefer-default-export': 'off',
+  },
   settings: {
     'import/resolver': {
       node: {
         extensions: [
           '.ts',
+          '.d.ts',
           '.js',
         ]
       }

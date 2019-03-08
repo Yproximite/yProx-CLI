@@ -32,7 +32,7 @@ describe('cli', () => {
     // @ts-ignore Private property
     expect(cli.api).toBeInstanceOf(API);
     // @ts-ignore Private property
-    const api = cli.api;
+    const { api } = cli;
 
     // Second time
     cli.init();
@@ -44,6 +44,11 @@ describe('cli', () => {
 
   it('should display the help when no args are passed', async () => {
     const cli = new CLI(__dirname);
+    cli.init();
+
+    await cli.run('');
+
+    expect(cliUtil.displayHelp).toHaveBeenCalled();
   });
 
   it('should display current yprox-cli version', async () => {
