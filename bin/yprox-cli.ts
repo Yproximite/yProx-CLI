@@ -13,6 +13,7 @@ const args = require('minimist')(process.argv.slice(2), {
     'max-warnings': -1,
   },
 });
+
 const command = args._[0];
 
 const cli = new CLI(process.cwd());

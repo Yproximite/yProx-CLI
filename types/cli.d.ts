@@ -10,20 +10,24 @@ type CLIArgs = Partial<{
   [key: string]: any; // filters
 }>;
 
-type CLICommandOptions = { [k: string]: string };
+interface CLICommandOptions {
+  [k: string]: string;
+}
 
-type CLICommandOpts = {
+interface CLICommandOpts {
   description: string;
   usage: string;
   options: CLICommandOptions;
-};
+}
 
 type CLICommandFunction = (args: CLIArgs) => Promise<any>;
 
-type CLICommand = {
+interface CLICommand {
   name: string;
   opts: CLICommandOpts;
   fn: CLICommandFunction;
-};
+}
 
-type CLICommands = { [commandName: string]: CLICommand };
+interface CLICommands {
+  [commandName: string]: CLICommand;
+}

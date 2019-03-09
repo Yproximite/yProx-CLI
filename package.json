@@ -59,6 +59,10 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-terser": "^1.1.6",
     "gulp-watch": "^5.0.1",
+    "imagemin-gifsicle": "^6.0.1",
+    "imagemin-jpegtran": "^6.0.0",
+    "imagemin-optipng": "^6.0.0",
+    "imagemin-svgo": "^7.0.0",
     "joi": "^14.0.4",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
@@ -77,6 +81,7 @@
     "rollup-plugin-terser": "^4.0.1",
     "rollup-plugin-vue": "^4.3.2",
     "stylelint-formatter-pretty": "^1.0.3",
+    "terser": "^3.16.1",
     "vinyl-sourcemaps-apply": "^0.2.1"
   },
   "peerDependencies": {

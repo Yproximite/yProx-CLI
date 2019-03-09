@@ -1,50 +1,56 @@
-import Logger, { Context, Variables } from '@kocal/logger';
+import chalk from 'chalk';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
-import chalk from 'chalk';
 import { ValidationError, ValidationErrorItem } from 'joi';
 import { resolve } from 'path';
 import { ProjectOptions } from '../types';
+import { initLogger, Logger } from './logger';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
 import { loadEnv } from './utils/loadEnv';
 
 export default class API {
   public readonly context: string;
-  public readonly mode: string;
-  public readonly verbose: boolean;
-  public readonly commands: CLICommands;
-  public readonly logger: Logger;
-  public projectOptions!: ProjectOptions;
-  private plugins: any[];
 
-  constructor(context: string, mode = 'development', verbose = false) {
-    this.plugins = [];
-    this.commands = {};
+  public readonly mode: string;
+
+  public readonly verbose: boolean;
+
+  public readonly commands: CLICommands;
+
+  public readonly logger: Logger;
+
+  public projectOptions!: ProjectOptions;
+
+  public constructor(context: string, mode = 'development', verbose = false) {
     this.context = context;
     this.mode = mode;
     this.verbose = verbose;
+    this.commands = {};
     this.logger = initLogger(this.verbose);
-    this.loadUserOptions((err: Error | ValidationError, config?: ProjectOptions) => {
-      if (err) {
-        this.logger.error('Your configuration is invalid.');
-        if (err.message) {
-          this.logger.error(err.message);
+    this.loadUserOptions(
+      (err: Error | ValidationError, config?: ProjectOptions): void => {
+        if (err) {
+          this.logger.error('Your configuration is invalid.');
+          if (err.message) {
+            this.logger.error(err.message);
+          }
+
+          // @ts-ignore
+          (err.details || []).forEach((detail: ValidationErrorItem) => {
+            this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
+          });
+
+          return process.exit(1);
         }
-        // @ts-ignore
-        (err.details || []).forEach((detail: ValidationErrorItem) => {
-          this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
-        });
 
-        return process.exit(1);
+        /* istanbul ignore next */
+        if (!config) {
+          throw new Error('This should not happens.');
+        }
+
+        this.projectOptions = config;
       }
-
-      /* istanbul ignore next */
-      if (!config) {
-        throw new Error('This should not happens.');
-      }
-
-      this.projectOptions = config;
-    });
+    );
     this.loadEnv();
     this.resolvePlugins();
   }
@@ -159,11 +165,4 @@ export default class API {
       require(plugin).default(this);
     });
   }
-}
-
-function initLogger(verbose = false): Logger {
-  return Logger.getLogger('yprox-cli', {
-    level: verbose ? 'log' : 'info',
-    format: (ctx: Context, variables: Variables) => `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`,
-  });
 }

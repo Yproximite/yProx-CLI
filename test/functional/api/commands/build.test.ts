@@ -336,7 +336,7 @@ describe('command: build', () => {
 
   describe('Misc', () => {
     xit('Gulp, Rollup, and Sass plugins should not mutate `api.projectOptions`', async () => {
-      const { api, cleanup, run } = await createFakeEnv({ files: '', mode: 'production', verbose: true });
+      const { api, cleanup } = await createFakeEnv({ files: '', mode: 'production', verbose: true });
       const projectOptions = JSON.parse(JSON.stringify(api.projectOptions));
 
       await api.executeCommand('build', {

@@ -1,9 +1,8 @@
-import { Asset } from '../../types';
 import { Entry } from '../../types/entry';
 import API from '../API';
 import { readAssetDef } from './asset';
 
-export function getEntryName(entry: Entry) {
+export function getEntryName(entry: Entry): string {
   return entry.name || entry.destFile || entry.concat || entry.src.join(', ');
 }
 
@@ -15,7 +14,7 @@ export function readEntries(api: API, args: CLIArgs): Entry[] {
     api.logger.error('See the documentation (https://yprox-cli.netlify.com/configuration.html#configuration) to know to do it!');
     process.exit(1);
     // @ts-ignore
-    return;
+    return [];
   }
 
   Object.entries(api.projectOptions.assets).forEach(([assetName, assetDef]) => {
@@ -23,7 +22,7 @@ export function readEntries(api: API, args: CLIArgs): Entry[] {
   });
 
   Object.entries(args)
-    .filter(([argKey, argValue]) => argKey.startsWith('filter:'))
+    .filter(([argKey]) => argKey.startsWith('filter:'))
     .forEach(([argKey, argValue]) => {
       const attrToFilter = argKey.split(':')[1];
 

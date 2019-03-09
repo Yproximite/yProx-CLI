@@ -10,7 +10,9 @@ module.exports = {
     'prettier/@typescript-eslint',
   ],
   rules: {
+    'no-console': 'off',
     'import/prefer-default-export': 'off',
+    '@typescript-eslint/no-explicit-any': 'off'
   },
   settings: {
     'import/resolver': {
@@ -25,13 +27,20 @@ module.exports = {
   },
   overrides: [
     {
+      files: ['types/*.d.ts'],
+      rules: {
+        'import/export': 'off'
+      }
+    },
+    {
       files: ['test/**/*.ts'],
       env: {
         jest: true
       },
       rules: {
-        'no-console': 'off',
+        'no-new-func': 'off',
         'no-return-assign': 'off',
+        'no-template-curly-in-string': 'off',
       }
     }
   ]
