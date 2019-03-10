@@ -41,6 +41,7 @@ module.exports = {
         'no-new-func': 'off',
         'no-return-assign': 'off',
         'no-template-curly-in-string': 'off',
+        '@typescript-eslint/no-var-requires': 'off',
       }
     }
   ]

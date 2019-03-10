@@ -1,8 +1,9 @@
 import { Asset } from '../../types';
 import { Entry } from '../../types/entry';
 import API from '../API';
+import { ensureArray } from './array';
 
-export function readAssetDef(api: API, assetName: string, asset: Asset) {
+export function readAssetDef(api: API, assetName: string, asset: Asset): Entry[] {
   let entries = asset;
 
   if (typeof entries === 'string') {
@@ -14,11 +15,11 @@ export function readAssetDef(api: API, assetName: string, asset: Asset) {
   entries = entries as Entry[];
 
   return entries.map(entry => {
-    entry._name = assetName;
-    entry.src = Array.isArray(entry.src) ? entry.src : [entry.src];
-    entry.src = entry.src.map((src: string) => api.resolve(src));
-    entry.dest = api.resolve(entry.dest);
-
-    return entry;
+    return {
+      ...entry,
+      _name: assetName,
+      src: ensureArray(entry.src).map(src => api.resolve(src)),
+      dest: api.resolve(entry.dest),
+    };
   });
 }

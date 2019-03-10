@@ -159,7 +159,7 @@ export default class API {
   }
 
   private resolvePlugins(): void {
-    const plugins = ['./commands/build', './commands/lint'];
+    const plugins = ['./plugins/build', './plugins/lint'];
 
     plugins.forEach(plugin => {
       require(plugin).default(this);
