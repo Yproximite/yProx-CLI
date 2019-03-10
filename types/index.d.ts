@@ -16,7 +16,7 @@ type Asset =
   | Entry[]
   | ((api: any, projectOptions: ProjectOptions) => Entry[]);
 
-type ProjectOptions = {
+interface ProjectOptions {
   assets?: { [k: string]: Asset };
   path: { [k: string]: string };
   handlers: {
@@ -40,4 +40,4 @@ type ProjectOptions = {
   jpegtran: JpegtranOptions;
   optipng: OptipngOptions;
   svgo: SvgoOptions;
-};
+}

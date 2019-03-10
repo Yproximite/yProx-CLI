@@ -3,7 +3,9 @@ import { displayCommandHelp, displayHelp } from './utils/cli';
 
 export default class CLI {
   private readonly context: string;
+
   private initialized: boolean;
+
   private api!: API;
 
   constructor(context: string) {
@@ -59,7 +61,7 @@ export default class CLI {
   }
 
   private showHelp(commandName: string) {
-    const commands = this.api.commands;
+    const { commands } = this.api;
     const command = commands[commandName];
 
     if (command) {

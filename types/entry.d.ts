@@ -1,10 +1,10 @@
-export type Entry = {
+export interface Entry {
   handler: 'css' | 'file' | 'image' | 'js' | 'rollup' | 'sass';
   name?: string;
   src: string[];
   dest: string;
   [k: string]: any;
-};
+}
 
 export type EntryCSS = Entry & { concat?: string };
 export type EntryJS = Entry & { concat?: string };

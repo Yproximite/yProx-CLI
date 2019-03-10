@@ -1,8 +1,8 @@
 import watch from 'gulp-watch';
 import path from 'path';
+import File from 'vinyl';
 import { Entry } from '../../../types/entry';
 import API from '../../API';
-import File from 'vinyl';
 
 export default (api: API, entry: Entry, args: CLIArgs) => {
   return (build: (api: API, entry: Entry, args: CLIArgs) => void) => {
