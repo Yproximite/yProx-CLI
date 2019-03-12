@@ -14,6 +14,41 @@ import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 import { isPackageInstalled } from '../../../utils/package';
 
+function handleError(err: rollup.RollupError, api: API): void {
+  let description = err.message || err;
+  if (err.name) description = `${err.name}: ${description}`;
+  let message = err.message || '';
+
+  if (err.plugin) {
+    message = `(${err.plugin} plugin) ${description}`;
+  } else if (description) {
+    message = description as string;
+  }
+
+  console.error(chalk`{bold.red [!] ${message.toString()}}`);
+
+  if (err.loc) {
+    console.error(`${(err.loc.file || err.id || '').replace(api.context, '')} (${err.loc.line}:${err.loc.column})`);
+  } else if (err.id) {
+    console.error(err.id.replace(api.context, ''));
+  }
+
+  if (err.frame) {
+    console.error(chalk.dim(err.frame));
+  }
+
+  if (err.stack) {
+    console.error(chalk.dim(err.stack));
+  }
+
+  const file = (err.loc && err.loc.file) || err.id || '';
+  if (/\.vue$/.test(file)) {
+    api.logger.info(chalk`If you try to building Vue code, try to run {blue.bold yarn add -D vue-template-compiler}.`);
+  }
+
+  console.error('');
+}
+
 export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
   const rollupOptions = { ...api.projectOptions.handlers.rollup };
   const getInputOptions = () => {
@@ -92,7 +127,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       });
   };
 
-  const watch = () => {
+  const watch = (): void => {
     const watchOptions = Object.assign({}, getInputOptions(), {
       output: getOutputOptions(),
       watch: {
@@ -124,40 +159,3 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
     return args.watch ? watch() : build(resolve, reject);
   });
 };
-
-function handleError(err: rollup.RollupError, api: API) {
-  let description = err.message || err;
-  if (err.name) description = `${err.name}: ${description}`;
-  let message = '';
-
-  if ((<{ plugin?: string }>err).plugin) {
-    message = `(${(<{ plugin?: string }>err).plugin} plugin) ${description}`;
-  } else if (description) {
-    message = description as string;
-  } else {
-    message = err.message;
-  }
-
-  console.error(chalk`{bold.red [!] ${message.toString()}}`);
-
-  if (err.loc) {
-    console.error(`${(err.loc.file || err.id || '').replace(api.context, '')} (${err.loc.line}:${err.loc.column})`);
-  } else if (err.id) {
-    console.error(err.id.replace(api.context, ''));
-  }
-
-  if (err.frame) {
-    console.error(chalk.dim(err.frame));
-  }
-
-  if (err.stack) {
-    console.error(chalk.dim(err.stack));
-  }
-
-  const file = (err.loc && err.loc.file) || err.id || '';
-  if (/\.vue$/.test(file)) {
-    api.logger.info(chalk`If you try to building Vue code, try to run {blue.bold yarn add -D vue-template-compiler}.`);
-  }
-
-  console.error('');
-}

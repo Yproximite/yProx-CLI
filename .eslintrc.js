@@ -11,8 +11,11 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
+    'global-require': 'off',
+    'import/no-dynamic-require': 'off',
     'import/prefer-default-export': 'off',
-    '@typescript-eslint/no-explicit-any': 'off'
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-var-requires': 'off',
   },
   settings: {
     'import/resolver': {

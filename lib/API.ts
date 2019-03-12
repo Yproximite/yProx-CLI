@@ -40,7 +40,8 @@ export default class API {
             this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
           });
 
-          return process.exit(1);
+          process.exit(1);
+          return;
         }
 
         /* istanbul ignore next */
@@ -63,7 +64,7 @@ export default class API {
     return resolve(this.context, path);
   }
 
-  public registerCommand(commandName: string, opts: CLICommandOpts, fn: CLICommandFunction) {
+  public registerCommand(commandName: string, opts: CLICommandOpts, fn: CLICommandFunction): void {
     this.commands[commandName] = { opts, fn, name: commandName };
   }
 
@@ -80,29 +81,40 @@ export default class API {
     return command.fn(args);
   }
 
+  public getSafeEnvVars(): { [k: string]: any } {
+    const validKeys = Object.keys(process.env).filter(key => {
+      return key === 'NODE_ENV' || key.startsWith('APP_');
+    });
+
+    return validKeys.reduce((acc: { [k: string]: any }, key) => {
+      acc[key] = process.env[key];
+      return acc;
+    }, {});
+  }
+
   private loadUserOptions(cb: (err: Error | ValidationError, config?: ProjectOptions) => void): void {
     let pkgConfig = null;
     let fileConfig = null;
 
     try {
-      if (process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE === 'true') {
-        // no-op
-      } else {
+      if (!(process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE === 'true')) {
         // read config fron `package.json`
         const pkg = require(this.resolve('package.json'));
         if (typeof pkg.yproxCli !== 'undefined') {
           pkgConfig = pkg.yproxCli;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      this.logger.debug(e.message);
+    }
 
     try {
-      if (process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true') {
-        // no-op
-      } else {
+      if (!(process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true')) {
         fileConfig = require(this.resolve('yprox-cli.config.js')) || null;
       }
-    } catch (e) {}
+    } catch (e) {
+      this.logger.debug(e.message);
+    }
 
     if (pkgConfig !== null && fileConfig !== null) {
       cb(new Error(chalk`You can\'t configure yprox-cli with {blue.bold yprox-cli.config.js} and {blue.bold package.json} at the same time.`));
@@ -145,17 +157,6 @@ export default class API {
     if (typeof process.env.NODE_ENV === 'undefined') {
       process.env.NODE_ENV = this.mode;
     }
-  }
-
-  getSafeEnvVars(): { [k: string]: any } {
-    const validKeys = Object.keys(process.env).filter(key => {
-      return key === 'NODE_ENV' || key.startsWith('APP_');
-    });
-
-    return validKeys.reduce((acc: { [k: string]: any }, key) => {
-      acc[key] = process.env[key];
-      return acc;
-    }, {});
   }
 
   private resolvePlugins(): void {

@@ -5,7 +5,7 @@ import { Entry } from '../../../types/entry';
 import API from '../../API';
 
 export default (api: API, entry: Entry, args: CLIArgs) => {
-  return (build: (api: API, entry: Entry, args: CLIArgs) => void) => {
+  return (build: (api: API, entry: Entry, args: CLIArgs) => void): void => {
     const doBuild = () => build(api, entry, args);
 
     let filesToWatch = entry.src;

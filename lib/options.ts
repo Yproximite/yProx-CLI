@@ -27,7 +27,7 @@ const schema = joi.object().keys({
   svgo: joi.object(),
 });
 
-export function validate(options: ProjectOptions, cb: (err: ValidationError) => void) {
+export function validate(options: ProjectOptions, cb: (err: ValidationError) => void): void {
   joi.validate(options, schema, cb);
 }
 

@@ -4,7 +4,7 @@ import stylelintFormatter from 'stylelint-formatter-pretty';
 import API from '../../../API';
 import { isPackageInstalled } from '../../../utils/package';
 
-export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
+export default (api: API, args: CLIArgs, files: string[]): Promise<void> => {
   const config = {
     files: files.map(file => `${dirname(file)}/**/*.{scss,sass}`),
     formatter: stylelintFormatter,
@@ -21,10 +21,11 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
     api.logger.log(`sass (lint) :: linting ${JSON.stringify(config.files, null, 2)}`);
 
     // @ts-ignore
-    lint(config).then((res: LinterResult) => {
+    return lint(config).then((res: LinterResult) => {
       if (!res.errored) {
         api.logger.info('Your Sass is clean ✨');
-        return resolve();
+        resolve();
+        return;
       }
 
       console.log(res.output);

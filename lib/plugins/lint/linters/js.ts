@@ -1,7 +1,7 @@
 import API from '../../../API';
 import { isPackageInstalled } from '../../../utils/package';
 
-export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
+export default (api: API, args: CLIArgs, files: string[]): Promise<void> => {
   const config = {
     cwd: api.context,
     fix: !!args.fix || false,
@@ -11,7 +11,8 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
   return new Promise((resolve, reject) => {
     if (!isPackageInstalled('eslint')) {
       api.logger.info('Linting JavaScript requires to install "eslint" dependency.');
-      return resolve();
+      resolve();
+      return;
     }
 
     // import ESLint from end-user node_modules.
@@ -35,9 +36,10 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<any> => {
     if (showErrors || showWarnings) {
       console.log(formatter(report.results));
       reject(new Error('Your JavaScript is not clean, stopping.'));
-    } else {
-      api.logger.info('Your JavaScript is clean ✨');
-      resolve();
+      return;
     }
+
+    api.logger.info('Your JavaScript is clean ✨');
+    resolve();
   });
 };
