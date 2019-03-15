@@ -8,12 +8,12 @@ export default class CLI {
 
   private api!: API;
 
-  constructor(context: string) {
+  public constructor(context: string) {
     this.context = context;
     this.initialized = false;
   }
 
-  init(mode?: string, verbose: boolean = false) {
+  public init(mode?: string, verbose: boolean = false): void {
     if (this.initialized) {
       return;
     }
@@ -22,28 +22,18 @@ export default class CLI {
     this.api = new API(this.context, mode, verbose);
   }
 
-  public run(commandName: string, args: CLIArgs = {}) {
+  public run(commandName: string, args: CLIArgs = {}): Promise<void> {
     this.init(args.mode, args.v);
 
     return new Promise((resolve, reject) => {
       if (!commandName && args.version) {
-        let version: string | null = null;
-
-        // In .ts files
         try {
-          version = version || require('../package').version;
-        } catch (e) {}
-
-        // In `dist` folder
-        try {
-          version = version || require('../../package').version;
-        } catch (e) {}
-
-        if (version === null) {
-          throw new Error('Unable to get yprox-cli version.');
+          const pkgFile = require.resolve('../package.json');
+          const pkg = require(pkgFile);
+          console.log(pkg.version);
+        } catch (e) {
+          throw new Error("Unable to get yProx-CLi version (can't load its `package.json`).");
         }
-
-        console.log(version);
 
         return resolve();
       }
@@ -60,7 +50,7 @@ export default class CLI {
     });
   }
 
-  private showHelp(commandName: string) {
+  private showHelp(commandName: string): void {
     const { commands } = this.api;
     const command = commands[commandName];
 

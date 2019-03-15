@@ -56,10 +56,6 @@ export default class API {
     this.resolvePlugins();
   }
 
-  public isProduction(): boolean {
-    return process.env.NODE_ENV === 'production';
-  }
-
   public resolve(path: string): string {
     return resolve(this.context, path);
   }
@@ -81,6 +77,12 @@ export default class API {
     return command.fn(args);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  public isProduction(): boolean {
+    return process.env.NODE_ENV === 'production';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
   public getSafeEnvVars(): { [k: string]: any } {
     const validKeys = Object.keys(process.env).filter(key => {
       return key === 'NODE_ENV' || key.startsWith('APP_');
@@ -127,7 +129,7 @@ export default class API {
   }
 
   private loadEnv(): void {
-    const load = (filename: string) => {
+    const load = (filename: string): void => {
       const path = this.resolve(filename);
 
       if (fs.existsSync(path)) {

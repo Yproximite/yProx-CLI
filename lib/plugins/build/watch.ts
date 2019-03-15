@@ -6,7 +6,7 @@ import API from '../../API';
 
 export default (api: API, entry: Entry, args: CLIArgs) => {
   return (build: (api: API, entry: Entry, args: CLIArgs) => void): void => {
-    const doBuild = () => build(api, entry, args);
+    const doBuild = (): void => build(api, entry, args);
 
     let filesToWatch = entry.src;
     if (entry.handler === 'sass' && /\.s[ac]ss$/.test(entry.src[0])) {
@@ -23,13 +23,17 @@ export default (api: API, entry: Entry, args: CLIArgs) => {
       ignored: ['**/node_modules/**'],
     };
 
-    // @ts-ignore
-    return watch(filesToWatch, chokidarOpts, (file: File) => {
-      const normalizedFilePath = file.path.replace(process.cwd(), '').replace(/^[\\/]+/, '');
-      api.logger.info(`watch :: file "${normalizedFilePath}" has been modified`);
-      api.logger.info(`watch :: handling ""${filesToWatch}"`);
+    return watch(
+      filesToWatch,
+      // @ts-ignore
+      chokidarOpts,
+      (file: File): void => {
+        const normalizedFilePath = file.path.replace(process.cwd(), '').replace(/^[\\/]+/, '');
+        api.logger.info(`watch :: file "${normalizedFilePath}" has been modified`);
+        api.logger.info(`watch :: handling "${filesToWatch}"`);
 
-      return doBuild();
-    });
+        return doBuild();
+      }
+    );
   };
 };
