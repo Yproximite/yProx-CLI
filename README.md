@@ -46,4 +46,4 @@ $ yarn lint --fix # will automatically fix some errors
 
 ### Publishing a new release
 
-This is automatically done by Travis and [semantic-release](https://github.com/semantic-release/semantic-release) when you merge a pull request.
+This is automatically done by Travis **every day** if there was a build in the last 24 hours.
