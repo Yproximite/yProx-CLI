@@ -1,10 +1,10 @@
+import { transform as transformBuble } from 'buble';
+import PluginError from 'plugin-error';
 import { Transform } from 'readable-stream';
 import applySourceMap from 'vinyl-sourcemaps-apply';
-import PluginError from 'plugin-error';
-import { transform as transformBuble } from 'buble';
-import { ProjectOptions } from '../../../types';
+import { ProjectOptions } from '../../types';
 
-export const buble = (options: ProjectOptions['buble'] = {}) => {
+export const buble = (opts: ProjectOptions['buble'] = {}) => {
   return new Transform({
     objectMode: true,
     transform(file, enc, cb) {
@@ -17,6 +17,7 @@ export const buble = (options: ProjectOptions['buble'] = {}) => {
         return;
       }
 
+      const options = { ...opts };
       options.file = file.path;
       options.source = file.path;
       options.includeContent = true;

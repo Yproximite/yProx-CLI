@@ -1,5 +1,7 @@
 import { createFakeEnv } from '../fake-env';
 
+const loadEnv = require('../../../lib/utils/loadEnv');
+
 const files = {
   // .env files for prod (and production) mode
   '.env.production.local': '',
@@ -23,7 +25,6 @@ const files = {
 
 describe('api: env', () => {
   let oldEnv = process.env;
-  const loadEnv = require('../../../lib/utils/loadEnv');
 
   beforeEach(() => {
     oldEnv = process.env;

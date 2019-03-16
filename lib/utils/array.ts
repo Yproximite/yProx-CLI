@@ -23,3 +23,7 @@ export function flatten(): (acc: any[], values: any | any[]) => any[] {
     return acc.concat(values);
   };
 }
+
+export function ensureArray<T>(arg: T[]): T[] {
+  return Array.isArray(arg) ? arg : [arg];
+}

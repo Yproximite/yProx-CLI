@@ -3,7 +3,7 @@ import API from '../../API';
 import { lintEntry } from '../lint';
 import handlers from './handlers';
 
-export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
+export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<void> => {
   if (!(entry.handler in handlers)) {
     throw new Error(`Handler "${entry.handler}" do not exists.`);
   }
@@ -16,11 +16,11 @@ export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => 
 
       if (args.watch) {
         if (api.isProduction()) {
-          return;
+          return Promise.resolve();
         }
       } else {
         process.exit(1);
-        return;
+        return Promise.reject();
       }
     }
   }

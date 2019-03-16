@@ -30,7 +30,7 @@ Be sure to always add a test when you are modifying something!
 
 ### Linting
 
-We use [TSLint](https://palantir.github.io/tslint) and the [AirBnb preset](https://github.com/progre/tslint-config-airbnb) (with some tweaked rules).
+We use [ESlint](https://eslint.org/), the [AirBnb preset](https://github.com/progre/tslint-config-airbnb), the [Recommended rules for TypeScript](https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/src/configs/recommended.json), and [Prettier](https://prettier.io/).
 
 You can lint the code with:
 

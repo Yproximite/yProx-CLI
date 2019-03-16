@@ -26,7 +26,7 @@ export default (api: API) => {
         return handle(api, entry, args);
       });
 
-      return await Promise.all(promises);
+      return Promise.all(promises);
     }
   );
 };

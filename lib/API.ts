@@ -1,63 +1,66 @@
-import Logger, { Context, Variables } from '@kocal/logger';
+import chalk from 'chalk';
 import defaultsDeep from 'defaults-deep';
 import fs from 'fs';
-import chalk from 'chalk';
 import { ValidationError, ValidationErrorItem } from 'joi';
 import { resolve } from 'path';
 import { ProjectOptions } from '../types';
+import { initLogger, Logger } from './logger';
 import { defaults as defaultsOptions, validate as validateOptions } from './options';
 import { loadEnv } from './utils/loadEnv';
 
 export default class API {
   public readonly context: string;
-  public readonly mode: string;
-  public readonly verbose: boolean;
-  public readonly commands: CLICommands;
-  public readonly logger: Logger;
-  public projectOptions!: ProjectOptions;
-  private plugins: any[];
 
-  constructor(context: string, mode = 'development', verbose = false) {
-    this.plugins = [];
-    this.commands = {};
+  public readonly mode: string;
+
+  public readonly verbose: boolean;
+
+  public readonly commands: CLICommands;
+
+  public readonly logger: Logger;
+
+  public projectOptions!: ProjectOptions;
+
+  public constructor(context: string, mode = 'development', verbose = false) {
     this.context = context;
     this.mode = mode;
     this.verbose = verbose;
+    this.commands = {};
     this.logger = initLogger(this.verbose);
-    this.loadUserOptions((err: Error | ValidationError, config?: ProjectOptions) => {
-      if (err) {
-        this.logger.error('Your configuration is invalid.');
-        if (err.message) {
-          this.logger.error(err.message);
+    this.loadUserOptions(
+      (err: Error | ValidationError, config?: ProjectOptions): void => {
+        if (err) {
+          this.logger.error('Your configuration is invalid.');
+          if (err.message) {
+            this.logger.error(err.message);
+          }
+
+          // @ts-ignore
+          (err.details || []).forEach((detail: ValidationErrorItem) => {
+            this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
+          });
+
+          process.exit(1);
+          return;
         }
-        // @ts-ignore
-        (err.details || []).forEach((detail: ValidationErrorItem) => {
-          this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
-        });
 
-        return process.exit(1);
+        /* istanbul ignore next */
+        if (!config) {
+          throw new Error('This should not happens.');
+        }
+
+        this.projectOptions = config;
       }
-
-      /* istanbul ignore next */
-      if (!config) {
-        throw new Error('This should not happens.');
-      }
-
-      this.projectOptions = config;
-    });
+    );
     this.loadEnv();
     this.resolvePlugins();
-  }
-
-  public isProduction(): boolean {
-    return process.env.NODE_ENV === 'production';
   }
 
   public resolve(path: string): string {
     return resolve(this.context, path);
   }
 
-  public registerCommand(commandName: string, opts: CLICommandOpts, fn: CLICommandFunction) {
+  public registerCommand(commandName: string, opts: CLICommandOpts, fn: CLICommandFunction): void {
     this.commands[commandName] = { opts, fn, name: commandName };
   }
 
@@ -74,29 +77,46 @@ export default class API {
     return command.fn(args);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  public isProduction(): boolean {
+    return process.env.NODE_ENV === 'production';
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  public getSafeEnvVars(): { [k: string]: any } {
+    const validKeys = Object.keys(process.env).filter(key => {
+      return key === 'NODE_ENV' || key.startsWith('APP_');
+    });
+
+    return validKeys.reduce((acc: { [k: string]: any }, key) => {
+      acc[key] = process.env[key];
+      return acc;
+    }, {});
+  }
+
   private loadUserOptions(cb: (err: Error | ValidationError, config?: ProjectOptions) => void): void {
     let pkgConfig = null;
     let fileConfig = null;
 
     try {
-      if (process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE === 'true') {
-        // no-op
-      } else {
+      if (!(process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE === 'true')) {
         // read config fron `package.json`
         const pkg = require(this.resolve('package.json'));
         if (typeof pkg.yproxCli !== 'undefined') {
           pkgConfig = pkg.yproxCli;
         }
       }
-    } catch (e) {}
+    } catch (e) {
+      this.logger.debug(e.message);
+    }
 
     try {
-      if (process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true') {
-        // no-op
-      } else {
+      if (!(process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true')) {
         fileConfig = require(this.resolve('yprox-cli.config.js')) || null;
       }
-    } catch (e) {}
+    } catch (e) {
+      this.logger.debug(e.message);
+    }
 
     if (pkgConfig !== null && fileConfig !== null) {
       cb(new Error(chalk`You can\'t configure yprox-cli with {blue.bold yprox-cli.config.js} and {blue.bold package.json} at the same time.`));
@@ -109,7 +129,7 @@ export default class API {
   }
 
   private loadEnv(): void {
-    const load = (filename: string) => {
+    const load = (filename: string): void => {
       const path = this.resolve(filename);
 
       if (fs.existsSync(path)) {
@@ -141,29 +161,11 @@ export default class API {
     }
   }
 
-  getSafeEnvVars(): { [k: string]: any } {
-    const validKeys = Object.keys(process.env).filter(key => {
-      return key === 'NODE_ENV' || key.startsWith('APP_');
-    });
-
-    return validKeys.reduce((acc: { [k: string]: any }, key) => {
-      acc[key] = process.env[key];
-      return acc;
-    }, {});
-  }
-
   private resolvePlugins(): void {
-    const plugins = ['./commands/build', './commands/lint'];
+    const plugins = ['./plugins/build', './plugins/lint'];
 
     plugins.forEach(plugin => {
       require(plugin).default(this);
     });
   }
-}
-
-function initLogger(verbose = false): Logger {
-  return Logger.getLogger('yprox-cli', {
-    level: verbose ? 'log' : 'info',
-    format: (ctx: Context, variables: Variables) => `[${ctx.chalk.blue(ctx.luxon.toFormat('HH:mm:ss'))}] ${ctx.levelColor(ctx.level)} :: ${ctx.message}`,
-  });
 }
