@@ -34,7 +34,7 @@ script:
 jobs:
   include:
     - stage: Release
-      if: branch = master AND type = push
+      if: type = cron AND branch = master
       node_js: node
       script:
         - yarn build
