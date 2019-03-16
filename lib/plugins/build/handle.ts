@@ -16,14 +16,14 @@ export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<void> =>
 
       if (args.watch) {
         if (api.isProduction()) {
-          return;
+          return Promise.resolve();
         }
       } else {
         process.exit(1);
-        return;
+        return Promise.reject();
       }
     }
   }
 
-  (handlers as any)[entry.handler]()(api, entry, args);
+  return (handlers as any)[entry.handler]()(api, entry, args);
 };
