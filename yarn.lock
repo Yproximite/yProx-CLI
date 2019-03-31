@@ -806,9 +806,9 @@
     rollup "^0.63.4"
 
 "@types/rollup-plugin-json@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.1.tgz#feba24edb11a152b728109151bf9ffb4f2b42ceb"
-  integrity sha512-IXJt0KMauS47OtrfFxMlYeBADkBNoX1xhxYh2KR8VRS2wN+jCw0KrGdNPMMw4VDX8u6K7PoHa7ApWBI4PU+ZkQ==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.2.tgz#1153136a515ed4fbb7ef214ace496f5fc3ed7796"
+  integrity sha512-eTRym5nG4HEKDR/KrTnCMYwF7V0hgVjEesvtJCK3V8ho/aT0ZFRFgsDtx38VarM30HCsN372+i4FKYwnhcwiVA==
   dependencies:
     "@types/node" "*"
     rollup "^0.63.4"
