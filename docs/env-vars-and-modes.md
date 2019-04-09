@@ -39,7 +39,7 @@ You can overwrite the default mode used for a command by passing the `--mode` op
 "build": "yprox-cli build --mode production"
 ```
 
-## Example
+## Examples
 
 Given the following files:
 
@@ -72,7 +72,7 @@ APP_API_URL=http://api.my-project.vm
 
 ### Development mode
 
-`yprox-cli build`, `yprox-cli build --mode dev` and `yprox-cli build --mode development` will produce:
+`yprox-cli build`, `yprox-cli build --mode dev` and `yprox-cli build --mode development` will compute the following env vars:
 
 ```dotenv
 # .env.development
@@ -89,7 +89,7 @@ NODE_ENV=development
 
 ### Production mode
 
-`yprox-cli build --mode prod` and `yprox-cli build --mode production` will produce:
+`yprox-cli build --mode prod` and `yprox-cli build --mode production` will compute the following env vars:
 
 ```dotenv
 # .env.production
@@ -106,11 +106,11 @@ NODE_ENV=production
 
 ### Staging mode
 
-`yprox-cli build --mode staging` will produce:
+`yprox-cli build --mode staging` will compute the following env vars:
 
 ```dotenv
 # .env.staging
-NODE_ENV=production
+NODE_ENV=production # not overriden because defined manually
 APP_ENV=staging
 APP_NAME=My app (staging)
 APP_API_URL=https://staging.example.com

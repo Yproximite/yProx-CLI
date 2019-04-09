@@ -1,10 +1,29 @@
-# yProx-cli
+# yProx-CLI
 
 [![npm (scoped)](https://img.shields.io/npm/v/@yproximite/yprox-cli.svg)](https://www.npmjs.com/package/@yproximite/yprox-cli)
 [![Build Status](https://travis-ci.com/Yproximite/yProx-cli.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
 
-> A tool for linting and building assets from [yProx CMS](https://github.com/Yproximite/yProx).
-> See [this PR](https://github.com/Yproximite/yProx/pull/4654) for additional details.
+> A tool for bulk linting and building assets.
+
+## Another tool?
+
+Yes, but linting and building **a lot** of assets is now easier than ever!
+
+Out of the box, yProx-CLI comes with:
+  - JavaScript support (+ [Buble](https://github.com/bublejs/buble))
+  - CSS and Sass support
+  - Rollup support (JavaScript, Vue, [GraphQL](https://github.com/Kocal/rollup-plugin-graphql)) for modern apps
+  - ESLint for linting JavaScript files
+  - Stylelint for linting CSS and Sass support
+  - Copy/Paste files
+  - Images optimization
+
+yProx-CLI is really useful for us because it allowed us to package all the tools we need in only big package.
+
+We have ~150 WordPress projects and it was really hard to maintain ~25 dev dependencies (for Gulp) for each project.
+Using yProx-CLI saves us some huge amount of time because:
+  - we were able to externalize all those dependencies in one package
+  - we were able to externalize the tooling in one package. Before, **everything** was in a Gulp file configuration
 
 ## Documentation
 

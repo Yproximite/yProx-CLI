@@ -4,7 +4,7 @@
 
 Used for building modern applications. It supports Vue components and ES6 modules.
 
-In production environment, it minimize files and generates sourcemaps.
+In production environment, it minimizes files and generates sourcemaps.
 
 ```js
 {
@@ -20,7 +20,7 @@ In production environment, it minimize files and generates sourcemaps.
 
 Used for handling JS files with the support of ES6 code. Note that ES6 modules are **not supported**, use Rollup instead.
 
-In production environment, it minimize files and generates sourcemaps.
+In production environment, it minimizes files and generates sourcemaps.
 
 ```js
 {
