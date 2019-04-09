@@ -21,7 +21,7 @@ Out of the box, yProx-CLI comes with:
 yProx-CLI is really useful for us because it allowed us to package all the tools we need in only big package.
 
 We have ~150 WordPress projects and it was really hard to maintain ~25 dev dependencies (for Gulp) for each project.
-Using yProx-CLI saves us some considerable amount of time because:
+Using yProx-CLI saves us some huge amount of time because:
   - we were able to externalize all those dependencies in one package
   - we were able to externalize the tooling in one package. Before, **everything** was in a Gulp file configuration
 
