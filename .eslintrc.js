@@ -16,6 +16,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
+    '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }]
   },
   settings: {
     'import/resolver': {
@@ -45,6 +46,7 @@ module.exports = {
         'no-return-assign': 'off',
         'no-template-curly-in-string': 'off',
         '@typescript-eslint/no-var-requires': 'off',
+        '@typescript-eslint/explicit-function-return-type': 'off'
       }
     }
   ]
