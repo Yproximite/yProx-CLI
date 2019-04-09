@@ -1,6 +1,6 @@
 module.exports = {
   title: 'yProx-CLI',
-  description: '🔧 A tool for linting and building assets from yProx CMS.',
+  description: '🔧 A tool for bulk linting and building assets.',
   serviceWorker: true,
   themeConfig: {
     repo: 'Yproximite/yProx-cli',
