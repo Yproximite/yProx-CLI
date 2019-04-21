@@ -10664,9 +10664,9 @@ sass-graph@^2.2.4:
     yargs "^7.0.0"
 
 sass@^1.17.2:
-  version "1.17.4"
-  resolved "https://registry.yarnpkg.com/sass/-/sass-1.17.4.tgz#b65b9d11f5cef9b96d6c44566ab91d6357210dbd"
-  integrity sha512-NM/RkY54d6C5xJMWk7Z+p0/TfIB71/46/T335Egc0O3G+NeKKVFz1s9EwBlekRnYq3fUCTsbk0zPNMpee5LIdA==
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/sass/-/sass-1.19.0.tgz#5de82c713d4299fac57384ef5219534a37fe3e6c"
+  integrity sha512-8kzKCgxCzh8/zEn3AuRwzLWVSSFj8omkiGwqdJdeOufjM+I88dXxu9LYJ/Gw4rRTHXesN0r1AixBuqM6yLQUJw==
   dependencies:
     chokidar "^2.0.0"
 
