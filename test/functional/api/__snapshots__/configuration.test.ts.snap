@@ -37,7 +37,9 @@ Object {
           ".node",
           ".vue",
         ],
-        "module": true,
+        "mainFields": Array [
+          "module",
+        ],
       },
       "shims": Object {},
       "vue": Object {},
@@ -99,7 +101,9 @@ Object {
           ".node",
           ".vue",
         ],
-        "module": true,
+        "mainFields": Array [
+          "module",
+        ],
       },
       "shims": Object {},
       "vue": Object {},
@@ -161,7 +165,9 @@ Object {
           ".node",
           ".vue",
         ],
-        "module": true,
+        "mainFields": Array [
+          "module",
+        ],
       },
       "shims": Object {},
       "vue": Object {},
@@ -223,7 +229,9 @@ Object {
           ".node",
           ".vue",
         ],
-        "module": true,
+        "mainFields": Array [
+          "module",
+        ],
       },
       "shims": Object {},
       "vue": Object {},

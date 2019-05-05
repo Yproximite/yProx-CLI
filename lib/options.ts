@@ -38,7 +38,7 @@ export function defaults(): ProjectOptions {
       sass: {},
       rollup: {
         nodeResolve: {
-          module: true,
+          mainFields: ['module'],
           browser: true,
           extensions: ['.mjs', '.js', '.json', '.node', '.vue'],
         }, // https://github.com/rollup/rollup-plugin-node-resolve
