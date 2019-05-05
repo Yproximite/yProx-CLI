@@ -66,7 +66,7 @@
     "joi": "^14.0.4",
     "merge-stream": "^1.0.1",
     "minimist": "^1.2.0",
-    "node-sass": "^4.10.0",
+    "node-sass": "^4.12.0",
     "node-sass-tilde-importer": "^1.0.2",
     "plugin-error": "^1.0.1",
     "readable-stream": "^3.1.1",
