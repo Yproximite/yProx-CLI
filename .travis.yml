@@ -5,6 +5,10 @@ node_js:
   - 10
   - node
 
+env:
+  global:
+    - FORCE_COLOR=1
+
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
