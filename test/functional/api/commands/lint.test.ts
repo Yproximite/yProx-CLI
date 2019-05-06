@@ -54,11 +54,11 @@ describe('command: lint', () => {
 
       // @ts-ignore
       const eslintOutput = console.log.mock.calls[0][0];
-      expect(eslintOutput).toContain('src/hello-world.js:1:34');
+      expect(eslintOutput).toContain('hello-world.js:1:34');
       expect(eslintOutput).toContain('Unnecessary semicolon');
       expect(eslintOutput).toContain("console.log('Hello world from!');;");
 
-      expect(eslintOutput).toContain('src/es6.js:2:48');
+      expect(eslintOutput).toContain('es6.js:2:48');
       expect(eslintOutput).toContain('Unnecessary semicolon');
       expect(eslintOutput).toContain('console.log(`The constant value: ${constant}`);;');
 
@@ -133,11 +133,11 @@ describe('command: lint', () => {
       const eslintOutput = console.log.mock.calls[0][0];
 
       expect(eslintOutput).toContain('Unnecessary semicolon');
-      expect(eslintOutput).toContain('src/hello-world.js:1:34');
+      expect(eslintOutput).toContain('hello-world.js:1:34');
       expect(eslintOutput).toContain("console.log('Hello world from!');;");
 
       expect(eslintOutput).toContain('Unnecessary semicolon');
-      expect(eslintOutput).toContain('src/es6.js:2:48');
+      expect(eslintOutput).toContain('es6.js:2:48');
       expect(eslintOutput).toContain('console.log(`The constant value: ${constant}`);;');
 
       expect(eslintOutput).toContain('2 warnings found.');
@@ -182,13 +182,13 @@ describe('command: lint', () => {
 
       // @ts-ignore
       const eslintOutput = console.log.mock.calls[0][0];
-      expect(eslintOutput).toContain('src/button/Button.vue:2:11');
+      expect(eslintOutput).toContain('Button.vue:2:11');
       expect(eslintOutput).toContain('Event "click" should be on a new line');
 
-      expect(eslintOutput).toContain('src/button/Button.vue:16:3');
+      expect(eslintOutput).toContain('Button.vue:16:3');
       expect(eslintOutput).toContain('The "props" property should be above the "data" property on line 11');
 
-      expect(eslintOutput).toContain('src/button/index.js:6:37');
+      expect(eslintOutput).toContain('index.js:6:37');
       expect(eslintOutput).toContain('Unnecessary semicolon');
 
       expect(eslintOutput).toContain('1 error and 3 warnings found.');
