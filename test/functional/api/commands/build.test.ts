@@ -281,8 +281,7 @@ describe('command: build', () => {
       expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
       expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
 
-      expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
-      expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
+      expect(await readFile('dist/udhr_eng.txt')).toContain('Universal Declaration of Human Rights - English');
 
       await cleanup();
     });
