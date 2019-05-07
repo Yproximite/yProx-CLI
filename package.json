@@ -17,7 +17,7 @@
     "semantic-release": "semantic-release",
     "build": "tsc && chmod +x ./dist/bin/yprox-cli.js",
     "watch": "tsc --watch",
-    "test": "FORCE_COLOR=1 jest",
+    "test": "jest",
     "lint": "eslint --ext .ts bin lib types test"
   },
   "publishConfig": {

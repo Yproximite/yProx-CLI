@@ -1,0 +1,20 @@
+environment:
+  FORCE_COLOR: 1
+  matrix:
+    - nodejs_version: "10"
+    - nodejs_version: ""
+
+cache:
+  - node_modules
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.npm'
+  - '%USERPROFILE%\.cache'
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install -g yarn
+  - yarn install --frozen-lockfile
+
+test_script:
+  - yarn build
+  - yarn test -i
