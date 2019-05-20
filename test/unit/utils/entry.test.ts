@@ -1,3 +1,4 @@
+import path from 'path';
 import API from '../../../lib/API';
 import { getEntryName, readEntries } from '../../../lib/utils/entry';
 import { Entry } from '../../../types/entry';
@@ -53,10 +54,10 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [`${__dirname}/app.css`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'app-sass', handler: 'sass', src: [`${__dirname}/app.sass`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'app-rollup', handler: 'rollup', src: [`${__dirname}/app.js`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'vendor-css', handler: 'css', src: [`${__dirname}/vendor.css`], _name: 'vendor', dest: `${__dirname}/dist` },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
       ]);
     });
 
@@ -65,8 +66,8 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [`${__dirname}/app.css`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'vendor-css', handler: 'css', src: [`${__dirname}/vendor.css`], _name: 'vendor', dest: `${__dirname}/dist` },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
       ]);
     });
 
@@ -75,9 +76,9 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [`${__dirname}/app.css`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'app-sass', handler: 'sass', src: [`${__dirname}/app.sass`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'vendor-css', handler: 'css', src: [`${__dirname}/vendor.css`], _name: 'vendor', dest: `${__dirname}/dist` },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
       ]);
     });
 
@@ -86,9 +87,9 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [`${__dirname}/app.css`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'app-sass', handler: 'sass', src: [`${__dirname}/app.sass`], _name: 'app', dest: `${__dirname}/dist` },
-        { name: 'app-rollup', handler: 'rollup', src: [`${__dirname}/app.js`], _name: 'app', dest: `${__dirname}/dist` },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`) },
       ]);
     });
 

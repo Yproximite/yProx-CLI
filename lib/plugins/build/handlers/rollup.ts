@@ -1,3 +1,4 @@
+import path from 'path';
 import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
 import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, watch } from 'rollup';
@@ -107,7 +108,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
   };
 
   const getOutputOptions = (): OutputOptions => ({
-    file: `${entry.dest}/${entry.destFile || entry.concat}`,
+    file: path.join(entry.dest, entry.destFile || (entry.concat as string)),
     format: entry.format || 'umd',
     name: entry.name,
     sourcemap: api.isProduction(),
