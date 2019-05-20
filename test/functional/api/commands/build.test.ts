@@ -32,7 +32,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 5000);
+    });
 
     it('should build files, minify them and generate a source map', async () => {
       const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
@@ -51,7 +51,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeTruthy();
 
       await cleanup();
-    }, 5000);
+    });
 
     it('should fix linting issues and build files', async () => {
       expect.assertions(9);
@@ -84,7 +84,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 30000);
+    });
   });
 
   describe('Vue', () => {
@@ -112,7 +112,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 30000);
+    });
 
     it('should build files', async () => {
       const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
@@ -131,7 +131,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should build files, minify them and generate a source map', async () => {
       const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue', mode: 'production' });
@@ -151,7 +151,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeTruthy();
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should fix linting issues and build files', async () => {
       const { api, fileExists, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
@@ -183,7 +183,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 15000);
+    });
   });
 
   describe('CSS & Sass', () => {
@@ -201,7 +201,7 @@ describe('command: build', () => {
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should build files and minify them', async () => {
       const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css', mode: 'production' });
@@ -217,7 +217,7 @@ describe('command: build', () => {
       expect(await readFile('dist/style.css')).toMatchSnapshot();
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should fix linting issues and build files', async () => {
       const { api, cleanup, readFile, writeFile, fileExists, run } = await createFakeEnv({ files: 'css' });
@@ -241,7 +241,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/style.css')).toBeTruthy();
 
       await cleanup();
-    }, 30000);
+    });
 
     it('should throw an error Sass handler fails', async () => {
       expect.assertions(6);
@@ -264,7 +264,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/invalid.css')).toBeFalsy();
 
       await cleanup();
-    }, 30000);
+    });
   });
 
   describe('Copy files', () => {
