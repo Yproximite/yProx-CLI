@@ -44,7 +44,7 @@
     "autoprefixer": "^9.1.2",
     "buble": "^0.19.6",
     "chalk": "^2.4.1",
-    "chokidar": "^2.0.4",
+    "chokidar": "^3.0.0",
     "cssnano": "^4.0.5",
     "defaults-deep": "^0.2.4",
     "dotenv": "^8.0.0",
