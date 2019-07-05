@@ -58,7 +58,7 @@ You can lint the code with:
 
 ```bash
 $ yarn lint
-$ yarn lint --fix # will automatically fix some errors
+$ yarn lint --fix # will automatically fix some errors
 ```
 
 ### Contribution
@@ -69,3 +69,11 @@ $ yarn lint --fix # will automatically fix some errors
 ### Publishing a new release
 
 This is automatically done by Travis **every day** if there was a build in the last 24 hours.
+
+#### I don't want to wait
+
+When being authenticated to npm and GitHub, run:
+
+```bash
+$ yarn semantic-release --no-ci
+```
