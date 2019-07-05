@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import API from '../../../API';
 import { isPackageInstalled } from '../../../utils/package';
 
@@ -20,7 +22,22 @@ export default (api: API, args: CLIArgs, files: string[]): Promise<void> => {
     // when requiring a plugin (`require.resolve('eslint-plugin-vue)`), it does not work.
     // We have too many weird issues because it use ESLint from yProx-CLI's node_modules,
     // but `eslint-plugin-vue` is from end-user directory... :(
-    const { CLIEngine } = require(api.resolve('node_modules/eslint'));
+    let eslintPath = 'node_modules/eslint';
+    let eslintPathResolved = api.resolve(eslintPath);
+    // Check in parent directory if we don't directly find ESLint (required for yProx apps)
+    let maxTries = 15;
+    while (!fs.existsSync(eslintPathResolved)) {
+      maxTries -= 1;
+      eslintPath = path.join('..', eslintPath);
+      eslintPathResolved = api.resolve(eslintPath);
+
+      if (maxTries === 0) {
+        throw new Error('Unable to locate ESLint.');
+      }
+    }
+
+    const { CLIEngine } = require(eslintPathResolved);
+
     api.logger.log(`js (lint) :: linting ${JSON.stringify(files, null, 2)}`);
 
     const engine = new CLIEngine(config);
