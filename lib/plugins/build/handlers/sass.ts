@@ -34,21 +34,24 @@ export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
 
     api.logger.info(`sass :: start bundling "${getEntryName(entry)}"`);
 
-    return (
-      gulp
-        .src(entry.src[0])
-        .on('error', reject)
-        .pipe(concat(destFile as string))
-        .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
-        // @ts-ignore
-        .pipe(sass(sassOptions).on('error', sass.logError))
-        .pipe(postcss(postcssPlugins))
-        .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
-        .pipe(gulp.dest(entry.dest))
-        .on('end', () => {
-          api.logger.info(`sass :: finished bundling "${getEntryName(entry)}"`);
-          resolve();
+    return gulp
+      .src(entry.src[0])
+      .on('error', reject)
+      .pipe(concat(destFile as string))
+      .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+      .pipe(
+        sass(sassOptions).on('error', function(error) {
+          // @ts-ignore
+          sass.logError.bind(this)(error);
+          reject(error);
         })
-    );
+      )
+      .pipe(postcss(postcssPlugins))
+      .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
+      .pipe(gulp.dest(entry.dest))
+      .on('end', () => {
+        api.logger.info(`sass :: finished bundling "${getEntryName(entry)}"`);
+        resolve();
+      });
   });
 };

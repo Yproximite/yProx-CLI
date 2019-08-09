@@ -18,6 +18,14 @@
           "dest": "dist/",
           "concat": "style.css"
         }
+      ],
+      "invalid": [
+        {
+          "handler": "sass",
+          "src": "src/invalid.scss",
+          "dest": "dist/",
+          "destFile": "invalid.css"
+        }
       ]
     }
   }

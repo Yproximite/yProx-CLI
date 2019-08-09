@@ -191,7 +191,7 @@ describe('command: build', () => {
       const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css' });
 
       await run('yarn install');
-      await api.executeCommand('build');
+      await api.executeCommand('build', { 'filter:_name': 'app' });
 
       expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
@@ -207,7 +207,7 @@ describe('command: build', () => {
       const { api, cleanup, run, readFile } = await createFakeEnv({ files: 'css', mode: 'production' });
 
       await run('yarn install');
-      await api.executeCommand('build');
+      await api.executeCommand('build', { 'filter:_name': 'app' });
 
       expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
@@ -229,7 +229,7 @@ describe('command: build', () => {
       expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss before linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css before linting');
 
-      await api.executeCommand('build', { lint: true, fix: true });
+      await api.executeCommand('build', { lint: true, fix: true, 'filter:_name': 'app' });
       expect(api.logger.info).toHaveBeenCalledWith('sass :: start bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
@@ -239,6 +239,29 @@ describe('command: build', () => {
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
       expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
+
+      await cleanup();
+    }, 30000);
+
+    it('should throw an error Sass handler fails', async () => {
+      expect.assertions(6);
+
+      const { cleanup, run, installYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
+
+      await run('yarn install');
+      await installYproxCli();
+
+      try {
+        await run('yarn yprox-cli build --filter:_name invalid');
+      } catch (e) {
+        expect(e.stdout).toContain('sass :: start bundling "invalid.css"');
+        expect(e.stdout).toContain('sass :: finished bundling "invalid.css"');
+        expect(e.stderr).toContain('Error: File to import not found or unreadable: foobar');
+        expect(e.stderr).toContain('>> @import "foobar"');
+        expect(e.code).toBe(1);
+      }
+
+      expect(await fileExists('dist/invalid.css')).toBeFalsy();
 
       await cleanup();
     }, 30000);
