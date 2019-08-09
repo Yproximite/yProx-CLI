@@ -244,7 +244,7 @@ describe('command: build', () => {
     }, 30000);
 
     it('should throw an error Sass handler fails', async () => {
-      expect.assertions(5);
+      expect.assertions(6);
 
       const { cleanup, run, installYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
@@ -258,6 +258,7 @@ describe('command: build', () => {
         expect(e.stdout).toContain('sass :: finished bundling "invalid.css"');
         expect(e.stderr).toContain('Error: File to import not found or unreadable: foobar');
         expect(e.stderr).toContain('>> @import "foobar"');
+        expect(e.code).toBe(1);
       }
 
       expect(await fileExists('dist/invalid.css')).toBeFalsy();
