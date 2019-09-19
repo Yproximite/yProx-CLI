@@ -1,4 +1,5 @@
 import { statSync } from 'fs';
+import stripAnsi from 'strip-ansi';
 import { mockLogger, unmockLogger } from '../../../logger';
 import { restoreEnv, saveEnv } from '../../../node-env';
 import { createFakeEnv } from '../../fake-env';
@@ -99,11 +100,11 @@ describe('command: build', () => {
       try {
         await run('yarn yprox-cli build');
       } catch (e) {
-        expect(e.stdout).toContain('rollup :: start bundling "button.js"');
-        expect(e.stderr).toContain("SyntaxError: Unexpected character '@' (2:10)");
-        expect(e.stderr).toContain('Button.vue (2:10)');
-        expect(e.stdout).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
-        expect(e.stdout).not.toContain('rollup :: finished bundling "button.js"');
+        expect(stripAnsi(e.stdout)).toContain('rollup :: start bundling "button.js"');
+        expect(stripAnsi(e.stderr)).toContain("SyntaxError: Unexpected character '@' (2:10)");
+        expect(stripAnsi(e.stderr)).toContain('Button.vue (2:10)');
+        expect(stripAnsi(e.stdout)).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
+        expect(stripAnsi(e.stdout)).not.toContain('rollup :: finished bundling "button.js"');
         expect(e.code).toBe(1);
       }
 
