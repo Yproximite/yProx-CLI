@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { statSync } from 'fs';
 import { mockLogger, unmockLogger } from '../../../logger';
 import { restoreEnv, saveEnv } from '../../../node-env';
@@ -103,7 +102,7 @@ describe('command: build', () => {
         expect(e.stdout).toContain('rollup :: start bundling "button.js"');
         expect(e.stderr).toContain("SyntaxError: Unexpected character '@' (2:10)");
         expect(e.stderr).toContain('Button.vue (2:10)');
-        expect(e.stdout).toContain(chalk`If you try to building Vue code, try to run {blue.bold yarn add -D vue-template-compiler}.`);
+        expect(e.stdout).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
         expect(e.stdout).not.toContain('rollup :: finished bundling "button.js"');
         expect(e.code).toBe(1);
       }
