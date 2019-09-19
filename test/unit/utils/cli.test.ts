@@ -1,3 +1,4 @@
+import stripAnsi from 'strip-ansi';
 import { displayCommandHelp, displayHelp } from '../../../lib/utils/cli';
 
 describe('utils: cli', () => {
@@ -28,7 +29,7 @@ describe('utils: cli', () => {
       console.log = jest.fn(data => (output += `${data || ''}\n`));
 
       displayHelp(commands);
-      expect(output).toMatchSnapshot();
+      expect(stripAnsi(output)).toMatchSnapshot();
     });
   });
 
@@ -38,7 +39,7 @@ describe('utils: cli', () => {
       console.log = jest.fn(data => (output += `${data || ''}\n`));
 
       displayCommandHelp('build', commands.build);
-      expect(output).toMatchSnapshot();
+      expect(stripAnsi(output)).toMatchSnapshot();
     });
 
     it('should show help for `lint` command', () => {
@@ -46,7 +47,7 @@ describe('utils: cli', () => {
       console.log = jest.fn(data => (output += `${data || ''}\n`));
 
       displayCommandHelp('lint', commands.lint);
-      expect(output).toMatchSnapshot();
+      expect(stripAnsi(output)).toMatchSnapshot();
     });
   });
 });

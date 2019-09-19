@@ -31,7 +31,7 @@ describe('command: lint', () => {
       expect(p.stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
 
       await cleanup();
-    }, 30000);
+    });
 
     it('should lint files but fails', async () => {
       const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
@@ -66,7 +66,7 @@ describe('command: lint', () => {
       expect(eslintOutput).toContain('2 errors potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should lint and fix linting issues', async () => {
       const { api, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
@@ -104,7 +104,7 @@ describe('command: lint', () => {
       expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should lint files and fails because of max-warnings arg', async () => {
       const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
@@ -144,7 +144,7 @@ describe('command: lint', () => {
       expect(eslintOutput).toContain('2 warnings potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 15000);
+    });
   });
 
   describe('Vue', () => {
@@ -158,7 +158,7 @@ describe('command: lint', () => {
       expect(p.stdout).toContain('Linting JavaScript requires to install "eslint" dependency.');
 
       await cleanup();
-    }, 30000);
+    });
 
     it('should lint files but fails', async () => {
       const { api, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
@@ -195,7 +195,7 @@ describe('command: lint', () => {
       expect(eslintOutput).toContain('1 error and 3 warnings potentially fixable with the `--fix` option.');
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should fix linting issues', async () => {
       const { api, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
@@ -233,7 +233,7 @@ describe('command: lint', () => {
       expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
 
       await cleanup();
-    }, 15000);
+    });
   });
 
   describe('CSS & Sass', () => {
@@ -249,7 +249,7 @@ describe('command: lint', () => {
       expect(stdout).toContain('Linting CSS requires to install "stylelint" dependency.');
 
       await cleanup();
-    }, 30000);
+    });
 
     it('should lint files but fails', async () => {
       const { api, cleanup, run, writeFile } = await createFakeEnv({ files: 'css' });
@@ -267,7 +267,7 @@ describe('command: lint', () => {
       expect(console.log.mock.calls[0][0]).toContain('Unexpected extra semicolon');
 
       await cleanup();
-    }, 15000);
+    });
 
     it('should fix linting issues', async () => {
       const { api, cleanup, run, readFile, writeFile } = await createFakeEnv({ files: 'css' });
@@ -300,6 +300,6 @@ describe('command: lint', () => {
       expect(api.logger.info).toHaveBeenCalledWith('Your Sass is clean ✨');
 
       await cleanup();
-    }, 15000);
+    });
   });
 });
