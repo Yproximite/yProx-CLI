@@ -13,7 +13,7 @@ export default class CLI {
     this.initialized = false;
   }
 
-  public init(mode?: string, verbose: boolean = false): void {
+  public init(mode?: string, verbose = false): void {
     if (this.initialized) {
       return;
     }

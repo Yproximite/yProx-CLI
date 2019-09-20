@@ -3,7 +3,7 @@ import { readEntries } from '../../utils/entry';
 import handle from './handle';
 import watch from './watch';
 
-export default (api: API) => {
+export default (api: API): void => {
   api.registerCommand(
     'build',
     {

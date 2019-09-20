@@ -23,7 +23,7 @@ function normalizeEntry(theEntry: Entry): Entry {
   return entry;
 }
 
-export default (api: API) => {
+export default (api: API): void => {
   api.registerCommand(
     'lint',
     {

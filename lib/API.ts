@@ -27,31 +27,29 @@ export default class API {
     this.verbose = verbose;
     this.commands = {};
     this.logger = initLogger(this.verbose);
-    this.loadUserOptions(
-      (err: Error | ValidationError, config?: ProjectOptions): void => {
-        if (err) {
-          this.logger.error('Your configuration is invalid.');
-          if (err.message) {
-            this.logger.error(err.message);
-          }
-
-          // @ts-ignore
-          (err.details || []).forEach((detail: ValidationErrorItem) => {
-            this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
-          });
-
-          process.exit(1);
-          return;
+    this.loadUserOptions((err: Error | ValidationError, config?: ProjectOptions): void => {
+      if (err) {
+        this.logger.error('Your configuration is invalid.');
+        if (err.message) {
+          this.logger.error(err.message);
         }
 
-        /* istanbul ignore next */
-        if (!config) {
-          throw new Error('This should not happens.');
-        }
+        // @ts-ignore
+        (err.details || []).forEach((detail: ValidationErrorItem) => {
+          this.logger.error(`${detail.message}, path: "${detail.path.join(' > ')}"`);
+        });
 
-        this.projectOptions = config;
+        process.exit(1);
+        return;
       }
-    );
+
+      /* istanbul ignore next */
+      if (!config) {
+        throw new Error('This should not happens.');
+      }
+
+      this.projectOptions = config;
+    });
     this.loadEnv();
     this.resolvePlugins();
   }

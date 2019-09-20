@@ -16,7 +16,8 @@ module.exports = {
     'import/prefer-default-export': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-var-requires': 'off',
-    '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }]
+    '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
+    '@typescript-eslint/ban-ts-ignore': 'off',
   },
   settings: {
     'import/resolver': {
@@ -36,18 +37,5 @@ module.exports = {
         'import/export': 'off'
       }
     },
-    {
-      files: ['test/**/*.ts'],
-      env: {
-        jest: true
-      },
-      rules: {
-        'no-new-func': 'off',
-        'no-return-assign': 'off',
-        'no-template-curly-in-string': 'off',
-        '@typescript-eslint/no-var-requires': 'off',
-        '@typescript-eslint/explicit-function-return-type': 'off'
-      }
-    }
   ]
 };

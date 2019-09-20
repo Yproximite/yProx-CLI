@@ -137,7 +137,8 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
   };
 
   const buildWatcher = (): void => {
-    const watchOptions = Object.assign({}, getInputOptions(), {
+    const watchOptions = {
+      ...getInputOptions(),
       output: getOutputOptions(),
       watch: {
         chokidar: {
@@ -146,7 +147,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
         },
         exclude: '**/node_modules/**',
       },
-    });
+    };
 
     // @ts-ignore
     const watcher = watch(watchOptions);
