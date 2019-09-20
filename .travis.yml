@@ -2,7 +2,8 @@ dist: trusty
 
 language: node_js
 node_js:
-  - 10
+  - "8"
+  - "10"
   - node
 
 env:
@@ -32,8 +33,8 @@ script:
   - yarn build
   - yarn lint
   - yarn test -i
-  - npm pack # display which files will be packaged and sent to npm
-  - set +e # disable "fast fail"
+  - npm pack # display which files will be packaged and sent to npm
+  - set +e # disable "fast fail"
 
 jobs:
   include:
