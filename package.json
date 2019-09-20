@@ -5,6 +5,9 @@
   "repository": "https://github.com/Yproximite/yProx-cli.git",
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
+  "engines": {
+    "node": "8.* || >= 10.*"
+  },
   "files": [
     "dist",
     "UPGRADE-2.0.md",

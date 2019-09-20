@@ -1,8 +1,9 @@
 # yProx-CLI
 
-[![npm (scoped)](https://img.shields.io/npm/v/@yproximite/yprox-cli.svg)](https://www.npmjs.com/package/@yproximite/yprox-cli)
-[![Build Status (Travis)](https://travis-ci.com/Yproximite/yProx-cli.svg?token=pNBs2oaRpfxdyhqWf28h&branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
+[![npm version](https://badge.fury.io/js/%40yproximite%2Fyprox-cli.svg)](https://badge.fury.io/js/%40yproximite%2Fyprox-cli)
+[![Build Status (Travis)](https://travis-ci.com/Yproximite/yProx-cli.svg?branch=master)](https://travis-ci.com/Yproximite/yProx-cli)
 [![Build status (AppVeyor)](https://ci.appveyor.com/api/projects/status/y9h3n3w20m06aoo8?svg=true)](https://ci.appveyor.com/project/Kocal/yprox-cli)
+![Node](https://img.shields.io/node/v/@yproximite/yprox-cli.svg)
 
 > A tool for bulk linting and building assets.
 
