@@ -288,15 +288,6 @@ describe('command: build', () => {
   });
 
   describe('Images optimization', () => {
-    beforeEach(() => {
-      console.log = jest.fn();
-    });
-
-    afterEach(() => {
-      // @ts-ignore
-      console.log.mockRestore();
-    });
-
     it.each([['development'], ['production']])(
       'should minify images in %s env',
       async mode => {
@@ -306,9 +297,6 @@ describe('command: build', () => {
 
         expect(api.logger.info).toHaveBeenCalledWith('image :: start optimizing "images to optimize"');
         expect(api.logger.info).toHaveBeenCalledWith('image :: done optimizing "images to optimize"');
-        expect(console.log).toHaveBeenCalled();
-        // @ts-ignore
-        expect(console.log.mock.calls).toMatchSnapshot();
 
         expect(statSync(api.resolve('src/guts-white-hair.png')).size).toBeGreaterThan(1024 * 1024);
         expect(statSync(api.resolve('dist/guts-white-hair.png')).size).toBeLessThan(1024 * 1024);
