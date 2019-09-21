@@ -13,12 +13,10 @@ import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 
 export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
-  const sassOptions = Object.assign(
-    {
-      importer: tildeImporter,
-    },
-    api.projectOptions.handlers.sass
-  );
+  const sassOptions = {
+    importer: tildeImporter,
+    ...api.projectOptions.handlers.sass,
+  };
 
   const postcssPlugins = [autoprefixer({ ...api.projectOptions.autoprefixer })];
   if (api.isProduction()) {
@@ -40,7 +38,7 @@ export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
       .pipe(concat(destFile as string))
       .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
       .pipe(
-        sass(sassOptions).on('error', function(error) {
+        sass(sassOptions).on('error', function onError(error) {
           // @ts-ignore
           sass.logError.bind(this)(error);
           reject(error);

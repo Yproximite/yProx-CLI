@@ -1,15 +1,17 @@
 module.exports = {
   title: 'yProx-CLI',
   description: '🔧 A tool for linting and building assets in bulk.',
-  serviceWorker: true,
+  plugins: {
+    '@vuepress/pwa': {
+      serviceWorker: true,
+      updatePopup: true,
+    },
+  },
   themeConfig: {
     repo: 'Yproximite/yProx-cli',
     docsDir: 'docs',
     editLinks: true,
     lastConfig: 'Last updated',
-    serviceWorker: {
-      updatePopup: true,
-    },
     nav: [
       { text: 'npm', link: 'https://www.npmjs.com/package/@yproximite/yprox-cli' },
       { text: 'Travis', link: 'https://travis-ci.com/Yproximite/yProx-cli' },
@@ -20,7 +22,7 @@ module.exports = {
       'assets',
       'handlers',
       'cli-usage-and-commands',
-      'env-vars-and-modes'
+      'env-vars-and-modes',
     ],
   },
 };
