@@ -98,7 +98,7 @@
     "@types/cssnano": "^4.0.0",
     "@types/dotenv": "^6.1.0",
     "@types/eslint": "^6.1.1",
-    "@types/fs-extra": "^5.0.4",
+    "@types/fs-extra": "^8.0.0",
     "@types/gulp": "^4.0.5",
     "@types/gulp-concat": "^0.0.32",
     "@types/gulp-if": "^0.0.33",
