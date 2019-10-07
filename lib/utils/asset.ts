@@ -20,6 +20,7 @@ export function readAssetDef(api: API, assetName: string, asset: Asset): Entry[]
       _name: assetName,
       src: ensureArray(entry.src).map(src => api.resolve(src)),
       dest: api.resolve(entry.dest),
+      sourceMaps: api.isProduction(),
     };
   });
 }
