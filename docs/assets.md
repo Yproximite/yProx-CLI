@@ -9,11 +9,11 @@ module.exports = {
   assets: {
     app: './assets/app.js',
   },
-  
+
   path: {
     js: './public/js',
     css: './public/css',
-  }
+  },
 };
 ```
 
@@ -28,12 +28,13 @@ module.exports = (api, config) => {
   return [ // array of entries
     { ... },
     { ... }
-  ]; 
+  ];
 }
 ```
 
 ::: tip
 If you have few entries to define, you can directly use a function or even an array:
+
 ```js
 // yprox-cli.config.js
 
@@ -41,13 +42,13 @@ module.exports = {
   assets: {
     // the file will be included
     app: './assets/app.js',
-   
-    // with a function 
+
+    // with a function
     app: (cli, config) => ([
       { ... },
       { ... },
     ]),
-    
+
     // with an array, useful if you put your config inside your `package.json`
     app: [
       { ... },
@@ -57,22 +58,27 @@ module.exports = {
   // ...
 }
 ```
+
 :::
 
 ## Entries
 
 An entry defines:
+
 - what will be build (source files)
 - how to build it (handler)
 - where output it (destination path)
 
 This is what an entry looks like:
+
 ```js
 {
   handler: 'sass',
   src: 'src/CoreBundle/Resources/private/sass/grid.scss',
   concat: 'my-grid.css',
   dest: config.path.css,
+
+  // optional
+  sourceMaps: false // force enable/disable source maps generation, default to `api.isProduction()`
 },
 ```
-
