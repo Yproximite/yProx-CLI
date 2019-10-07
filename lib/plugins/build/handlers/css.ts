@@ -23,9 +23,9 @@ export default (api: API, entry: EntryCSS, args: CLIArgs): Promise<any> => {
       .src(entry.src)
       .on('error', reject)
       .pipe(gulpIf(!!entry.concat, concat(entry.concat as string)))
-      .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+      .pipe(gulpIf(entry.sourceMaps, sourcemaps.init()))
       .pipe(postcss(postcssPlugins))
-      .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
+      .pipe(gulpIf(entry.sourceMaps, sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))
       .on('end', () => {
         api.logger.info(`css :: finished bundling "${getEntryName(entry)}"`);
