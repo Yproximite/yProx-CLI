@@ -4,12 +4,13 @@ import { getEntryName, readEntries } from '../../../lib/utils/entry';
 import { Entry } from '../../../types/entry';
 import { mockLogger, unmockLogger } from '../../logger';
 
-const createEntry = (opts: { [K in keyof Entry]?: Entry[K] } = {}): Entry => ({
-  handler: 'css',
-  src: ['a.css', 'b.css'],
-  dest: 'dist',
-  ...opts,
-});
+const createEntry = (opts: Partial<Entry> = {}) =>
+  <Entry>{
+    handler: 'css',
+    src: ['a.css', 'b.css'],
+    dest: 'dist',
+    ...opts,
+  };
 
 describe('utils: entry', () => {
   describe('getEntryName()', () => {
