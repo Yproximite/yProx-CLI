@@ -788,9 +788,9 @@
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
 "@types/readable-stream@^2.3.0":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.4.tgz#993d7cab73f392766716c5f18376d078ccbe2cbe"
-  integrity sha512-jC39XMh0smGWINz7Dmbll9FkToRTDE4lneo0Kn3101xSsCQBdMW9QyU/lw+nc/QaiPXvBsGfETQ1O9QZBddGCg==
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.5.tgz#99c215f9c78563ebdfeff400246a724fb36bae4a"
+  integrity sha512-Mq2eLkGYamlcolW603FY2ROBvcl90jPF+3jLkjpBV6qS+2aVeJqlgRG0TVAa1oWbmPdb5yOWlOPVvQle76nUNw==
   dependencies:
     "@types/node" "*"
     safe-buffer "*"
