@@ -3,6 +3,7 @@ export interface Entry {
   name?: string;
   src: string[];
   dest: string;
+  sourceMaps: boolean;
   [k: string]: any;
 }
 

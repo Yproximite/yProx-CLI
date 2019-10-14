@@ -16,10 +16,10 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
       .src(entry.src)
       .on('error', reject)
       .pipe(gulpIf(!!entry.concat, concat(entry.concat as string)))
-      .pipe(gulpIf(api.isProduction(), sourcemaps.init()))
+      .pipe(gulpIf(entry.sourceMaps, sourcemaps.init()))
       .pipe(gulpIf(typeof api.projectOptions.buble === 'object', buble({ ...api.projectOptions.buble })))
       .pipe(gulpIf(api.isProduction(), terser({ ...api.projectOptions.terser })))
-      .pipe(gulpIf(api.isProduction(), sourcemaps.write('.')))
+      .pipe(gulpIf(entry.sourceMaps, sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))
       .on('end', () => {
         api.logger.info(`js :: finished bundling "${getEntryName(entry)}"`);

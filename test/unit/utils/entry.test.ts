@@ -4,12 +4,13 @@ import { getEntryName, readEntries } from '../../../lib/utils/entry';
 import { Entry } from '../../../types/entry';
 import { mockLogger, unmockLogger } from '../../logger';
 
-const createEntry = (opts: { [K in keyof Entry]?: Entry[K] } = {}): Entry => ({
-  handler: 'css',
-  src: ['a.css', 'b.css'],
-  dest: 'dist',
-  ...opts,
-});
+const createEntry = (opts: Partial<Entry> = {}) =>
+  <Entry>{
+    handler: 'css',
+    src: ['a.css', 'b.css'],
+    dest: 'dist',
+    ...opts,
+  };
 
 describe('utils: entry', () => {
   describe('getEntryName()', () => {
@@ -54,10 +55,17 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        {
+          name: 'vendor-css',
+          handler: 'css',
+          src: [path.join(__dirname, `vendor.css`)],
+          _name: 'vendor',
+          dest: path.join(__dirname, `dist`),
+          sourceMaps: false,
+        },
       ]);
     });
 
@@ -66,8 +74,15 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        {
+          name: 'vendor-css',
+          handler: 'css',
+          src: [path.join(__dirname, `vendor.css`)],
+          _name: 'vendor',
+          dest: path.join(__dirname, `dist`),
+          sourceMaps: false,
+        },
       ]);
     });
 
@@ -76,9 +91,16 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'vendor-css', handler: 'css', src: [path.join(__dirname, `vendor.css`)], _name: 'vendor', dest: path.join(__dirname, `dist`) },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        {
+          name: 'vendor-css',
+          handler: 'css',
+          src: [path.join(__dirname, `vendor.css`)],
+          _name: 'vendor',
+          dest: path.join(__dirname, `dist`),
+          sourceMaps: false,
+        },
       ]);
     });
 
@@ -87,9 +109,9 @@ describe('utils: entry', () => {
       const filteredEntries = readEntries(api, args);
 
       expect(filteredEntries).toEqual([
-        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`) },
-        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`) },
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
       ]);
     });
 
@@ -107,6 +129,27 @@ describe('utils: entry', () => {
       unmockLogger();
       // @ts-ignore
       process.exit.mockRestore();
+    });
+
+    it(`should enable source maps if it's production`, () => {
+      api.isProduction = () => true;
+
+      const args = {};
+      const filteredEntries = readEntries(api, args);
+
+      expect(filteredEntries).toEqual([
+        { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
+        { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
+        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
+        {
+          name: 'vendor-css',
+          handler: 'css',
+          src: [path.join(__dirname, `vendor.css`)],
+          _name: 'vendor',
+          dest: path.join(__dirname, `dist`),
+          sourceMaps: true,
+        },
+      ]);
     });
   });
 });

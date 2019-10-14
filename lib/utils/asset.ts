@@ -15,7 +15,12 @@ export function readAssetDef(api: API, assetName: string, asset: Asset): Entry[]
   entries = entries as Entry[];
 
   return entries.map(entry => {
+    const defaults = {
+      sourceMaps: api.isProduction(),
+    };
+
     return {
+      ...defaults,
       ...entry,
       _name: assetName,
       src: ensureArray(entry.src).map(src => api.resolve(src)),

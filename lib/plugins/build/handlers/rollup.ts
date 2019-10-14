@@ -111,7 +111,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
     file: path.join(entry.dest, entry.destFile || (entry.concat as string)),
     format: entry.format || 'umd',
     name: entry.name,
-    sourcemap: api.isProduction(),
+    sourcemap: entry.sourceMaps,
     globals: rollupOptions.shims,
   });
 
