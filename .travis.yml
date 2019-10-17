@@ -2,8 +2,8 @@ dist: trusty
 
 language: node_js
 node_js:
-  - "8"
   - "10"
+  - "lts/*"
   - node
 
 env:
@@ -39,7 +39,7 @@ script:
 jobs:
   include:
     - stage: Release
-      if: type = cron AND branch = master
+      if: branch = master
       node_js: node
       script:
         - yarn build
