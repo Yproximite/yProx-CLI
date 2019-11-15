@@ -183,7 +183,10 @@ describe('command: lint', () => {
       // @ts-ignore
       const eslintOutput = console.log.mock.calls[0][0];
       expect(eslintOutput).toContain('Button.vue:2:11');
-      expect(eslintOutput).toContain('Event "click" should be on a new line');
+      expect(eslintOutput).toContain("'@click' should be on a new line");
+
+      expect(eslintOutput).toContain('Button.vue:2:34');
+      expect(eslintOutput).toContain('Expected no line breaks before closing bracket, but 1 line break found');
 
       expect(eslintOutput).toContain('Button.vue:16:3');
       expect(eslintOutput).toContain('The "props" property should be above the "data" property on line 11');
