@@ -56,7 +56,13 @@ declare module 'rollup-plugin-terser' {
   export { terser };
 }
 
-declare module 'node-sass-tilde-importer' {}
+declare module 'node-sass-tilde-importer' {
+  import { Importer } from 'node-sass';
+
+  function importer(): Importer;
+
+  export default importer;
+}
 
 declare module 'stylelint-formatter-pretty' {}
 
