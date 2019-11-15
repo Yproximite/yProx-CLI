@@ -651,12 +651,13 @@
     "@types/imagemin-svgo" "*"
     "@types/node" "*"
 
-"@types/gulp-sass@^0.0.31":
-  version "0.0.31"
-  resolved "https://registry.yarnpkg.com/@types/gulp-sass/-/gulp-sass-0.0.31.tgz#ba874b6fa4cc1502ae425517c47a289d5cb2abd9"
-  integrity sha512-5N7bNcJuWBX6qURm/20OQSC1cTBFqphqv2o0Cz84Bcdt5Cjyo6ZNqpxnjoQprtWvSRqniPzyT7IuTlhOLXaVvw==
+"@types/gulp-sass@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/gulp-sass/-/gulp-sass-4.0.0.tgz#073d91e572d478df2e394b4141646d2570af5b76"
+  integrity sha512-sBq202Jg0zmNhIhiNDfQv5S2bD52FuLCEhXEoHwgjsIe750DteCaeoOjY6PEAhxs9kPMGTs0d2p8YRvPhVFzOQ==
   dependencies:
     "@types/node" "*"
+    "@types/node-sass" "*"
 
 "@types/gulp-sourcemaps@^0.0.32":
   version "0.0.32"
@@ -771,6 +772,13 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
+"@types/node-sass@*":
+  version "4.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node-sass/-/node-sass-4.11.0.tgz#b0372075546e83f39df52bd37359eab00165a04d"
+  integrity sha512-uNpVWhwVmbB5luE7b8vxcJwu5np75YkVTBJS0O3ar+hrxqLfyhOKXg9NYBwJ6mMQX/V6/8d6mMZTB7x2r5x9Bw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/node@*":
   version "12.7.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
@@ -787,9 +795,9 @@
   integrity sha512-ce5d3q03Ex0sy4R14722Rmt6MT07Ua+k4FwDfdcToYJcMKNtRVQvJ6JCAPdAmAnbRb6CsX6aYb9m96NGod9uTw==
 
 "@types/readable-stream@^2.3.0":
-  version "2.3.4"
-  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.4.tgz#993d7cab73f392766716c5f18376d078ccbe2cbe"
-  integrity sha512-jC39XMh0smGWINz7Dmbll9FkToRTDE4lneo0Kn3101xSsCQBdMW9QyU/lw+nc/QaiPXvBsGfETQ1O9QZBddGCg==
+  version "2.3.5"
+  resolved "https://registry.yarnpkg.com/@types/readable-stream/-/readable-stream-2.3.5.tgz#99c215f9c78563ebdfeff400246a724fb36bae4a"
+  integrity sha512-Mq2eLkGYamlcolW603FY2ROBvcl90jPF+3jLkjpBV6qS+2aVeJqlgRG0TVAa1oWbmPdb5yOWlOPVvQle76nUNw==
   dependencies:
     "@types/node" "*"
     safe-buffer "*"
