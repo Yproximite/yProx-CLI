@@ -15,8 +15,6 @@ install:
   - npm install -g yarn
   - yarn install --frozen-lockfile
 
-build_script:
-  - yarn build
-
 test_script:
+  - yarn build
   - yarn test -i

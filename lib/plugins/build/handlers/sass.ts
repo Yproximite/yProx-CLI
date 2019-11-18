@@ -38,7 +38,7 @@ export default (api: API, entry: EntrySass, args: CLIArgs): Promise<any> => {
       .pipe(concat(destFile as string))
       .pipe(gulpIf(entry.sourceMaps, sourcemaps.init()))
       .pipe(
-        sass(sassOptions).on('error', function onError(error: string) {
+        sass(sassOptions).on('error', function onError(error) {
           // @ts-ignore
           sass.logError.bind(this)(error);
           reject(error);
