@@ -64,12 +64,13 @@ $ yarn lint --fix # will automatically fix some errors
 
 ### Contribution
 
-- Make a pull request, its title should follows [Angular commit message convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit-message-format)
+- Make a pull request on `develop` branch, its title should follows [Angular commit message convention](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit-message-format)
 - You should **Squash and Merge** your pull request
 
 ### Publishing a new release
 
-This is automatically done by Travis **every day** if there was a build in the last 24 hours.
+- Open a PR `develop` to `master`
+- Merge your pull request with a **Merge commit**
 
 #### I don't want to wait
 
