@@ -420,6 +420,30 @@
     once "^1.4.0"
     universal-user-agent "^4.0.0"
 
+"@rollup/plugin-buble@^0.20.0":
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-buble/-/plugin-buble-0.20.0.tgz#499cb3a5891fe7a2d30b76ed43f8c387e1c13e89"
+  integrity sha512-3Qkoa3n+6NjQggLkN5R6ouVL3/jveyqjJjJXxbk04HEig/97YyOwoimWYIOC5vlQ60Z+xLhnAvGd6mM0gFY2wQ==
+  dependencies:
+    buble "^0.19.8"
+    rollup-pluginutils "^2.6.0"
+    typescript "^3.4.3"
+
+"@rollup/plugin-json@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-4.0.0.tgz#4462e83c7ad5544bef4a601a6e8450daedc4b69b"
+  integrity sha512-Z65CtEVWv40+ri4CvmswyhtuUtki9yP5p0UJN/GyCKKyU4jRuDS9CG0ZuV7/XuS7zGkoajyE7E4XBEaC4GW62A==
+  dependencies:
+    rollup-pluginutils "^2.5.0"
+
+"@rollup/plugin-replace@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-replace/-/plugin-replace-2.2.1.tgz#94af20cb3d70cccdcec991d1f97dd373936ec544"
+  integrity sha512-dgq5ijT8fK18KTb1inenZ61ivTayV7pvbz2+ivT+VN20BOgJVM1fqoBETqGHKgFVm/J9BhR82mQyAtxfpPv1lQ==
+  dependencies:
+    magic-string "^0.25.2"
+    rollup-pluginutils "^2.6.0"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -563,7 +587,7 @@
   resolved "https://registry.yarnpkg.com/@types/browserslist/-/browserslist-4.4.0.tgz#e2a5f7f8c7e97afb39f50812a77e5230d3ca2353"
   integrity sha512-hrIjWSu7Hh96/rKlpChe58qHEwIZ0+F5Zf4QNdvSVP5LUXbaJM04g9tBjo702VTNqPZr5znEJeqNR3nAV3vJPg==
 
-"@types/buble@*", "@types/buble@^0.19.0":
+"@types/buble@^0.19.0":
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/@types/buble/-/buble-0.19.2.tgz#a4289d20b175b3c206aaad80caabdabe3ecdfdd1"
   integrity sha512-uUD8zIfXMKThmFkahTXDGI3CthFH1kMg2dOm3KLi4GlC5cbARA64bEcUMbbWdWdE73eoc/iBB9PiTMqH0dNS2Q==
@@ -820,23 +844,6 @@
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
-
-"@types/rollup-plugin-buble@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-buble/-/rollup-plugin-buble-0.19.1.tgz#63670a627123468c56e2c0aa8c99b90d56c3281c"
-  integrity sha512-VYuAj6Z9ORxuZ5Uz7N4CybMvA6nn4C7olgWNzDG78J+efIIkLusmoVKig3PL0/hAc2m9Ok5biPe3ABpDKFc5BA==
-  dependencies:
-    "@types/buble" "*"
-    "@types/node" "*"
-    rollup "^0.63.4"
-
-"@types/rollup-plugin-json@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-json/-/rollup-plugin-json-3.0.2.tgz#1153136a515ed4fbb7ef214ace496f5fc3ed7796"
-  integrity sha512-eTRym5nG4HEKDR/KrTnCMYwF7V0hgVjEesvtJCK3V8ho/aT0ZFRFgsDtx38VarM30HCsN372+i4FKYwnhcwiVA==
-  dependencies:
-    "@types/node" "*"
-    rollup "^0.63.4"
 
 "@types/sass@^1.16.0":
   version "1.16.0"
@@ -10971,14 +10978,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-buble@^0.19.8:
-  version "0.19.8"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-buble/-/rollup-plugin-buble-0.19.8.tgz#f9232e2bb62a7573d04f9705c1bd6f02c2a02c6a"
-  integrity sha512-8J4zPk2DQdk3rxeZvxgzhHh/rm5nJkjwgcsUYisCQg1QbT5yagW+hehYEW7ZNns/NVbDCTv4JQ7h4fC8qKGOKw==
-  dependencies:
-    buble "^0.19.8"
-    rollup-pluginutils "^2.3.3"
-
 rollup-plugin-commonjs@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.1.0.tgz#417af3b54503878e084d127adf4d1caf8beb86fb"
@@ -10989,13 +10988,6 @@ rollup-plugin-commonjs@^10.1.0:
     magic-string "^0.25.2"
     resolve "^1.11.0"
     rollup-pluginutils "^2.8.1"
-
-rollup-plugin-json@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-json/-/rollup-plugin-json-4.0.0.tgz#a18da0a4b30bf5ca1ee76ddb1422afbb84ae2b9e"
-  integrity sha512-hgb8N7Cgfw5SZAkb3jf0QXii6QX/FOkiIq2M7BAQIEydjHvTyxXHQiIzZaTFgx1GK0cRCHOCBHIyEkkLdWKxow==
-  dependencies:
-    rollup-pluginutils "^2.5.0"
 
 rollup-plugin-node-builtins@^2.1.2:
   version "2.1.2"
@@ -11030,14 +11022,6 @@ rollup-plugin-node-resolve@^5.2.0:
     resolve "^1.11.1"
     rollup-pluginutils "^2.8.1"
 
-rollup-plugin-replace@^2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-replace/-/rollup-plugin-replace-2.2.0.tgz#f41ae5372e11e7a217cde349c8b5d5fd115e70e3"
-  integrity sha512-/5bxtUPkDHyBJAKketb4NfaeZjL5yLZdeUihSfbF2PQMz+rSTEb8ARKoOl3UBT4m7/X+QOXJo3sLTcq+yMMYTA==
-  dependencies:
-    magic-string "^0.25.2"
-    rollup-pluginutils "^2.6.0"
-
 rollup-plugin-terser@^5.1.2:
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/rollup-plugin-terser/-/rollup-plugin-terser-5.1.2.tgz#3e41256205cb75f196fc70d4634227d1002c255c"
@@ -11064,25 +11048,17 @@ rollup-plugin-vue@^5.1.2:
     source-map "0.7.3"
     vue-runtime-helpers "^1.1.2"
 
-rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.1, rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.4.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0, rollup-pluginutils@^2.8.1:
+rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.1, rollup-pluginutils@^2.4.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0, rollup-pluginutils@^2.8.1:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@^0.63.4:
-  version "0.63.5"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-0.63.5.tgz#5543eecac9a1b83b7e1be598b5be84c9c0a089db"
-  integrity sha512-dFf8LpUNzIj3oE0vCvobX6rqOzHzLBoblyFp+3znPbjiSmSvOoK2kMKx+Fv9jYduG1rvcCfCveSgEaQHjWRF6g==
-  dependencies:
-    "@types/estree" "0.0.39"
-    "@types/node" "*"
-
-rollup@^1.27.0:
-  version "1.27.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.27.0.tgz#7afe0da89c967cec5ccea7e919da6c89a1a68666"
-  integrity sha512-yaMna4MJ8LLEHhHl1ilgHakylf0LKeQctDxhngZLQ+W57GnXa5vtH7XKaK8zlAhNEhlWiH5YFVFt+QCDPUmNkw==
+rollup@^1.27.4:
+  version "1.27.4"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.27.4.tgz#5bca607a10c99c034288de9f9c756f9fe1a08431"
+  integrity sha512-UaGNOIax/Ixfd92CAAanUilx2RSkkwEfC1lCTw1eL5Re6NURWgX66ARZt5+3px4kYnpSwzyOot4r18c2b+QgJQ==
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
@@ -12527,7 +12503,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@^3.2.2:
+typescript@^3.2.2, typescript@^3.4.3:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.2.tgz#27e489b95fa5909445e9fef5ee48d81697ad18fb"
   integrity sha512-ml7V7JfiN2Xwvcer+XAf2csGO1bPBdRbFCkYBczNZggrBZ9c7G3riSUeJmqEU5uOtXNPMhE3n+R4FA/3YOAWOQ==

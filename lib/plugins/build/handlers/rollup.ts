@@ -2,13 +2,13 @@ import path from 'path';
 import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
 import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, watch } from 'rollup';
-import buble from 'rollup-plugin-buble';
+import buble from '@rollup/plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
-import json from 'rollup-plugin-json';
+import json from '@rollup/plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import nodeResolve from 'rollup-plugin-node-resolve';
-import replace from 'rollup-plugin-replace';
+import replace from '@rollup/plugin-replace';
 import { terser } from 'rollup-plugin-terser';
 import { EntryRollup } from '../../../../types/entry';
 import API from '../../../API';
@@ -67,6 +67,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
     plugins.push(builtins());
     if (typeof rollupOptions.nodeResolve === 'object') plugins.push(nodeResolve({ ...rollupOptions.nodeResolve }));
     if (typeof rollupOptions.commonjs === 'object') plugins.push(commonjs({ ...rollupOptions.commonjs }));
+    // @ts-ignore to fix when JSON plugin will export options type
     if (typeof rollupOptions.json === 'object') plugins.push(json({ ...rollupOptions.json }));
     plugins.push(graphql());
     plugins.push(globals());
