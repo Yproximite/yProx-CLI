@@ -43,7 +43,7 @@
     "@kocal/rollup-plugin-graphql": "^1.0.0",
     "autoprefixer": "^9.1.2",
     "buble": "^0.19.6",
-    "chalk": "^2.4.1",
+    "chalk": "^3.0.0",
     "chokidar": "^3.0.0",
     "cssnano": "^4.0.5",
     "defaults-deep": "^0.2.4",
