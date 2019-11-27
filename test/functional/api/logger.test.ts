@@ -12,35 +12,23 @@ describe('logger', () => {
     clear();
   });
 
-  test.each([
-    { method: 'error', colorLevel: 'redBright' },
-    { method: 'warn', colorLevel: 'yellow' },
-    { method: 'info', colorLevel: 'blue' },
-    // "log" is called only in verbose mode
-    { method: 'log', colorLevel: 'green', shouldBeCalled: false },
-    { method: 'log', colorLevel: 'green', shouldBeCalled: true, verbose: true },
-    // "debug" is never called
-    { method: 'debug', colorLevel: 'cyanBright', shouldBeCalled: false },
-    { method: 'debug', colorLevel: 'cyanBright', shouldBeCalled: false, verbose: true },
-  ])('%p', async ({ method, colorLevel, shouldBeCalled = true, verbose = false }) => {
-    mockConsole([method]);
+  it('should log', async () => {
+    mockConsole(['error', 'warn', 'info', 'log']);
 
-    const { api } = await createFakeEnv({ verbose });
-    console.warn(method, colorLevel, shouldBeCalled, verbose);
-    console.warn(api);
-    console.warn(api.logger);
+    const { api } = await createFakeEnv({ verbose: true });
 
-    // @ts-ignore
-    api.logger[method](`${method} message`);
+    api.logger.error('error message');
+    expect(console.error).toHaveBeenCalledWith(chalk`[{blue 08:05:01}] {redBright error} :: error message`);
 
-    if (shouldBeCalled) {
-      // @ts-ignore
-      expect(console[method]).toHaveBeenCalledWith(chalk`[{blue 08:05:01}] {${colorLevel} ${method}} :: ${method} message`);
-    } else {
-      // @ts-ignore
-      expect(console[method]).not.toHaveBeenCalled();
-    }
+    api.logger.warn('warn message');
+    expect(console.warn).toHaveBeenCalledWith(chalk`[{blue 08:05:01}] {yellow warn} :: warn message`);
 
-    unmockConsole([method]);
+    api.logger.info('info message');
+    expect(console.info).toHaveBeenCalledWith(chalk`[{blue 08:05:01}] {blue info} :: info message`);
+
+    api.logger.log('log message');
+    expect(console.log).toHaveBeenCalledWith(chalk`[{blue 08:05:01}] {green log} :: log message`);
+
+    unmockConsole(['error', 'warn', 'info', 'log']);
   });
 });
