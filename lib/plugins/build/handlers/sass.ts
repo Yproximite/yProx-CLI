@@ -4,7 +4,7 @@ import gulp from 'gulp';
 import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import postcss from 'gulp-postcss';
-import sass from 'gulp-sass';
+import sass from 'gulp-dart-sass';
 import sourcemaps from 'gulp-sourcemaps';
 import tildeImporter from 'node-sass-tilde-importer';
 import { EntrySass } from '../../../../types/entry';
