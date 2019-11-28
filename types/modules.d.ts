@@ -20,6 +20,12 @@ declare module 'gulp-terser' {
   export default fn;
 }
 
+declare module 'gulp-dart-sass' {
+  function fn(options: Options): any;
+
+  export default fn;
+}
+
 declare module 'rollup-plugin-node-builtins' {
   function fn(): any;
 
@@ -57,7 +63,7 @@ declare module 'rollup-plugin-terser' {
 }
 
 declare module 'node-sass-tilde-importer' {
-  import { Importer } from 'node-sass';
+  import { Importer } from 'sass';
 
   function importer(): Importer;
 

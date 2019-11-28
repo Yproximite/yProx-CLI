@@ -244,7 +244,7 @@ describe('command: build', () => {
     });
 
     it('should throw an error Sass handler fails', async () => {
-      expect.assertions(6);
+      expect.assertions(7);
 
       const { cleanup, run, installYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
@@ -256,8 +256,9 @@ describe('command: build', () => {
       } catch (e) {
         expect(e.stdout).toContain('sass :: start bundling "invalid.css"');
         expect(e.stdout).toContain('sass :: finished bundling "invalid.css"');
-        expect(e.stderr).toContain('Error: File to import not found or unreadable: foobar');
-        expect(e.stderr).toContain('>> @import "foobar"');
+        expect(e.stderr).toContain("Error: Can't find stylesheet to import");
+        expect(e.stderr).toContain('src/invalid.css 1:9  root stylesheet');
+        expect(e.stderr).toContain('@import "foobar"');
         expect(e.code).toBe(1);
       }
 
