@@ -234,11 +234,14 @@ describe('command: build', () => {
       expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
       expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "bootstrap-reboot-and-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "bootstrap-reboot-and-grid.css"');
 
       expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss after linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
       expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
+      expect(await fileExists('dist/bootstrap-reboot-and-grid.css')).toBeTruthy();
 
       await cleanup();
     });
@@ -281,8 +284,7 @@ describe('command: build', () => {
       expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
       expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
 
-      expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
-      expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
+      expect(await readFile('dist/udhr_eng.txt')).toContain('Universal Declaration of Human Rights - English');
 
       await cleanup();
     });

@@ -1,5 +1,8 @@
 {
   "private": true,
+  "dependencies": {
+    "udhr": "^4.1.0"
+  },
   "yproxCli": {
     "assets": {
       "app": [
@@ -8,7 +11,7 @@
           "handler": "file",
           "src": [
             "src/lorem.txt",
-            "src/udhr.txt"
+            "node_modules/udhr/data/udhr-txt/udhr_eng.txt"
           ],
           "dest": "dist/"
         }
