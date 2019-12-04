@@ -126,7 +126,7 @@
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
     "semantic-release": "^15.10.8",
-    "strip-ansi": "^5.2.0",
+    "strip-ansi": "^6.0.0",
     "stylelint": ">=9.0.0",
     "ts-jest": "^24.0.0",
     "typescript": "^3.2.2",
