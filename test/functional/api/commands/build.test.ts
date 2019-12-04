@@ -126,7 +126,7 @@ describe('command: build', () => {
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
       expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
-      expect(generatedFile).toContain("Vue.component('y-button', Button);");
+      expect(generatedFile).toContain("Vue.component('y-button',");
       expect(generatedFile).toContain('console.log("Hello from index.js!");');
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
@@ -234,17 +234,20 @@ describe('command: build', () => {
       expect(api.logger.info).toHaveBeenCalledWith('sass :: finished bundling "bootstrap-grid.css"');
       expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "style.css"');
       expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "style.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: start bundling "bootstrap-reboot-and-grid.css"');
+      expect(api.logger.info).toHaveBeenCalledWith('css :: finished bundling "bootstrap-reboot-and-grid.css"');
 
       expect(await readFile('src/bootstrap-grid.scss')).toMatchSnapshot('bootstrap-grid.scss after linting');
       expect(await readFile('src/style.css')).toMatchSnapshot('style.css after linting');
       expect(await fileExists('dist/bootstrap-grid.css')).toBeTruthy();
       expect(await fileExists('dist/style.css')).toBeTruthy();
+      expect(await fileExists('dist/bootstrap-reboot-and-grid.css')).toBeTruthy();
 
       await cleanup();
     });
 
     it('should throw an error Sass handler fails', async () => {
-      expect.assertions(6);
+      expect.assertions(7);
 
       const { cleanup, run, installYproxCli, fileExists } = await createFakeEnv({ files: 'css' });
 
@@ -256,8 +259,9 @@ describe('command: build', () => {
       } catch (e) {
         expect(e.stdout).toContain('sass :: start bundling "invalid.css"');
         expect(e.stdout).toContain('sass :: finished bundling "invalid.css"');
-        expect(e.stderr).toContain('Error: File to import not found or unreadable: foobar');
-        expect(e.stderr).toContain('>> @import "foobar"');
+        expect(e.stderr).toContain("Error: Can't find stylesheet to import");
+        expect(e.stderr).toContain('src/invalid.css 1:9  root stylesheet');
+        expect(e.stderr).toContain('@import "foobar"');
         expect(e.code).toBe(1);
       }
 
@@ -280,8 +284,7 @@ describe('command: build', () => {
       expect(await readFile('dist/lorem.txt')).toEqual(await readFile('src/lorem.txt'));
       expect(await readFile('dist/lorem.txt')).toContain('Lorem ipsum dolor sit amet.');
 
-      expect(await readFile('dist/udhr.txt')).toEqual(await readFile('src/udhr.txt'));
-      expect(await readFile('dist/udhr.txt')).toContain('Universal Declaration of Human Rights - English');
+      expect(await readFile('dist/udhr_eng.txt')).toContain('Universal Declaration of Human Rights - English');
 
       await cleanup();
     });

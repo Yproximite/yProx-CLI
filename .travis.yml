@@ -39,7 +39,7 @@ script:
 jobs:
   include:
     - stage: Release
-      if: branch = master
+      if: branch = master AND type = push
       node_js: node
       script:
         - yarn build

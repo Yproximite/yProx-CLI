@@ -17,6 +17,15 @@
           "src": "src/style.css",
           "dest": "dist/",
           "concat": "style.css"
+        },
+        {
+          "handler": "css",
+          "src": [
+            "node_modules/bootstrap/dist/css/bootstrap-reboot.css",
+            "node_modules/bootstrap/dist/css/bootstrap-grid.css"
+          ],
+          "dest": "dist/",
+          "concat": "bootstrap-reboot-and-grid.css"
         }
       ],
       "invalid": [
