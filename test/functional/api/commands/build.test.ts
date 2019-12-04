@@ -126,7 +126,7 @@ describe('command: build', () => {
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
       expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
-      expect(generatedFile).toContain("Vue.component('y-button', Button);");
+      expect(generatedFile).toContain("Vue.component('y-button',");
       expect(generatedFile).toContain('console.log("Hello from index.js!");');
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
