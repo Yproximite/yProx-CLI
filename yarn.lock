@@ -9,6 +9,13 @@
   dependencies:
     "@babel/highlight" "^7.8.0"
 
+"@babel/code-frame@^7.5.5":
+  version "7.8.3"
+  resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.8.3.tgz#33e25903d7481181534e12ec0a25f16b6fcf419e"
+  integrity sha512-a9gxpmdXtZEInkCSHUJDLHZVBgb1QS0jhss4cPP93EW7s+uC5bikET2twEF3KV+7rDblJcmNvTR7VJejqd2C2g==
+  dependencies:
+    "@babel/highlight" "^7.8.3"
+
 "@babel/core@>=7.2.2", "@babel/core@^7.1.0", "@babel/core@^7.2.2":
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.8.0.tgz#fd273d4faf69cc20ee3ccfd32d42df916bb4a15c"
@@ -81,6 +88,15 @@
   version "7.8.0"
   resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.8.0.tgz#4cc003dc10359919e2e3a1d9459150942913dd1a"
   integrity sha512-OsdTJbHlPtIk2mmtwXItYrdmalJ8T0zpVzNAbKSkHshuywj7zb29Y09McV/jQsQunc/nEyHiPV2oy9llYMLqxw==
+  dependencies:
+    chalk "^2.0.0"
+    esutils "^2.0.2"
+    js-tokens "^4.0.0"
+
+"@babel/highlight@^7.8.3":
+  version "7.8.3"
+  resolved "https://registry.yarnpkg.com/@babel/highlight/-/highlight-7.8.3.tgz#28f173d04223eaaa59bc1d439a3836e6d1265797"
+  integrity sha512-PX4y5xQUvy0fnEVHrYOarRPXVWafSjTW9T0Hab8gVIawpl2Sj0ORyrygANq+KjcNlSSTw0YCLSNA8OyZ1I4yEg==
   dependencies:
     chalk "^2.0.0"
     esutils "^2.0.2"
@@ -11194,9 +11210,9 @@ rollup@^0.63.4:
     "@types/node" "*"
 
 rollup@^1.27.0:
-  version "1.28.0"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.28.0.tgz#d576a6a0fd7490b2e1f531ef8b411795fb80da87"
-  integrity sha512-v2J/DmQi9+Nf6frGqzwZRvbiuTTrqH0yzoUF4Eybf8sONT4UpLZzJYnYzW96Zm9X1+4SJmijfnFBWCzHDAXYnQ==
+  version "1.29.0"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-1.29.0.tgz#6a1a79eea43ca9d3d79a90c15a1ceecedc72097b"
+  integrity sha512-V63Iz0dSdI5qPPN5HmCN6OBRzBFhMqNWcvwgq863JtSCTU6Vdvqq6S2fYle/dSCyoPrBkIP3EIr1RVs3HTRqqg==
   dependencies:
     "@types/estree" "*"
     "@types/node" "*"
