@@ -1,0 +1,35 @@
+name: CI
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened, ready_for_review]
+
+env:
+    CI: true
+    FORCE_COLOR: true
+
+jobs:
+    ci:
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, windows-latest]
+                nodejs: [10.x, 12.x, 13.x]
+        runs-on: ${{ matrix.os }}
+        steps:
+            -   uses: actions/checkout@v2
+
+            -   name: Install Node.js
+                uses: actions/setup-node@v1
+                with:
+                    node-version: ${{ matrix.nodejs }}
+
+            -   run: yarn install --frozen-lockfile
+
+            -   run: yarn build
+
+            -   run: yarn lint
+
+            -   run: yarn test -i
+
+            -   run: npm pack
