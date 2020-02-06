@@ -113,7 +113,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 50000);
+    }, 60000);
 
     it('should build files', async () => {
       const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
