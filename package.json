@@ -53,7 +53,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-dart-sass": "^0.9.1",
     "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^6.1.0",
+    "gulp-imagemin": "^7.1.0",
     "gulp-postcss": "^8.0.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-terser": "^1.2.0",
