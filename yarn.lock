@@ -372,9 +372,9 @@
     rollup-pluginutils "^2.0.1"
 
 "@kocal/semantic-release-preset@^1.1.0":
-  version "1.1.18"
-  resolved "https://registry.yarnpkg.com/@kocal/semantic-release-preset/-/semantic-release-preset-1.1.18.tgz#87b49aacc3421ed84c9879cf2d324d834cb620f9"
-  integrity sha512-LA0uz3HSwmF4Yzf6JZJZgAZVtPZTA1ATHf71azHbzZSEwYfgYJYi5OG0GjQGhPdXHI9QGoADS1+n2ZDfsEK6SA==
+  version "1.1.19"
+  resolved "https://registry.yarnpkg.com/@kocal/semantic-release-preset/-/semantic-release-preset-1.1.19.tgz#6ba7edbdb3038d3a85641cdfca4d89f9e3502627"
+  integrity sha512-evm8+KWLKsq574N+lQ3nRhCELLmGEX0F4xK9EY08jnVLKu/40CvUrOjKnXP3UD/GKuhvtPN/QAhhsBrnVH4d5A==
   dependencies:
     "@semantic-release/commit-analyzer" "^6.1.0"
     "@semantic-release/github" "^5.2.1"
@@ -2659,11 +2659,6 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
     delayed-stream "~1.0.0"
 
 commander@^2.20.0, commander@~2.20.3:
-  version "2.20.3"
-  resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
-  integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
-
-commander@~2.20.3:
   version "2.20.3"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.3.tgz#fd485e84c03eb4881c20722ba48035e8531aeb33"
   integrity sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==
