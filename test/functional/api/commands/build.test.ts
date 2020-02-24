@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { statSync } from 'fs';
 import stripAnsi from 'strip-ansi';
 import { mockLogger, unmockLogger } from '../../../logger';
@@ -112,7 +113,7 @@ describe('command: build', () => {
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
 
       await cleanup();
-    }, 50000);
+    }, 60000);
 
     it('should build files', async () => {
       const { api, fileExists, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
@@ -260,7 +261,7 @@ describe('command: build', () => {
         expect(e.stdout).toContain('sass :: start bundling "invalid.css"');
         expect(e.stdout).toContain('sass :: finished bundling "invalid.css"');
         expect(e.stderr).toContain("Error: Can't find stylesheet to import");
-        expect(e.stderr).toContain('src/invalid.css 1:9  root stylesheet');
+        expect(e.stderr).toContain(`${path.normalize('src/invalid.css')} 1:9  root stylesheet`);
         expect(e.stderr).toContain('@import "foobar"');
         expect(e.code).toBe(1);
       }
