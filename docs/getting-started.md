@@ -7,6 +7,14 @@
 
 ## Installation
 
+In your `.npmrc`, add the following configuration:
+
+```
+@yproximite:registry=https://npm.pkg.github.com
+```
+
+Then run:
+
 ```bash
 $ yarn add --dev @yproximite/yprox-cli
 ```
