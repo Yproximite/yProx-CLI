@@ -79,7 +79,7 @@
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-vue": "^5.1.2",
     "sass": "^1.17.2",
-    "stylelint-formatter-pretty": "^1.0.3",
+    "stylelint-formatter-pretty": "^2.0.0",
     "terser": "^4.0.2",
     "vinyl": "^2.2.0",
     "vinyl-sourcemaps-apply": "^0.2.1"
