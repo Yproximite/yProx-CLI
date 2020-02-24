@@ -25,7 +25,8 @@
     "lint": "eslint --ext .ts bin lib types"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com/"
   },
   "husky": {
     "hooks": {
