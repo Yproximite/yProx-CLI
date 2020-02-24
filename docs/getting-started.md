@@ -2,8 +2,8 @@
 
 ## Requirements
 
-- Node.js 8+
-- Yarn
+- Node.js 10+
+- npm or Yarn
 
 ## Installation
 

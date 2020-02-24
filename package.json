@@ -6,7 +6,7 @@
   "author": "Hugo Alliaume <kocal@live.fr>",
   "license": "MIT",
   "engines": {
-    "node": "8.* || >= 10.*"
+    "node": ">= 10.*"
   },
   "files": [
     "dist",
