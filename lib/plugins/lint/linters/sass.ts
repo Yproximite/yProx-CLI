@@ -1,12 +1,16 @@
 import chalk from 'chalk';
-import { dirname } from 'path';
+import * as path from 'path';
 import stylelintFormatter from 'stylelint-formatter-pretty';
 import API from '../../../API';
 import { isPackageInstalled } from '../../../utils/package';
 
 export default (api: API, args: CLIArgs, files: string[]): Promise<void> => {
   const config = {
-    files: files.map(file => `${dirname(file)}/**/*.{scss,sass}`),
+    files: files.map(file => {
+      // workaround for https://github.com/sindresorhus/globby/issues/127
+      // and https://github.com/mrmlnc/fast-glob#pattern-syntax
+      return `${path.dirname(file)}/**/*.{scss,sass}`.replace(/\\/g, '/');
+    }),
     formatter: stylelintFormatter,
     fix: !!args.fix,
   };
