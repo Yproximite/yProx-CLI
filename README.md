@@ -71,11 +71,3 @@ $ yarn lint --fix # will automatically fix some errors
 
 - Open a PR `develop` to `master`
 - Merge your pull request with a **Merge commit**
-
-#### I don't want to wait
-
-When being authenticated to npm and GitHub, run:
-
-```bash
-$ yarn semantic-release --no-ci
-```

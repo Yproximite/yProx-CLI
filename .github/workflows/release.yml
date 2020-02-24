@@ -7,8 +7,6 @@ on:
 
 env:
     CI: true
-    NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-    GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 jobs:
     release:
@@ -26,3 +24,6 @@ jobs:
             -   run: yarn build
 
             -   run: yarn semantic-release
+                env:
+                    NPM_TOKEN: ${{ secrets.GH_TOKEN }}
+                    GH_TOKEN: ${{ secrets.GH_TOKEN }}
