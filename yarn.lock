@@ -519,6 +519,22 @@
   dependencies:
     "@types/node" ">= 8"
 
+"@rollup/plugin-buble@^0.21.1":
+  version "0.21.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-buble/-/plugin-buble-0.21.1.tgz#186413c2f27770bea4cefa86ba1c0aafd9593339"
+  integrity sha512-Tmd4V95cVyGTwh7qc9ZNkg53E/isFY4q/sqZK7mSyGajYp9Wb0gbJyZWAzYlg9kZxEHmwCDlvcHDcn56SpOCCQ==
+  dependencies:
+    "@rollup/pluginutils" "^3.0.4"
+    "@types/buble" "^0.19.2"
+    buble "^0.19.8"
+
+"@rollup/pluginutils@^3.0.4":
+  version "3.0.8"
+  resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.0.8.tgz#4e94d128d94b90699e517ef045422960d18c8fde"
+  integrity sha512-rYGeAc4sxcZ+kPG/Tw4/fwJODC3IXHYDH4qusdN/b6aLw5LPUbzpecYbEJh4sVQGPFJxd2dBU4kc1H3oy9/bnw==
+  dependencies:
+    estree-walker "^1.0.1"
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
@@ -676,7 +692,7 @@
   resolved "https://registry.yarnpkg.com/@types/browserslist/-/browserslist-4.4.0.tgz#e2a5f7f8c7e97afb39f50812a77e5230d3ca2353"
   integrity sha512-hrIjWSu7Hh96/rKlpChe58qHEwIZ0+F5Zf4QNdvSVP5LUXbaJM04g9tBjo702VTNqPZr5znEJeqNR3nAV3vJPg==
 
-"@types/buble@*", "@types/buble@^0.19.0":
+"@types/buble@^0.19.2":
   version "0.19.2"
   resolved "https://registry.yarnpkg.com/@types/buble/-/buble-0.19.2.tgz#a4289d20b175b3c206aaad80caabdabe3ecdfdd1"
   integrity sha512-uUD8zIfXMKThmFkahTXDGI3CthFH1kMg2dOm3KLi4GlC5cbARA64bEcUMbbWdWdE73eoc/iBB9PiTMqH0dNS2Q==
@@ -929,15 +945,6 @@
   version "0.12.0"
   resolved "https://registry.yarnpkg.com/@types/retry/-/retry-0.12.0.tgz#2b35eccfcee7d38cd72ad99232fbd58bffb3c84d"
   integrity sha512-wWKOClTTiizcZhXnPY4wikVAwmdYHp8q6DmC+EJUzAMsycb7HB32Kh9RN4+0gExjmPmZSAQjgURXIGATPegAvA==
-
-"@types/rollup-plugin-buble@^0.19.1":
-  version "0.19.1"
-  resolved "https://registry.yarnpkg.com/@types/rollup-plugin-buble/-/rollup-plugin-buble-0.19.1.tgz#63670a627123468c56e2c0aa8c99b90d56c3281c"
-  integrity sha512-VYuAj6Z9ORxuZ5Uz7N4CybMvA6nn4C7olgWNzDG78J+efIIkLusmoVKig3PL0/hAc2m9Ok5biPe3ABpDKFc5BA==
-  dependencies:
-    "@types/buble" "*"
-    "@types/node" "*"
-    rollup "^0.63.4"
 
 "@types/rollup-plugin-json@^3.0.2":
   version "3.0.2"
@@ -4162,6 +4169,11 @@ estree-walker@^0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-0.6.1.tgz#53049143f40c6eb918b23671d1fe3219f3a1b362"
   integrity sha512-SqmZANLWS0mnatqbSfRP5g8OXZC12Fgg1IwNtLsyHDzJizORW4khDfjPqJZsemPWBB2uqykUah5YpQ6epsqC/w==
+
+estree-walker@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/estree-walker/-/estree-walker-1.0.1.tgz#31bc5d612c96b704106b477e6dd5d8aa138cb700"
+  integrity sha512-1fMXF3YP4pZZVozF8j/ZLfvnR8NSIljt56UhbZ5PeeDmmGHpgpdwQt7ITlGvYaQukCvuBRMLEiKiYC+oeIg4cg==
 
 esutils@^2.0.2:
   version "2.0.3"
@@ -11225,14 +11237,6 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
-rollup-plugin-buble@^0.19.8:
-  version "0.19.8"
-  resolved "https://registry.yarnpkg.com/rollup-plugin-buble/-/rollup-plugin-buble-0.19.8.tgz#f9232e2bb62a7573d04f9705c1bd6f02c2a02c6a"
-  integrity sha512-8J4zPk2DQdk3rxeZvxgzhHh/rm5nJkjwgcsUYisCQg1QbT5yagW+hehYEW7ZNns/NVbDCTv4JQ7h4fC8qKGOKw==
-  dependencies:
-    buble "^0.19.8"
-    rollup-pluginutils "^2.3.3"
-
 rollup-plugin-commonjs@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/rollup-plugin-commonjs/-/rollup-plugin-commonjs-10.1.0.tgz#417af3b54503878e084d127adf4d1caf8beb86fb"
@@ -11318,7 +11322,7 @@ rollup-plugin-vue@^5.1.2:
     source-map "0.7.3"
     vue-runtime-helpers "^1.1.1"
 
-rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.1, rollup-pluginutils@^2.3.3, rollup-pluginutils@^2.4.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0, rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
+rollup-pluginutils@^2.0.1, rollup-pluginutils@^2.3.1, rollup-pluginutils@^2.4.1, rollup-pluginutils@^2.5.0, rollup-pluginutils@^2.6.0, rollup-pluginutils@^2.8.1, rollup-pluginutils@^2.8.2:
   version "2.8.2"
   resolved "https://registry.yarnpkg.com/rollup-pluginutils/-/rollup-pluginutils-2.8.2.tgz#72f2af0748b592364dbd3389e600e5a9444a351e"
   integrity sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
