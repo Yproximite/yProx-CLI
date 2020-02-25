@@ -15,13 +15,19 @@ declare module 'gulp-postcss' {
 }
 
 declare module 'gulp-terser' {
-  function fn(options: Options): any;
+  function fn(options?: Options): any;
 
   export default fn;
 }
 
 declare module 'gulp-dart-sass' {
-  function fn(options: Options): any;
+  function fn(options?: Options): any;
+
+  export default fn;
+}
+
+declare module 'gulp-babel' {
+  function fn(options?: Options): any;
 
   export default fn;
 }
@@ -39,13 +45,19 @@ declare module 'rollup-plugin-node-globals' {
 }
 
 declare module 'rollup-plugin-replace' {
-  function fn(options: Options): any;
+  function fn(options?: Options): any;
+
+  export default fn;
+}
+
+declare module 'rollup-plugin-babel' {
+  function fn(options?: Options): any;
 
   export default fn;
 }
 
 declare module 'rollup-plugin-commonjs' {
-  function fn(options: Options): any;
+  function fn(options?: Options): any;
 
   export default fn;
 }
@@ -57,7 +69,7 @@ declare module '@kocal/rollup-plugin-graphql' {
 }
 
 declare module 'rollup-plugin-terser' {
-  function terser(options: Options): any;
+  function terser(options?: Options): any;
 
   export { terser };
 }

@@ -3,9 +3,9 @@ import concat from 'gulp-concat';
 import gulpIf from 'gulp-if';
 import sourcemaps from 'gulp-sourcemaps';
 import terser from 'gulp-terser';
+import babel from 'gulp-babel';
 import { EntryJS } from '../../../../types/entry';
 import API from '../../../API';
-import { buble } from '../../../../packages/gulp-buble';
 import { getEntryName } from '../../../utils/entry';
 
 export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
@@ -17,7 +17,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
       .on('error', reject)
       .pipe(gulpIf(!!entry.concat, concat(entry.concat as string)))
       .pipe(gulpIf(entry.sourceMaps, sourcemaps.init()))
-      .pipe(gulpIf(typeof api.projectOptions.buble === 'object', buble({ ...api.projectOptions.buble })))
+      .pipe(gulpIf(api.projectOptions.babel, babel()))
       .pipe(gulpIf(api.isProduction(), terser({ ...api.projectOptions.terser })))
       .pipe(gulpIf(entry.sourceMaps, sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))

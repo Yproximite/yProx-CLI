@@ -12,13 +12,14 @@ const schema = joi.object().keys({
       json: joi.alternatives(joi.object(), joi.boolean()),
       vue: joi.alternatives(joi.object(), joi.boolean()),
       shims: joi.object(),
+      babel: joi.object(),
     }),
   }),
   eslint: joi.object({
     extensions: joi.array(),
   }),
   autoprefixer: joi.object(),
-  buble: joi.alternatives(joi.object(), joi.boolean()),
+  babel: joi.boolean(),
   cssnano: joi.object(),
   terser: joi.object(),
   gifsicle: joi.object(),
@@ -46,13 +47,16 @@ export function defaults(): ProjectOptions {
         json: {}, // https://github.com/rollup/rollup-plugin-json#usage
         vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
         shims: {},
+        babel: {
+          exclude: 'node_modules/**'
+        },
       },
     },
     eslint: {
       extensions: ['.js', '.vue'],
     },
     autoprefixer: {},
-    buble: {},
+    babel: true,
     cssnano: {
       preset: 'default',
     },
