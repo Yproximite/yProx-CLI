@@ -3,7 +3,7 @@ import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
 import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcher, RollupWatcherEvent, watch } from 'rollup';
 import buble from '@rollup/plugin-buble';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
 import json from 'rollup-plugin-json';
 import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
