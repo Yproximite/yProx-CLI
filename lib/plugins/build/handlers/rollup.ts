@@ -1,7 +1,7 @@
 import path from 'path';
 import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
-import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcherEvent, watch } from 'rollup';
+import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcher, RollupWatcherEvent, watch } from 'rollup';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
@@ -14,15 +14,6 @@ import { EntryRollup } from '../../../../types/entry';
 import API from '../../../API';
 import { getEntryName } from '../../../utils/entry';
 import { isPackageInstalled } from '../../../utils/package';
-
-interface WatchEvent {
-  code?: string;
-  duration?: number;
-  error?: RollupError | Error;
-  input?: InputOption;
-  output?: string[];
-  result?: RollupBuild;
-}
 
 function handleError(err: RollupError, api: API): void {
   let description = err.message || err;
