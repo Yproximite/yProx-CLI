@@ -35,7 +35,7 @@ $ yarn add --dev 'eslint@>=5.0.0'
 If you plan to use yProx-CLI to lint your CSS and Sass, you need to install Stylelint too:
 
 ```bash
-$ yarn add --dev 'stylelint@>=9.0.0'
+$ yarn add --dev 'stylelint@^13.0.0'
 ```
 
 ### Vue support
