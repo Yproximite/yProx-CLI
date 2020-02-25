@@ -1,7 +1,7 @@
 import path from 'path';
 import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
-import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, watch } from 'rollup';
+import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcher, RollupWatcherEvent, watch } from 'rollup';
 import buble from 'rollup-plugin-buble';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
@@ -152,15 +152,13 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
     // @ts-ignore
     const watcher = watch(watchOptions);
 
-    watcher.on('event', (e: WatchEvent) => {
-      const { code } = e;
-
-      if (code === 'BUNDLE_START') {
+    watcher.on('event', (e: RollupWatcherEvent) => {
+      if (e.code === 'BUNDLE_START') {
         api.logger.info(`rollup (watch) :: start bundling "${getEntryName(entry)}"`);
-      } else if (code === 'BUNDLE_END') {
+      } else if (e.code === 'BUNDLE_END') {
         api.logger.info(`rollup (watch) :: finished bundling "${getEntryName(entry)}"`);
-      } else if (['ERROR', 'FATAL'].includes(code as string)) {
-        handleError(e.error as RollupError, api);
+      } else if (e.code === 'ERROR') {
+        handleError(e.error, api);
       }
     });
   };
