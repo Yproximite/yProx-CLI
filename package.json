@@ -42,7 +42,7 @@
   "dependencies": {
     "@kocal/logger": "^2.0.6",
     "@kocal/rollup-plugin-graphql": "^1.0.0",
-    "autoprefixer": "^9.1.2",
+    "autoprefixer": "^9.7.4",
     "buble": "^0.19.6",
     "chalk": "^3.0.0",
     "chokidar": "^3.0.0",
@@ -93,7 +93,7 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@kocal/semantic-release-preset": "^2.0.0",
-    "@types/autoprefixer": "^9.1.1",
+    "@types/autoprefixer": "^9.7.0",
     "@types/cssnano": "^4.0.0",
     "@types/dotenv": "^8.2.0",
     "@types/eslint": "^6.1.1",
