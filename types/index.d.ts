@@ -7,7 +7,7 @@ import { Options as OptipngOptions } from 'imagemin-optipng';
 import { Options as SvgoOptions } from 'imagemin-svgo';
 import { Options as SassOptions } from 'sass';
 import { MinifyOptions } from 'terser';
-import { Options as RollupResolveOptions } from 'rollup-plugin-node-resolve';
+import { Options as RollupResolveOptions } from '@rollup/plugin-node-resolve';
 import { VuePluginOptions as RollupVueOptions } from 'rollup-plugin-vue';
 import { Entry } from './entry';
 
