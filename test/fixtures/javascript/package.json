@@ -1,9 +1,18 @@
 {
   "private": true,
+  "dependencies": {
+    "@babel/runtime": "^7.8.4"
+  },
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.8.4"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "> 0.2%"
+  ],
   "yproxCli": {
-    "buble": {
-      "objectAssign": true
-    },
     "assets": {
       "app": [
         {

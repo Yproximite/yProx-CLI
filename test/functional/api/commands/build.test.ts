@@ -17,8 +17,9 @@ describe('command: build', () => {
 
   describe('JavaScript', () => {
     it('should build files', async () => {
-      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
 
+      await run('yarn');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
@@ -36,8 +37,9 @@ describe('command: build', () => {
     });
 
     it('should build files, minify them and generate a source map', async () => {
-      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
 
+      await run('yarn');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
@@ -59,6 +61,7 @@ describe('command: build', () => {
 
       const { api, fileExists, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
+      await run('yarn');
       await run('yarn add -D eslint babel-eslint');
       await writeFile(
         '.eslintrc.js',
@@ -360,7 +363,7 @@ describe('command: build', () => {
       });
 
       expect(projectOptions.eslint).toEqual(api.projectOptions.eslint);
-      expect(projectOptions.buble).toEqual(api.projectOptions.buble);
+      expect(projectOptions.babel).toEqual(api.projectOptions.babel);
       expect(projectOptions.autoprefixer).toEqual(api.projectOptions.autoprefixer);
       expect(projectOptions.cssnano).toEqual(api.projectOptions.cssnano);
       expect(projectOptions.terser).toEqual(api.projectOptions.terser);

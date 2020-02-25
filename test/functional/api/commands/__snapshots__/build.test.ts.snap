@@ -4103,34 +4103,34 @@ exports[`command: build CSS & Sass should fix linting issues and build files: st
 `;
 
 exports[`command: build JavaScript should build files, minify them and generate a source map: scripts.js in production env 1`] = `
-"console.log(\\"Hello world from!\\");var constant=\\"abc\\";console.log(\\"The constant value: \\"+constant);var arr=[1,2,3];arr=[].concat(arr);var obj={a:\\"1\\",b:\\"2\\",c:\\"3\\"};obj=Object.assign({},obj);var myFunction=function(o,a){for(var r=[],n=arguments.length-2;n-- >0;)r[n]=arguments[n+2];console.log({arg1:o,arg2:a,otherArgs:r})};
+"console.log(\\"Hello world from!\\");const constant=\\"abc\\";console.log(\\"The constant value: abc\\");let arr=[1,2,3];arr=[...arr];let obj={a:\\"1\\",b:\\"2\\",c:\\"3\\"};obj={...obj};const myFunction=(o,l,...r)=>{console.log({arg1:o,arg2:l,otherArgs:r})};
 //# sourceMappingURL=scripts.js.map
 "
 `;
 
 exports[`command: build JavaScript should build files: scripts.js in development env 1`] = `
-"console.log('Hello world from!');;
-
-var constant = 'abc';
-console.log((\\"The constant value: \\" + constant));;
-
-var arr = [1, 2, 3];
-arr = [].concat( arr );
-
-var obj = { a: '1', b: '2', c: '3' };
-obj = Object.assign({}, obj);
-
-var myFunction = function (arg1, arg2) {
-  var otherArgs = [], len = arguments.length - 2;
-  while ( len-- > 0 ) otherArgs[ len ] = arguments[ len + 2 ];
-
-  console.log({
-    arg1: arg1,
-    arg2: arg2,
-    otherArgs: otherArgs,
-  });
+"console.log('Hello world from!');
+;
+const constant = 'abc';
+console.log(\`The constant value: \${constant}\`);
+;
+let arr = [1, 2, 3];
+arr = [...arr];
+let obj = {
+  a: '1',
+  b: '2',
+  c: '3'
 };
-"
+obj = { ...obj
+};
+
+const myFunction = (arg1, arg2, ...otherArgs) => {
+  console.log({
+    arg1,
+    arg2,
+    otherArgs
+  });
+};"
 `;
 
 exports[`command: build JavaScript should fix linting issues and build files: src/es6.js after linting 1`] = `
