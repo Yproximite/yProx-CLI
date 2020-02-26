@@ -48,7 +48,7 @@ export function defaults(): ProjectOptions {
         vue: {}, // https://rollup-plugin-vue.vuejs.org/options.html#options
         shims: {},
         babel: {
-          exclude: 'node_modules/**'
+          exclude: 'node_modules/**',
         },
       },
     },
