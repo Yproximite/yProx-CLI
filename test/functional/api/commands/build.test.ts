@@ -28,9 +28,9 @@ describe('command: build', () => {
       const generatedFile = await readFile('dist/scripts.js');
       expect(generatedFile).toMatchSnapshot('scripts.js in development env');
       expect(generatedFile).not.toContain(`var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");`);
-      expect(generatedFile).toContain("console.log('Hello world from!');;");
-      expect(generatedFile).toContain('console.log(("The constant value: " + constant));');
-      expect(generatedFile).toContain('[].concat( arr )');
+      expect(generatedFile).toContain("console.log('Hello world from!');");
+      expect(generatedFile).toContain('console.log(`The constant value: ${constant}`);');
+      expect(generatedFile).toContain('arr = [...arr]');
       expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
@@ -89,8 +89,8 @@ not dead
       const generatedFile = await readFile('dist/scripts.js');
       expect(generatedFile).toMatchSnapshot('scripts.js in production env');
       expect(generatedFile).toContain('console.log("Hello world from!");');
-      expect(generatedFile).toContain('console.log("The constant value: "+constant);');
-      expect(generatedFile).toContain('[].concat(arr)');
+      expect(generatedFile).toContain('console.log("The constant value: abc");');
+      expect(generatedFile).toContain('arr=[...arr]');
       expect(generatedFile).toContain('//# sourceMappingURL=scripts.js.map');
       expect(await fileExists('dist/scripts.js.map')).toBeTruthy();
 
@@ -402,7 +402,7 @@ not dead
 
         await cleanup();
       },
-      20000
+      30000
     );
   });
 
