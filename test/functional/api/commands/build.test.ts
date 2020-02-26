@@ -27,9 +27,50 @@ describe('command: build', () => {
 
       const generatedFile = await readFile('dist/scripts.js');
       expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).not.toContain(`var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");`);
       expect(generatedFile).toContain("console.log('Hello world from!');;");
       expect(generatedFile).toContain('console.log(("The constant value: " + constant));');
       expect(generatedFile).toContain('[].concat( arr )');
+      expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
+
+      await cleanup();
+    });
+
+    it('should build files and run Babel', async () => {
+      const { run, api, fileExists, writeFile, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
+
+      await writeFile(
+        'babel.config.js',
+        `
+        module.exports = {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/transform-runtime'],
+        };`
+      );
+      await writeFile(
+        '.browserlistrc',
+        `
+last 2 versions
+not dead
+> 0.2%
+        `
+      );
+
+      await run('yarn');
+      await run('yarn add @babel/core @babel/runtime');
+      await run('yarn add --dev @babel/preset-env @babel/plugin-transform-runtime');
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain(`var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");`);
+      expect(generatedFile).toContain("console.log('Hello world from!');");
+      expect(generatedFile).toContain('console.log("The constant value: ".concat(constant));');
+      expect(generatedFile).toContain(`arr = (0, _toConsumableArray2["default"])(arr)`);
       expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 

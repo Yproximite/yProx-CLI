@@ -17,7 +17,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
       .on('error', reject)
       .pipe(gulpIf(!!entry.concat, concat(entry.concat as string)))
       .pipe(gulpIf(entry.sourceMaps, sourcemaps.init()))
-      .pipe(gulpIf(api.projectOptions.babel, babel()))
+      .pipe(gulpIf(api.projectOptions.babel, babel({ cwd: api.context })))
       .pipe(gulpIf(api.isProduction(), terser({ ...api.projectOptions.terser })))
       .pipe(gulpIf(entry.sourceMaps, sourcemaps.write('.')))
       .pipe(gulp.dest(entry.dest))
