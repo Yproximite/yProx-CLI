@@ -105,8 +105,8 @@ describe('command: build', () => {
         await run('yarn yprox-cli build');
       } catch (e) {
         expect(stripAnsi(e.stdout)).toContain('rollup :: start bundling "button.js"');
-        expect(stripAnsi(e.stderr)).toContain("SyntaxError: Unexpected character '@' (2:10)");
-        expect(stripAnsi(e.stderr)).toContain('Button.vue (2:10)');
+        expect(stripAnsi(e.stderr)).toContain('[!] Error: Unexpected token (Note that you need plugins to import files that are not JavaScript)');
+        expect(stripAnsi(e.stderr)).toContain('Button.vue (1:0)');
         expect(stripAnsi(e.stdout)).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
         expect(stripAnsi(e.stdout)).not.toContain('rollup :: finished bundling "button.js"');
         expect(e.code).toBe(1);
