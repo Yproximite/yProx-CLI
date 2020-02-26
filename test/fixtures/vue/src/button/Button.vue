@@ -22,6 +22,7 @@ export default {
 
   created() {
     console.log('Hello from Button.vue!')
+    console.log({ ...this.$props })
   }
 };
 </script>

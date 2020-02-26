@@ -82,6 +82,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       plugins.push(
         babel({
           ...api.projectOptions.handlers.rollup.babel,
+          cwd: api.context
         })
       );
     }
