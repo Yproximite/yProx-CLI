@@ -1,7 +1,7 @@
 import path from 'path';
 import graphql from '@kocal/rollup-plugin-graphql';
 import chalk from 'chalk';
-import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcher, RollupWatcherEvent, watch } from 'rollup';
+import { InputOption, InputOptions, OutputOptions, rollup, RollupBuild, RollupError, RollupOutput, RollupWatcherEvent, watch } from 'rollup';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import json from '@rollup/plugin-json';
@@ -82,7 +82,7 @@ export default (api: API, entry: EntryRollup, args: CLIArgs): Promise<any> => {
       plugins.push(
         babel({
           ...api.projectOptions.handlers.rollup.babel,
-          cwd: api.context
+          cwd: api.context,
         })
       );
     }
