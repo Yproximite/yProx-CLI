@@ -17,8 +17,9 @@ describe('command: build', () => {
 
   describe('JavaScript', () => {
     it('should build files', async () => {
-      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
 
+      await run('yarn');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
@@ -26,9 +27,50 @@ describe('command: build', () => {
 
       const generatedFile = await readFile('dist/scripts.js');
       expect(generatedFile).toMatchSnapshot('scripts.js in development env');
-      expect(generatedFile).toContain("console.log('Hello world from!');;");
-      expect(generatedFile).toContain('console.log(("The constant value: " + constant));');
-      expect(generatedFile).toContain('[].concat( arr )');
+      expect(generatedFile).not.toContain(`var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");`);
+      expect(generatedFile).toContain("console.log('Hello world from!');");
+      expect(generatedFile).toContain('console.log(`The constant value: ${constant}`);');
+      expect(generatedFile).toContain('arr = [...arr]');
+      expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
+      expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
+
+      await cleanup();
+    });
+
+    it('should build files and run Babel', async () => {
+      const { run, api, fileExists, writeFile, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
+
+      await writeFile(
+        'babel.config.js',
+        `
+        module.exports = {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/transform-runtime'],
+        };`
+      );
+      await writeFile(
+        '.browserlistrc',
+        `
+last 2 versions
+not dead
+> 0.2%
+        `
+      );
+
+      await run('yarn');
+      await run('yarn add --dev @babel/core @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add @babel/runtime');
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain(`var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");`);
+      expect(generatedFile).toContain("console.log('Hello world from!');");
+      expect(generatedFile).toContain('console.log("The constant value: ".concat(constant));');
+      expect(generatedFile).toContain(`arr = (0, _toConsumableArray2["default"])(arr)`);
       expect(generatedFile).not.toContain('//# sourceMappingURL=scripts.js.map');
       expect(await fileExists('dist/scripts.js.map')).toBeFalsy();
 
@@ -36,8 +78,9 @@ describe('command: build', () => {
     });
 
     it('should build files, minify them and generate a source map', async () => {
-      const { api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({ files: 'javascript', mode: 'production' });
 
+      await run('yarn');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
@@ -46,8 +89,8 @@ describe('command: build', () => {
       const generatedFile = await readFile('dist/scripts.js');
       expect(generatedFile).toMatchSnapshot('scripts.js in production env');
       expect(generatedFile).toContain('console.log("Hello world from!");');
-      expect(generatedFile).toContain('console.log("The constant value: "+constant);');
-      expect(generatedFile).toContain('[].concat(arr)');
+      expect(generatedFile).toContain('console.log("The constant value: abc");');
+      expect(generatedFile).toContain('arr=[...arr]');
       expect(generatedFile).toContain('//# sourceMappingURL=scripts.js.map');
       expect(await fileExists('dist/scripts.js.map')).toBeTruthy();
 
@@ -59,6 +102,7 @@ describe('command: build', () => {
 
       const { api, fileExists, readFile, writeFile, cleanup, run } = await createFakeEnv({ files: 'javascript' });
 
+      await run('yarn');
       await run('yarn add -D eslint babel-eslint');
       await writeFile(
         '.eslintrc.js',
@@ -102,8 +146,8 @@ describe('command: build', () => {
         await run('yarn yprox-cli build');
       } catch (e) {
         expect(stripAnsi(e.stdout)).toContain('rollup :: start bundling "button.js"');
-        expect(stripAnsi(e.stderr)).toContain("SyntaxError: Unexpected character '@' (2:10)");
-        expect(stripAnsi(e.stderr)).toContain('Button.vue (2:10)');
+        expect(stripAnsi(e.stderr)).toContain('[!] Error: Unexpected token (Note that you need plugins to import files that are not JavaScript)');
+        expect(stripAnsi(e.stderr)).toContain('Button.vue (1:0)');
         expect(stripAnsi(e.stdout)).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
         expect(stripAnsi(e.stdout)).not.toContain('rollup :: finished bundling "button.js"');
         expect(e.code).toBe(1);
@@ -127,6 +171,94 @@ describe('command: build', () => {
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
       expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain('console.log({ ...this.$props');
+      expect(generatedFile).not.toContain('console.log(_objectSpread({}, this.$props));');
+      expect(generatedFile).toContain("Vue.component('y-button',");
+      expect(generatedFile).toContain('console.log("Hello from index.js!");');
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    });
+
+    it('should build files and run Babel', async () => {
+      const { api, fileExists, writeFile, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
+
+      await writeFile(
+        'babel.config.js',
+        `
+        module.exports = {
+          presets: ['@babel/preset-env'],
+          plugins: ['@babel/transform-runtime'],
+        };`
+      );
+      await writeFile(
+        '.browserlistrc',
+        `
+last 2 versions
+not dead
+> 0.2%
+        `
+      );
+
+      await run('yarn');
+      await run('yarn add --dev @babel/core @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add @babel/runtime');
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain('console.log(_objectSpread({}, this.$props));');
+      expect(generatedFile).not.toContain('console.log({ ...this.$props');
+      expect(generatedFile).toContain("Vue.component('y-button',");
+      expect(generatedFile).toContain('console.log("Hello from index.js!");');
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    });
+    it('should build files and run Babel with core-js', async () => {
+      const { api, fileExists, writeFile, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
+
+      await writeFile(
+        'babel.config.js',
+        `
+        module.exports = {
+          presets: [
+            ['@babel/preset-env', {
+              modules: false,
+              useBuiltIns: "usage",
+              corejs: 3,
+            }]
+          ],
+        };`
+      );
+      await writeFile(
+        '.browserlistrc',
+        `
+last 2 versions
+not dead
+> 0.2%
+        `
+      );
+
+      await run('yarn');
+      await run('yarn add --dev @babel/core @babel/preset-env');
+      await run('yarn add core-js@3');
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).toContain("var SHARED = '__core-js_shared__';"); // imported by core-js
+      expect(generatedFile).toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain('console.log(_objectSpread2({}, this.$props));');
+      expect(generatedFile).not.toContain('console.log({ ...this.$props');
+      expect(generatedFile).toContain("this.text.includes('foobar')");
       expect(generatedFile).toContain("Vue.component('y-button',");
       expect(generatedFile).toContain('console.log("Hello from index.js!");');
       expect(await fileExists('dist/button.js.map')).toBeFalsy();
@@ -316,7 +448,7 @@ describe('command: build', () => {
 
         await cleanup();
       },
-      20000
+      30000
     );
   });
 
@@ -360,7 +492,7 @@ describe('command: build', () => {
       });
 
       expect(projectOptions.eslint).toEqual(api.projectOptions.eslint);
-      expect(projectOptions.buble).toEqual(api.projectOptions.buble);
+      expect(projectOptions.babel).toEqual(api.projectOptions.babel);
       expect(projectOptions.autoprefixer).toEqual(api.projectOptions.autoprefixer);
       expect(projectOptions.cssnano).toEqual(api.projectOptions.cssnano);
       expect(projectOptions.terser).toEqual(api.projectOptions.terser);

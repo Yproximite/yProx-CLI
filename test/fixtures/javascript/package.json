@@ -1,9 +1,6 @@
 {
   "private": true,
   "yproxCli": {
-    "buble": {
-      "objectAssign": true
-    },
     "assets": {
       "app": [
         {

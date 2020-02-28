@@ -11,7 +11,7 @@ Object {
     ],
   },
   "autoprefixer": Object {},
-  "buble": Object {},
+  "babel": true,
   "cssnano": Object {
     "preset": "default",
   },
@@ -26,6 +26,11 @@ Object {
   },
   "handlers": Object {
     "rollup": Object {
+      "babel": Object {
+        "exclude": Array [
+          "/node_modules/**",
+        ],
+      },
       "commonjs": Object {},
       "json": Object {},
       "nodeResolve": Object {
@@ -75,7 +80,7 @@ Object {
     ],
   },
   "autoprefixer": Object {},
-  "buble": Object {},
+  "babel": true,
   "cssnano": Object {
     "preset": "default",
   },
@@ -90,6 +95,11 @@ Object {
   },
   "handlers": Object {
     "rollup": Object {
+      "babel": Object {
+        "exclude": Array [
+          "/node_modules/**",
+        ],
+      },
       "commonjs": Object {},
       "json": Object {},
       "nodeResolve": Object {
@@ -139,7 +149,7 @@ Object {
     ],
   },
   "autoprefixer": Object {},
-  "buble": Object {},
+  "babel": true,
   "cssnano": Object {
     "preset": "default",
   },
@@ -154,6 +164,11 @@ Object {
   },
   "handlers": Object {
     "rollup": Object {
+      "babel": Object {
+        "exclude": Array [
+          "/node_modules/**",
+        ],
+      },
       "commonjs": Object {},
       "json": Object {},
       "nodeResolve": Object {
@@ -203,7 +218,7 @@ Object {
     ],
   },
   "autoprefixer": Object {},
-  "buble": Object {},
+  "babel": true,
   "cssnano": Object {
     "preset": "default",
   },
@@ -218,6 +233,11 @@ Object {
   },
   "handlers": Object {
     "rollup": Object {
+      "babel": Object {
+        "exclude": Array [
+          "/node_modules/**",
+        ],
+      },
       "commonjs": Object {},
       "json": Object {},
       "nodeResolve": Object {

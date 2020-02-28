@@ -7,6 +7,14 @@
     "vue-template-compiler": "^2.6.7"
   },
   "yproxCli": {
+    "handlers": {
+      "rollup": {
+        "babel": {
+          "exclude": "node_modules/**",
+          "runtimeHelpers": true
+        }
+      }
+    },
     "assets": {
       "app": [
         {

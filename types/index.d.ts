@@ -1,5 +1,4 @@
 import { Options as AutoprefixerOptions } from 'autoprefixer';
-import { TransformOptions as BubleTransformOptions } from 'buble';
 import { CssNanoOptions } from 'cssnano';
 import { Options as GifsicleOptions } from 'imagemin-gifsicle';
 import { Options as JpegtranOptions } from 'imagemin-jpegtran';
@@ -27,13 +26,14 @@ interface ProjectOptions {
       json: { [k: string]: any } | boolean;
       vue: RollupVueOptions | boolean;
       shims: { [k: string]: any };
+      babel: { [k: string]: any };
     };
   };
   eslint: {
     extensions: string[];
   };
   autoprefixer: AutoprefixerOptions;
-  buble: BubleTransformOptions;
+  babel: boolean;
   cssnano: CssNanoOptions;
   terser: MinifyOptions;
   gifsicle: GifsicleOptions;

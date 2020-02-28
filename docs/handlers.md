@@ -2,7 +2,7 @@
 
 ## Rollup
 
-Used for building modern applications. It supports Vue components and ES6 modules.
+Used for building modern applications. It supports Vue components, ES6 modules and run [Babel](./babel.md).
 
 In production environment, it minimizes files and generates sourcemaps.
 
