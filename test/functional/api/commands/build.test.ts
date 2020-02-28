@@ -58,8 +58,8 @@ not dead
       );
 
       await run('yarn');
-      await run('yarn add @babel/core @babel/runtime');
-      await run('yarn add --dev @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add --dev @babel/core @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add @babel/runtime');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
@@ -201,8 +201,8 @@ not dead
       );
 
       await run('yarn');
-      await run('yarn add @babel/core @babel/runtime');
-      await run('yarn add --dev @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add --dev @babel/core @babel/preset-env @babel/plugin-transform-runtime');
+      await run('yarn add @babel/runtime');
       await api.executeCommand('build');
 
       expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
@@ -213,6 +213,52 @@ not dead
       expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
       expect(generatedFile).toContain('console.log(_objectSpread({}, this.$props));');
       expect(generatedFile).not.toContain('console.log({ ...this.$props');
+      expect(generatedFile).toContain("Vue.component('y-button',");
+      expect(generatedFile).toContain('console.log("Hello from index.js!");');
+      expect(await fileExists('dist/button.js.map')).toBeFalsy();
+
+      await cleanup();
+    });
+    it('should build files and run Babel with core-js', async () => {
+      const { api, fileExists, writeFile, readFile, cleanup, run } = await createFakeEnv({ files: 'vue' });
+
+      await writeFile(
+        'babel.config.js',
+        `
+        module.exports = {
+          presets: [
+            ['@babel/preset-env', {
+              modules: false,
+              useBuiltIns: "usage",
+              corejs: 3,
+            }]
+          ],
+        };`
+      );
+      await writeFile(
+        '.browserlistrc',
+        `
+last 2 versions
+not dead
+> 0.2%
+        `
+      );
+
+      await run('yarn');
+      await run('yarn add --dev @babel/core @babel/preset-env');
+      await run('yarn add core-js@3');
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+
+      const generatedFile = await readFile('dist/button.js');
+      expect(generatedFile).toContain("var SHARED = '__core-js_shared__';"); // imported by core-js
+      expect(generatedFile).toContain('You are running Vue in development mode.');
+      expect(generatedFile).toContain("console.log('Hello from Button.vue!')");
+      expect(generatedFile).toContain('console.log(_objectSpread2({}, this.$props));');
+      expect(generatedFile).not.toContain('console.log({ ...this.$props');
+      expect(generatedFile).toContain("this.text.includes('foobar')");
       expect(generatedFile).toContain("Vue.component('y-button',");
       expect(generatedFile).toContain('console.log("Hello from index.js!");');
       expect(await fileExists('dist/button.js.map')).toBeFalsy();

@@ -40,7 +40,8 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.8.4",
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
     "@kocal/logger": "^2.0.6",
     "@kocal/rollup-plugin-graphql": "^1.0.0",
     "@rollup/plugin-commonjs": "^11.0.2",

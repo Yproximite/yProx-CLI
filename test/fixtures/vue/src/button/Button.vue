@@ -23,6 +23,10 @@ export default {
   created() {
     console.log('Hello from Button.vue!')
     console.log({ ...this.$props })
+
+    if (this.text.includes('foobar')) {
+      console.log('"text" contains "foobar"');
+    }
   }
 };
 </script>
