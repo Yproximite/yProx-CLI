@@ -13,7 +13,7 @@ Yes, but linting and building **a lot** of assets is now easier than ever!
 
 Out of the box, yProx-CLI comes with:
 
-- JavaScript support (+ [Buble](https://github.com/bublejs/buble))
+- JavaScript support (+ [Babel](https://github.com/babel/babel))
 - CSS and Sass support
 - Rollup support (JavaScript, Vue, [GraphQL](https://github.com/Kocal/rollup-plugin-graphql)) for modern apps
 - ESLint for linting JavaScript files
