@@ -27,7 +27,9 @@ Object {
   "handlers": Object {
     "rollup": Object {
       "babel": Object {
-        "exclude": "node_modules/**",
+        "exclude": Array [
+          "/node_modules/**",
+        ],
       },
       "commonjs": Object {},
       "json": Object {},
@@ -94,7 +96,9 @@ Object {
   "handlers": Object {
     "rollup": Object {
       "babel": Object {
-        "exclude": "node_modules/**",
+        "exclude": Array [
+          "/node_modules/**",
+        ],
       },
       "commonjs": Object {},
       "json": Object {},
@@ -161,7 +165,9 @@ Object {
   "handlers": Object {
     "rollup": Object {
       "babel": Object {
-        "exclude": "node_modules/**",
+        "exclude": Array [
+          "/node_modules/**",
+        ],
       },
       "commonjs": Object {},
       "json": Object {},
@@ -228,7 +234,9 @@ Object {
   "handlers": Object {
     "rollup": Object {
       "babel": Object {
-        "exclude": "node_modules/**",
+        "exclude": Array [
+          "/node_modules/**",
+        ],
       },
       "commonjs": Object {},
       "json": Object {},
