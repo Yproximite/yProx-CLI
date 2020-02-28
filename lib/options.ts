@@ -49,7 +49,7 @@ export function defaults(): ProjectOptions {
         shims: {},
         babel: {
           exclude: [
-            '/node_modules/**', 
+            '/node_modules/**',
             // /\/core-js\//, // see https://github.com/rollup/rollup-plugin-babel/issues/254
           ],
         },
