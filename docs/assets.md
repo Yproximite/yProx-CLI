@@ -49,7 +49,7 @@ module.exports = {
       { ... },
     ]),
 
-    // with an array, useful if you put your config inside your `package.json`
+    // with an array
     app: [
       { ... },
       { ... }

@@ -10,5 +10,5 @@ features:
   - title: Polyvalent
     details: Build and Lint JavaScript, CSS, Sass files, build bundles with Rollup, minimize images
   - title: Transparent
-    details: You don't have to care about Gulp, ESLint, Stylelint, ... everything is packaged for you
+    details: You don't have to care about Rollup, Gulp, ESLint, Stylelint, ... everything is packaged for you
 ---
