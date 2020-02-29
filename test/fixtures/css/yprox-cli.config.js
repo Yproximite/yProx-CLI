@@ -1,0 +1,37 @@
+// This file will be removed in next versions
+
+module.exports = {
+  assets: {
+    app: [
+      {
+        handler: 'sass',
+        src: 'src/bootstrap-grid.scss',
+        dest: 'dist/',
+        destFile: 'bootstrap-grid.css'
+      },
+      {
+        handler: 'css',
+        src: 'src/style.css',
+        dest: 'dist/',
+        concat: 'style.css'
+      },
+      {
+        handler: 'css',
+        src: [
+          'node_modules/bootstrap/dist/css/bootstrap-reboot.css',
+          'node_modules/bootstrap/dist/css/bootstrap-grid.css'
+        ],
+        dest: 'dist/',
+        concat: 'bootstrap-reboot-and-grid.css'
+      }
+    ],
+    invalid: [
+      {
+        handler: 'sass',
+        src: 'src/invalid.scss',
+        dest: 'dist/',
+        destFile: 'invalid.css'
+      }
+    ]
+  },
+};

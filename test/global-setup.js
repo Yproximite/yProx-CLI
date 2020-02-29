@@ -10,8 +10,13 @@ module.exports = async () => {
   console.log('\n[setup] Cleaning functional envs folder...');
   await remove(`${tmpdir()}/yprox-cli`);
 
-  console.log('[setup] Building yProx-CLI...');
-  await exec('yarn build', { cwd: rootDir });
+  try {
+    console.log('[setup] Building yProx-CLI...');
+    await exec('yarn build', { cwd: rootDir });
+  } catch (e) {
+    console.error(e.stdout);
+    process.exit(e.code);
+  }
 
   console.log('[setup] Packaging yProx-CLI...');
   await exec('npm pack', { cwd: rootDir });
