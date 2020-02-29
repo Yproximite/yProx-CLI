@@ -93,35 +93,14 @@ export default class API {
   }
 
   private loadUserOptions(cb: (err: Error | ValidationError, config?: ProjectOptions) => void): void {
-    let pkgConfig = null;
-    let fileConfig = null;
+    const configFilePath = this.resolve('yprox-cli.config.js');
+    const configFileFound = fs.existsSync(configFilePath);
 
-    try {
-      if (!(process.env.YPROX_CLI_IGNORE_PACKAGE_JSON_FILE === 'true')) {
-        // read config fron `package.json`
-        const pkg = require(this.resolve('package.json'));
-        if (typeof pkg.yproxCli !== 'undefined') {
-          pkgConfig = pkg.yproxCli;
-        }
-      }
-    } catch (e) {
-      this.logger.debug(e.message);
+    if (!configFileFound) {
+      this.logger.warn(`The configuration file "${configFilePath}" does not exist. Using default configuration.`);
     }
 
-    try {
-      if (!(process.env.YPROX_CLI_IGNORE_CONFIG_FILE === 'true')) {
-        fileConfig = require(this.resolve('yprox-cli.config.js')) || null;
-      }
-    } catch (e) {
-      this.logger.debug(e.message);
-    }
-
-    if (pkgConfig !== null && fileConfig !== null) {
-      cb(new Error(chalk`You can\'t configure yprox-cli with {blue.bold yprox-cli.config.js} and {blue.bold package.json} at the same time.`));
-      return;
-    }
-
-    const config = defaultsDeep(defaultsOptions(), pkgConfig || fileConfig || {}) as ProjectOptions;
+    const config = defaultsDeep(defaultsOptions(), configFileFound ? require(configFilePath) : {}) as ProjectOptions;
 
     validateOptions(config, err => cb(err, config));
   }
