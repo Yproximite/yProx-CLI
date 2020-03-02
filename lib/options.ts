@@ -6,7 +6,7 @@ const schema = joi.object().keys({
   path: joi.object(),
   handlers: joi.object({
     sass: joi.object(),
-    rollup: joi.object({
+    javascript: joi.object({
       nodeResolve: joi.alternatives(joi.object(), joi.boolean()),
       commonjs: joi.alternatives(joi.object(), joi.boolean()),
       json: joi.alternatives(joi.object(), joi.boolean()),
@@ -37,7 +37,7 @@ export function defaults(): ProjectOptions {
     path: {},
     handlers: {
       sass: {},
-      rollup: {
+      javascript: {
         nodeResolve: {
           mainFields: ['module'],
           browser: true,

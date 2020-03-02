@@ -20,7 +20,7 @@ interface ProjectOptions {
   path: { [k: string]: string };
   handlers: {
     sass: SassOptions;
-    rollup: {
+    javascript: {
       nodeResolve: RollupResolveOptions | boolean;
       commonjs: { [k: string]: any } | boolean;
       json: { [k: string]: any } | boolean;

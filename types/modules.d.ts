@@ -14,19 +14,7 @@ declare module 'gulp-postcss' {
   export default fn;
 }
 
-declare module 'gulp-terser' {
-  function fn(options?: Options): any;
-
-  export default fn;
-}
-
 declare module 'gulp-dart-sass' {
-  function fn(options?: Options): any;
-
-  export default fn;
-}
-
-declare module 'gulp-babel' {
   function fn(options?: Options): any;
 
   export default fn;

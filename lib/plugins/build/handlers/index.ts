@@ -4,5 +4,4 @@ export default {
   sass: () => require('./sass').default,
   file: () => require('./file').default,
   image: () => require('./image').default,
-  rollup: () => require('./rollup').default,
 };
