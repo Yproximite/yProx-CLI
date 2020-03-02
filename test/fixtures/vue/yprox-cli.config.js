@@ -4,7 +4,7 @@ module.exports = {
   assets: {
     app: [
       {
-        handler: 'rollup',
+        handler: 'js',
         src: 'src/button/index.js',
         dest: 'dist',
         concat: 'button.js'
@@ -12,7 +12,7 @@ module.exports = {
     ],
   },
   handlers: {
-    rollup: {
+    javascript: {
       babel: {
         exclude: 'node_modules/**',
         runtimeHelpers: true

@@ -1,0 +1,22 @@
+{
+  "private": true,
+  "dependencies": {
+    "vue": "^2.6.7"
+  },
+  "devDependencies": {
+    "vue-template-compiler": "^2.6.7"
+  },
+  "yproxCli": {
+
+    "assets": {
+      "app": [
+        {
+          "handler": "javascript",
+          "src": "src/button/index.js",
+          "dest": "dist",
+          "destFile": "button.js"
+        }
+      ]
+    }
+  }
+}

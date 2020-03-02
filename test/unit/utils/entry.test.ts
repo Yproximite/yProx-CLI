@@ -44,7 +44,7 @@ describe('utils: entry', () => {
         app: [
           createEntry({ name: 'app-css', handler: 'css', src: ['app.css'] }),
           createEntry({ name: 'app-sass', handler: 'sass', src: ['app.sass'] }),
-          createEntry({ name: 'app-rollup', handler: 'rollup', src: ['app.js'] }),
+          createEntry({ name: 'app-js', handler: 'js', src: ['app.js'] }),
         ],
         vendor: [createEntry({ name: 'vendor-css', handler: 'css', src: ['vendor.css'] })],
       };
@@ -57,7 +57,7 @@ describe('utils: entry', () => {
       expect(filteredEntries).toEqual([
         { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
         { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
-        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-js', handler: 'js', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
         {
           name: 'vendor-css',
           handler: 'css',
@@ -111,7 +111,7 @@ describe('utils: entry', () => {
       expect(filteredEntries).toEqual([
         { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
         { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
-        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
+        { name: 'app-js', handler: 'js', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: false },
       ]);
     });
 
@@ -140,7 +140,7 @@ describe('utils: entry', () => {
       expect(filteredEntries).toEqual([
         { name: 'app-css', handler: 'css', src: [path.join(__dirname, `app.css`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
         { name: 'app-sass', handler: 'sass', src: [path.join(__dirname, `app.sass`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
-        { name: 'app-rollup', handler: 'rollup', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
+        { name: 'app-js', handler: 'js', src: [path.join(__dirname, `app.js`)], _name: 'app', dest: path.join(__dirname, `dist`), sourceMaps: true },
         {
           name: 'vendor-css',
           handler: 'css',
