@@ -1,6 +1,8 @@
 # Babel
 
-[Babel](https://babeljs.io/) is enabled by default. It allows you write modern JavaScript code without being worried of browsers compatibility.
+[Babel](https://babeljs.io/) allows you write modern JavaScript code without being worried of browsers compatibility.
+
+It is automatically enabled if `@babel/core` is installed and if a configuration (e.g.: in a `babel.config.js`) is found, but it can be disabled with `{ babel: false }` in your `yprox-cli.config.js`.
 
 ## Installation
 

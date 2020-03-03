@@ -59,6 +59,22 @@ function handleError(err: RollupError, api: API): void {
   console.error('');
 }
 
+function isBabelInstalled(): boolean {
+  return isPackageInstalled('@babel/core');
+}
+
+function isBabelConfigured(api: API): boolean {
+  const babelCore = require('@babel/core');
+
+  const partialConfig = babelCore.loadPartialConfig({
+    root: api.context,
+    cwd: api.context,
+    filename: api.resolve('yprox-cli.config.js'),
+  });
+
+  return partialConfig.hasFilesystemConfig();
+}
+
 export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
   const jsOptions = { ...api.projectOptions.handlers.javascript };
   const getInputOptions = (): InputOptions => {
@@ -78,7 +94,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
       }
     }
 
-    if (api.projectOptions.babel) {
+    if (isBabelInstalled() && isBabelConfigured(api) && api.projectOptions.babel) {
       plugins.push(
         babel({
           ...api.projectOptions.handlers.javascript.babel,
