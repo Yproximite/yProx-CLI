@@ -4142,6 +4142,18 @@ var myFunction = function myFunction(arg1, arg2) {
 };"
 `;
 
+exports[`command: build JavaScript should build files with multiple entries: scripts.js in development env 1`] = `
+"(function (factory) {
+	typeof define === 'function' && define.amd ? define(factory) :
+	factory();
+}((function () { 'use strict';
+
+	console.log('Hello world from file1.js');
+
+})));
+"
+`;
+
 exports[`command: build JavaScript should build files, minify them and generate a source map: scripts.js in production env 1`] = `
 "console.log(\\"Hello world from!\\");const constant=\\"abc\\";console.log(\\"The constant value: abc\\");let arr=[1,2,3];arr=[...arr];let obj={a:\\"1\\",b:\\"2\\",c:\\"3\\"};obj={...obj};const myFunction=(o,l,...r)=>{console.log({arg1:o,arg2:l,otherArgs:r})};
 //# sourceMappingURL=scripts.js.map

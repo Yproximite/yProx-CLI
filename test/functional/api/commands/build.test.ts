@@ -37,6 +37,48 @@ describe('command: build', () => {
       await cleanup();
     });
 
+    it('should build files with multiple entries', async () => {
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({
+        files: {
+          'yprox-cli.config.js': `
+          module.exports = {
+            assets: {
+              app: [
+                {
+                  handler: 'js',
+                  src: [
+                    'src/file1.js',
+                    'src/file2.js',
+                    'src/file3.js',
+                  ],
+                  dest: 'dist',
+                  concat: 'scripts.js',
+                }
+              ]
+            }
+          }
+          `,
+          'src/file1.js': `console.log('Hello world from file1.js')`,
+          'src/file2.js': `console.log('Hello world from file2.js')`,
+          'src/file3.js': `console.log('Hello world from file3.js')`,
+        }
+      });
+
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain(`console.log('Hello world from file1.js')`);
+      expect(generatedFile).toContain(`console.log('Hello world from file2.js')`);
+      expect(generatedFile).toContain(`console.log('Hello world from file3.js')`);
+
+      console.log(generatedFile);
+      // await cleanup();
+    });
+
     it('should build files and run Babel', async () => {
       const { run, api, fileExists, writeFile, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
 
