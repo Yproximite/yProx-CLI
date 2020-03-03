@@ -134,12 +134,12 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
   const writeBundle = (bundle: RollupBuild): Promise<RollupOutput> => bundle.write(getOutputOptions());
 
   const build = (resolve: (v?: any) => void, reject: (err?: Error) => void): Promise<void> => {
-    api.logger.info(`rollup :: start bundling "${getEntryName(entry)}"`);
+    api.logger.info(`js :: start bundling "${getEntryName(entry)}"`);
 
     return rollup(getInputOptions())
       .then(bundle => writeBundle(bundle))
       .then(() => {
-        api.logger.info(`rollup :: finished bundling "${getEntryName(entry)}"`);
+        api.logger.info(`js :: finished bundling "${getEntryName(entry)}"`);
         resolve();
       })
       .catch((err: RollupError) => {
