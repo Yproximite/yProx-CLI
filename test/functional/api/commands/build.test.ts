@@ -75,8 +75,7 @@ describe('command: build', () => {
       expect(generatedFile).toContain(`console.log('Hello world from file2.js')`);
       expect(generatedFile).toContain(`console.log('Hello world from file3.js')`);
 
-      console.log(generatedFile);
-      // await cleanup();
+      await cleanup();
     });
 
     it('should build files and run Babel', async () => {

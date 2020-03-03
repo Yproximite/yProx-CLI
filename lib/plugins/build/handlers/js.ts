@@ -9,6 +9,7 @@ import builtins from 'rollup-plugin-node-builtins';
 import globals from 'rollup-plugin-node-globals';
 import nodeResolve from '@rollup/plugin-node-resolve';
 import replace from '@rollup/plugin-replace';
+import multi from '@rollup/plugin-multi-entry';
 import { terser } from 'rollup-plugin-terser';
 import { EntryJS } from '../../../../types/entry';
 import API from '../../../API';
@@ -81,6 +82,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
     const plugins = [];
 
     plugins.push(builtins());
+    plugins.push(multi());
     if (typeof jsOptions.nodeResolve === 'object') plugins.push(nodeResolve({ ...jsOptions.nodeResolve }));
     if (typeof jsOptions.commonjs === 'object') plugins.push(commonjs({ ...jsOptions.commonjs }));
     if (typeof jsOptions.json === 'object') plugins.push(json({ ...jsOptions.json }));
@@ -118,7 +120,7 @@ export default (api: API, entry: EntryJS, args: CLIArgs): Promise<any> => {
 
     return {
       plugins,
-      input: entry.src[0],
+      input: entry.src,
       external: Object.keys(jsOptions.shims),
     };
   };
