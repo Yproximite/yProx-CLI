@@ -18,20 +18,29 @@ jobs:
         steps:
             -   uses: actions/checkout@v2
 
-            -   name: Cache node_modules
-                uses: actions/cache@v1
-                with:
-                    path: ${{ github.workspace }}/node_modules
-                    key: ${{ runner.os }}-node-modules-${{ hashFiles('**/yarn.lock') }}
-                    restore-keys: |
-                        ${{ runner.os }}-node-modules-
-
-            -   name: Install Node.js
+            -   name: Use Node.js ${{ matrix.node-version }}
                 uses: actions/setup-node@v1
                 with:
-                    node-version: ${{ matrix.nodejs }}
+                    node-version: ${{ matrix.node-version }}
+                    registry-url: 'https://npm.pkg.github.com'
+                    scope: '@yproximite'
+                    always-auth: true
+
+            -   name: Get yarn cache directory
+                id: yarn-cache
+                run: echo "::set-output name=dir::$(yarn cache dir)"
+
+            -   name: Restore yarn cache (if available)
+                uses: actions/cache@v1
+                with:
+                    path: ${{ steps.yarn-cache.outputs.dir }}
+                    key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+                    restore-keys: |
+                        ${{ runner.os }}-yarn-
 
             -   run: yarn install --frozen-lockfile
+                env:
+                    NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
             -   run: yarn build
 
