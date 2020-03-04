@@ -92,7 +92,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
-    "@kocal/semantic-release-preset": "^1.1.0",
+    "@kocal/semantic-release-preset": "^2.0.0",
     "@types/autoprefixer": "^9.1.1",
     "@types/buble": "^0.19.0",
     "@types/cssnano": "^4.0.0",
@@ -126,7 +126,7 @@
     "jest-date-mock": "^1.0.7",
     "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
-    "semantic-release": "^15.10.8",
+    "semantic-release": "^17.0.4",
     "strip-ansi": "^6.0.0",
     "stylelint": ">=9.0.0",
     "ts-jest": "^25.0.0",
