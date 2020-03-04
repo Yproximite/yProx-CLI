@@ -777,14 +777,14 @@
     "@types/node" "*"
     "@types/vinyl" "*"
 
-"@types/gulp-imagemin@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@types/gulp-imagemin/-/gulp-imagemin-4.1.1.tgz#4c42a7843cc729d265696dc8d0fe52ed7f4b0cd1"
-  integrity sha512-jK7bGYae500cCQ74aL41ANeJSnqdZkBaP/+EXOb+X8sfjz+08Tbnc43wlIYSPf8eKv0R5zjQyl60qWCatTc4yQ==
+"@types/gulp-imagemin@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/gulp-imagemin/-/gulp-imagemin-7.0.0.tgz#61e968ec15c45303f50da28b019652aeec30b9e9"
+  integrity sha512-BGBaLBxOuuhmuGPUGDX7CqR46+8Gq8XfSVMgHiSd9skoqIAvRA46+GAbBCPHJ47wKXP34m9m/PzxRlgl0iDR0Q==
   dependencies:
     "@types/imagemin" "*"
     "@types/imagemin-gifsicle" "*"
-    "@types/imagemin-jpegtran" "*"
+    "@types/imagemin-mozjpeg" "*"
     "@types/imagemin-optipng" "*"
     "@types/imagemin-svgo" "*"
     "@types/node" "*"
@@ -821,10 +821,10 @@
   dependencies:
     "@types/imagemin" "*"
 
-"@types/imagemin-jpegtran@*":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@types/imagemin-jpegtran/-/imagemin-jpegtran-5.0.0.tgz#44d98874bdcc3f290ce1e158355f33fc90ac2758"
-  integrity sha512-uwJknBgND9Jx+/d5bJf+mvAjfes0NIDyCeOKFJ9LbEYnp8/PVt0YDGh8K96JemeF84VbhHFxnN62Wz68rVNfFQ==
+"@types/imagemin-mozjpeg@*":
+  version "8.0.0"
+  resolved "https://registry.yarnpkg.com/@types/imagemin-mozjpeg/-/imagemin-mozjpeg-8.0.0.tgz#6986c34734aa767d83672eeb519379a2d7ec8b16"
+  integrity sha512-sR2nEZOrlbgnmVgG+lXetZOvhgtctLe1hBfvySnPnxDd2pOon9mMPq7SHFI89VZT1AXvFgRs8w6X8ik8potpgA==
   dependencies:
     "@types/imagemin" "*"
 
@@ -893,12 +893,7 @@
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.3.tgz#3dca0e3f33b200fc7d1139c0cd96c1268cadfd9d"
   integrity sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
 
-"@types/node@*":
-  version "12.7.5"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
-  integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
-
-"@types/node@>= 8":
+"@types/node@*", "@types/node@>= 8":
   version "13.7.7"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-13.7.7.tgz#1628e6461ba8cc9b53196dfeaeec7b07fa6eea99"
   integrity sha512-Uo4chgKbnPNlxQwoFmYIwctkQVkMMmsAoGGU4JKwLuvBefF0pCq4FybNSnfkfRCpC7ZW7kttcC/TrRtAJsvGtg==
