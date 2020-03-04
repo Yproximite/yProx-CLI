@@ -1,7 +1,6 @@
 # yProx-CLI
 
 ![CI](https://github.com/Yproximite/yProx-CLI/workflows/CI/badge.svg)
-![Node](https://img.shields.io/node/v/@yproximite/yprox-cli.svg)
 
 > A tool for bulk linting and building assets.
 
