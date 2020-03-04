@@ -6036,6 +6036,11 @@ irregular-plurals@^2.0.0:
   resolved "https://registry.yarnpkg.com/irregular-plurals/-/irregular-plurals-2.0.0.tgz#39d40f05b00f656d0b7fa471230dd3b714af2872"
   integrity sha512-Y75zBYLkh0lJ9qxeHlMjQ7bSbyiSqNW/UOPWDmzC7cXskL1hekSITh1Oc6JV0XCWWZ9DE8VYSB71xocLk3gmGw==
 
+irregular-plurals@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/irregular-plurals/-/irregular-plurals-3.2.0.tgz#b19c490a0723798db51b235d7e39add44dab0822"
+  integrity sha512-YqTdPLfwP7YFN0SsD3QUVCkm9ZG2VzOXv3DOrw5G5mkMbVwptTwVcFv7/C0vOpBmgTxAeTG19XpUs1E522LW9Q==
+
 is-absolute-url@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/is-absolute-url/-/is-absolute-url-2.1.0.tgz#50530dfb84fcc9aa7dbe7852e83a37b93b9f2aa6"
@@ -9689,12 +9694,19 @@ plugin-error@1.0.1, plugin-error@^1.0.1:
     arr-union "^3.1.0"
     extend-shallow "^3.0.2"
 
-plur@^3.0.1, plur@^3.1.1:
+plur@^3.0.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/plur/-/plur-3.1.1.tgz#60267967866a8d811504fe58f2faaba237546a5b"
   integrity sha512-t1Ax8KUvV3FFII8ltczPn2tJdjqbd1sIzu6t4JL7nQ3EyeL/lTrj5PWKb06ic5/6XYDr65rQ4uzQEGN70/6X5w==
   dependencies:
     irregular-plurals "^2.0.0"
+
+plur@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/plur/-/plur-4.0.0.tgz#729aedb08f452645fe8c58ef115bf16b0a73ef84"
+  integrity sha512-4UGewrYgqDFw9vV6zNV+ADmPAUAfJPKtGvb/VdpQAx25X5f3xXdGdyOEVFwkl8Hl/tl7+xbeHqSEM+D5/TirUg==
+  dependencies:
+    irregular-plurals "^3.2.0"
 
 pn@^1.1.0:
   version "1.1.0"
@@ -12140,15 +12152,15 @@ stylehacks@^4.0.0:
     postcss "^7.0.0"
     postcss-selector-parser "^3.0.0"
 
-stylelint-formatter-pretty@^1.0.3:
-  version "1.1.4"
-  resolved "https://registry.yarnpkg.com/stylelint-formatter-pretty/-/stylelint-formatter-pretty-1.1.4.tgz#f88ac72b5a1e279a54470c7b973dc7272a11252a"
-  integrity sha512-wgPu7UaWJO8ISiSXelp46jhtM8J/CIsrndgpUOow80v0GvyrmLrRURCFV16oKddkH0NcjlO91C7c+ef2U+siNw==
+stylelint-formatter-pretty@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/stylelint-formatter-pretty/-/stylelint-formatter-pretty-2.0.0.tgz#4d392444345767bdece0fcf69cd93e3a82979b7a"
+  integrity sha512-A6TWs2NG2brP00a9bt7+0EQg3MknZYNvY1KDx2wU1QW7W1RH9vryWDHG78abP223gxo4sFiugk/VFDc6bEO9Zw==
   dependencies:
     ansi-escapes "^4.3.0"
     chalk "^3.0.0"
     log-symbols "^3.0.0"
-    plur "^3.1.1"
+    plur "^4.0.0"
     string-width "^4.2.0"
 
 stylelint@>=9.0.0:
