@@ -11,7 +11,9 @@
   "files": [
     "dist",
     "UPGRADE-2.0.md",
-    "UPGRADE-3.0.md"
+    "UPGRADE-3.0.md",
+    "UPGRADE-3.6.md",
+    "UPGRADE-4.0.md"
   ],
   "bin": {
     "yprox-cli": "dist/bin/yprox-cli.js"
