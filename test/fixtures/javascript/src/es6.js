@@ -9,8 +9,12 @@ obj = { ...obj };
 
 const myFunction = (arg1, arg2, ...otherArgs) => {
   console.log({
+    arr,
+    obj,
     arg1,
     arg2,
     otherArgs,
   });
 };
+
+myFunction()

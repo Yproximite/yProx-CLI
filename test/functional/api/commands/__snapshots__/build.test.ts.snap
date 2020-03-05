@@ -4103,43 +4103,93 @@ exports[`command: build CSS & Sass should fix linting issues and build files: st
 `;
 
 exports[`command: build JavaScript should build files and run Babel: scripts.js in development env 1`] = `
-"\\"use strict\\";
+"(function (factory) {
+  typeof define === 'function' && define.amd ? define(factory) :
+  factory();
+}((function () { 'use strict';
 
-var _interopRequireDefault = require(\\"@babel/runtime/helpers/interopRequireDefault\\");
+  console.log('Hello world from!');
 
-var _defineProperty2 = _interopRequireDefault(require(\\"@babel/runtime/helpers/defineProperty\\"));
+  function _defineProperty(obj, key, value) {
+    if (key in obj) {
+      Object.defineProperty(obj, key, {
+        value: value,
+        enumerable: true,
+        configurable: true,
+        writable: true
+      });
+    } else {
+      obj[key] = value;
+    }
 
-var _toConsumableArray2 = _interopRequireDefault(require(\\"@babel/runtime/helpers/toConsumableArray\\"));
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { (0, _defineProperty2[\\"default\\"])(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-console.log('Hello world from!');
-;
-var constant = 'abc';
-console.log(\\"The constant value: \\".concat(constant));
-;
-var arr = [1, 2, 3];
-arr = (0, _toConsumableArray2[\\"default\\"])(arr);
-var obj = {
-  a: '1',
-  b: '2',
-  c: '3'
-};
-obj = _objectSpread({}, obj);
-
-var myFunction = function myFunction(arg1, arg2) {
-  for (var _len = arguments.length, otherArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-    otherArgs[_key - 2] = arguments[_key];
+    return obj;
   }
 
-  console.log({
-    arg1: arg1,
-    arg2: arg2,
-    otherArgs: otherArgs
-  });
-};"
+  var defineProperty = _defineProperty;
+
+  function _arrayWithoutHoles(arr) {
+    if (Array.isArray(arr)) {
+      for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) {
+        arr2[i] = arr[i];
+      }
+
+      return arr2;
+    }
+  }
+
+  var arrayWithoutHoles = _arrayWithoutHoles;
+
+  function _iterableToArray(iter) {
+    if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === \\"[object Arguments]\\") return Array.from(iter);
+  }
+
+  var iterableToArray = _iterableToArray;
+
+  function _nonIterableSpread() {
+    throw new TypeError(\\"Invalid attempt to spread non-iterable instance\\");
+  }
+
+  var nonIterableSpread = _nonIterableSpread;
+
+  function _toConsumableArray(arr) {
+    return arrayWithoutHoles(arr) || iterableToArray(arr) || nonIterableSpread();
+  }
+
+  var toConsumableArray = _toConsumableArray;
+
+  function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+  function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+  var constant = 'abc';
+  console.log(\\"The constant value: \\".concat(constant));
+  var arr = [1, 2, 3];
+  arr = toConsumableArray(arr);
+  var obj = {
+    a: '1',
+    b: '2',
+    c: '3'
+  };
+  obj = _objectSpread({}, obj);
+
+  var myFunction = function myFunction(arg1, arg2) {
+    for (var _len = arguments.length, otherArgs = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+      otherArgs[_key - 2] = arguments[_key];
+    }
+
+    console.log({
+      arr: arr,
+      obj: obj,
+      arg1: arg1,
+      arg2: arg2,
+      otherArgs: otherArgs
+    });
+  };
+
+  myFunction();
+
+})));
+"
 `;
 
 exports[`command: build JavaScript should build files with multiple entries: scripts.js in development env 1`] = `
@@ -4150,39 +4200,50 @@ exports[`command: build JavaScript should build files with multiple entries: scr
 
 	console.log('Hello world from file1.js');
 
+	console.log('Hello world from file2.js');
+
+	console.log('Hello world from file3.js');
+
 })));
 "
 `;
 
 exports[`command: build JavaScript should build files, minify them and generate a source map: scripts.js in production env 1`] = `
-"console.log(\\"Hello world from!\\");const constant=\\"abc\\";console.log(\\"The constant value: abc\\");let arr=[1,2,3];arr=[...arr];let obj={a:\\"1\\",b:\\"2\\",c:\\"3\\"};obj={...obj};const myFunction=(o,l,...r)=>{console.log({arg1:o,arg2:l,otherArgs:r})};
+"!function(o){\\"function\\"==typeof define&&define.amd?define(o):o()}((function(){\\"use strict\\";console.log(\\"Hello world from!\\");console.log(\\"The constant value: abc\\");let o=[1,2,3];o=[...o];let e={a:\\"1\\",b:\\"2\\",c:\\"3\\"};e={...e};((n,l,...t)=>{console.log({arr:o,obj:e,arg1:n,arg2:l,otherArgs:t})})()}));
 //# sourceMappingURL=scripts.js.map
 "
 `;
 
 exports[`command: build JavaScript should build files: scripts.js in development env 1`] = `
-"console.log('Hello world from!');
-;
-const constant = 'abc';
-console.log(\`The constant value: \${constant}\`);
-;
-let arr = [1, 2, 3];
-arr = [...arr];
-let obj = {
-  a: '1',
-  b: '2',
-  c: '3'
-};
-obj = { ...obj
-};
+"(function (factory) {
+  typeof define === 'function' && define.amd ? define(factory) :
+  factory();
+}((function () { 'use strict';
 
-const myFunction = (arg1, arg2, ...otherArgs) => {
-  console.log({
-    arg1,
-    arg2,
-    otherArgs
-  });
-};"
+  console.log('Hello world from!');
+
+  const constant = 'abc';
+  console.log(\`The constant value: \${constant}\`);
+  let arr = [1, 2, 3];
+  arr = [...arr];
+
+  let obj = { a: '1', b: '2', c: '3' };
+  obj = { ...obj };
+
+  const myFunction = (arg1, arg2, ...otherArgs) => {
+    console.log({
+      arr,
+      obj,
+      arg1,
+      arg2,
+      otherArgs,
+    });
+  };
+
+  myFunction();
+
+})));
+"
 `;
 
 exports[`command: build JavaScript should fix linting issues and build files: src/es6.js after linting 1`] = `
@@ -4197,11 +4258,15 @@ obj = { ...obj };
 
 const myFunction = (arg1, arg2, ...otherArgs) => {
   console.log({
+    arr,
+    obj,
     arg1,
     arg2,
     otherArgs,
   });
 };
+
+myFunction()
 "
 `;
 
@@ -4217,11 +4282,15 @@ obj = { ...obj };
 
 const myFunction = (arg1, arg2, ...otherArgs) => {
   console.log({
+    arr,
+    obj,
     arg1,
     arg2,
     otherArgs,
   });
 };
+
+myFunction()
 "
 `;
 

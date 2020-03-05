@@ -14,7 +14,10 @@ module.exports = {
   handlers: {
     javascript: {
       babel: {
-        exclude: 'node_modules/**',
+        exclude: [
+          '/node_modules/**',
+          /\/core-js\//, // see https://github.com/rollup/rollup-plugin-babel/issues/254
+        ],
         runtimeHelpers: true
       }
     }
