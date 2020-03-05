@@ -177,7 +177,7 @@ describe('command: lint', () => {
 
       await api.executeCommand('lint');
 
-      expect(api.logger.error).toHaveBeenCalledWith('rollup (lint) :: Your JavaScript is not clean, stopping.');
+      expect(api.logger.error).toHaveBeenCalledWith('js (lint) :: Your JavaScript is not clean, stopping.');
       expect(process.exit).toHaveBeenCalledWith(1);
 
       // @ts-ignore

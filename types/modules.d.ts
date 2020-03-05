@@ -14,19 +14,7 @@ declare module 'gulp-postcss' {
   export default fn;
 }
 
-declare module 'gulp-terser' {
-  function fn(options?: Options): any;
-
-  export default fn;
-}
-
 declare module 'gulp-dart-sass' {
-  function fn(options?: Options): any;
-
-  export default fn;
-}
-
-declare module 'gulp-babel' {
   function fn(options?: Options): any;
 
   export default fn;
@@ -56,7 +44,7 @@ declare module 'rollup-plugin-babel' {
   export default fn;
 }
 
-declare module 'rollup-plugin-commonjs' {
+declare module '@rollup/plugin-multi-entry' {
   function fn(options?: Options): any;
 
   export default fn;

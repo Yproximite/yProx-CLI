@@ -8,7 +8,7 @@ import linters from './linters';
 function normalizeEntry(theEntry: Entry): Entry {
   const entry = { ...theEntry };
 
-  if (entry.handler === 'rollup') {
+  if (entry.handler === 'js') {
     entry.src = entry.src.map((src: string) => {
       if (src.endsWith('index.js')) {
         return `${dirname(src)}/**/*.{js,vue}`;

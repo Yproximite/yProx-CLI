@@ -37,6 +37,47 @@ describe('command: build', () => {
       await cleanup();
     });
 
+    it('should build files with multiple entries', async () => {
+      const { run, api, fileExists, readFile, cleanup } = await createFakeEnv({
+        files: {
+          'yprox-cli.config.js': `
+          module.exports = {
+            assets: {
+              app: [
+                {
+                  handler: 'js',
+                  src: [
+                    'src/file1.js',
+                    'src/file2.js',
+                    'src/file3.js',
+                  ],
+                  dest: 'dist',
+                  concat: 'scripts.js',
+                }
+              ]
+            }
+          }
+          `,
+          'src/file1.js': `console.log('Hello world from file1.js')`,
+          'src/file2.js': `console.log('Hello world from file2.js')`,
+          'src/file3.js': `console.log('Hello world from file3.js')`,
+        }
+      });
+
+      await api.executeCommand('build');
+
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "scripts.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "scripts.js"');
+
+      const generatedFile = await readFile('dist/scripts.js');
+      expect(generatedFile).toMatchSnapshot('scripts.js in development env');
+      expect(generatedFile).toContain(`console.log('Hello world from file1.js')`);
+      expect(generatedFile).toContain(`console.log('Hello world from file2.js')`);
+      expect(generatedFile).toContain(`console.log('Hello world from file3.js')`);
+
+      await cleanup();
+    });
+
     it('should build files and run Babel', async () => {
       const { run, api, fileExists, writeFile, readFile, cleanup } = await createFakeEnv({ files: 'javascript' });
 
@@ -145,11 +186,11 @@ not dead
       try {
         await run('yarn yprox-cli build');
       } catch (e) {
-        expect(stripAnsi(e.stdout)).toContain('rollup :: start bundling "button.js"');
+        expect(stripAnsi(e.stdout)).toContain('js :: start bundling "button.js"');
         expect(stripAnsi(e.stderr)).toContain('[!] Error: Unexpected token (Note that you need plugins to import files that are not JavaScript)');
         expect(stripAnsi(e.stderr)).toContain('Button.vue (1:0)');
         expect(stripAnsi(e.stdout)).toContain('If you try to building Vue code, try to run yarn add -D vue-template-compiler.');
-        expect(stripAnsi(e.stdout)).not.toContain('rollup :: finished bundling "button.js"');
+        expect(stripAnsi(e.stdout)).not.toContain('js :: finished bundling "button.js"');
         expect(e.code).toBe(1);
       }
 
@@ -165,8 +206,8 @@ not dead
       await run('yarn');
       await api.executeCommand('build');
 
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
@@ -205,8 +246,8 @@ not dead
       await run('yarn add @babel/runtime');
       await api.executeCommand('build');
 
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain('You are running Vue in development mode.');
@@ -249,8 +290,8 @@ not dead
       await run('yarn add core-js@3');
       await api.executeCommand('build');
 
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).toContain("var SHARED = '__core-js_shared__';"); // imported by core-js
@@ -272,8 +313,8 @@ not dead
       await run('yarn');
       await api.executeCommand('build');
 
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "button.js"');
 
       const generatedFile = await readFile('dist/button.js');
       expect(generatedFile).not.toContain('You are running Vue in development mode.');
@@ -307,8 +348,8 @@ not dead
       await api.executeCommand('build', { lint: true, fix: true });
 
       expect(api.logger.info).toHaveBeenCalledWith('Your JavaScript is clean ✨');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "button.js"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "button.js"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "button.js"');
 
       expect(await readFile('src/button/Button.vue')).toMatchSnapshot('src/button/Button.vue after linting');
       expect(await readFile('src/button/index.js')).toMatchSnapshot('src/button/index.js after linting');
@@ -458,8 +499,8 @@ not dead
 
       await api.executeCommand('build'); // build in "cjs" format, to make it easier/safer to test
 
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: start bundling "app"');
-      expect(api.logger.info).toHaveBeenCalledWith('rollup :: finished bundling "app"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: start bundling "app"');
+      expect(api.logger.info).toHaveBeenCalledWith('js :: finished bundling "app"');
 
       const exports: { [key: string]: any } = {};
       const fn = new Function('exports', await readFile('dist/medias.js')); // tslint:disable-line

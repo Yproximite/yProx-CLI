@@ -8,14 +8,20 @@ describe('utils: array', () => {
         { handler: 'js', foo: '2' },
         { handler: 'css', foo: '3' },
         { handler: 'css', foo: '4' },
-        { handler: 'rollup', foo: '5' },
+        { handler: 'js', foo: '5' },
       ];
       const groupedItems = items.reduce(groupBy('handler'), {});
 
       expect(groupedItems).toEqual({
-        js: [{ handler: 'js', foo: '1' }, { handler: 'js', foo: '2' }],
-        css: [{ handler: 'css', foo: '3' }, { handler: 'css', foo: '4' }],
-        rollup: [{ handler: 'rollup', foo: '5' }],
+        js: [
+          { handler: 'js', foo: '1' },
+          { handler: 'js', foo: '2' },
+          { handler: 'js', foo: '5' },
+        ],
+        css: [
+          { handler: 'css', foo: '3' },
+          { handler: 'css', foo: '4' },
+        ],
       });
     });
   });

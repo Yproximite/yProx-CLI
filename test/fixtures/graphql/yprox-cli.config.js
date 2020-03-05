@@ -5,7 +5,7 @@ module.exports = {
     app: [
       {
         name: 'app',
-        handler: 'rollup',
+        handler: 'js',
         format: 'cjs',
         src: 'src/medias.js',
         dest: 'dist/',

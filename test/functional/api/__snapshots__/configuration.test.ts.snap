@@ -17,7 +17,7 @@ Object {
     "interlaced": true,
   },
   "handlers": Object {
-    "rollup": Object {
+    "javascript": Object {
       "babel": Object {
         "exclude": Array [
           "/node_modules/**",

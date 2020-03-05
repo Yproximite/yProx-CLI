@@ -1,9 +1,9 @@
-import { EntryJS } from '../../../types/entry';
+import { Entry } from '../../../types/entry';
 import API from '../../API';
 import { lintEntry } from '../lint';
 import handlers from './handlers';
 
-export default async (api: API, entry: EntryJS, args: CLIArgs): Promise<void> => {
+export default async (api: API, entry: Entry, args: CLIArgs): Promise<void> => {
   if (!(entry.handler in handlers)) {
     throw new Error(`Handler "${entry.handler}" do not exists.`);
   }
