@@ -415,9 +415,9 @@
     chalk "^3.0.0"
 
 "@kocal/logger@^2.0.6":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@kocal/logger/-/logger-2.0.8.tgz#f76372df18c96f3a721488883b27192c27b685b9"
-  integrity sha512-+7ezW4ItZF2JBGvUHZ6I0/66MECDgR0imnSJVdSnA35pvfTj5YmwdGRgHKGwNCj4K6dvfBUlA9QFOTPAtmkuDg==
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@kocal/logger/-/logger-2.0.9.tgz#229e3480439e0c9bb8b82dd58acd48af53b11214"
+  integrity sha512-SlZX9AAajIzOglONbv/yVbWdmtQ+o2l0GlfJM2f2iZ6xfZZARTCdkN6RGJHZvyIR9gYb+mP1v7BASZaLCcDofQ==
   dependencies:
     chalk "^2.4.1"
 
