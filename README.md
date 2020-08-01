@@ -1,8 +1,8 @@
 # yProx-CLI
 
-![CI](https://github.com/Yproximite/yProx-CLI/workflows/CI/badge.svg)
+[![CI](https://github.com/Yproximite/yProx-CLI/workflows/CI/badge.svg)](https://github.com/Yproximite/yProx-CLI/actions)
 
-> A tool for bulk linting and building assets.
+A tool for bulk linting and building assets.
 
 ## Another tool?
 
